@@ -11,7 +11,7 @@ const store = configureStore({
     questionReducer,
     answerReducer,
     commentReducer,
-  }
-})
+  },
+});
 
 export default store;
