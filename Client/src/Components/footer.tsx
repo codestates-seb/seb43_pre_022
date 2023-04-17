@@ -48,7 +48,7 @@ const FooterLink = styled.span`
 `;
 
 const Logo = styled.div`
-  width: 60px;
+  width: 70px;
   height: 70px;
   background: url(${logo}) center no-repeat;
   background-size: cover;
