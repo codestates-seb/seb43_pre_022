@@ -1,10 +1,11 @@
 import styled from 'styled-components';
+import '../Global.css';
 import logo from '../assets/stacklogo.png';
 
 const FooterContainer = styled.div`
   width: 100%;
   height: 260px;
-  background-color: #232629;
+  background-color: var(--black-800);
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -21,23 +22,29 @@ const FooterInfoContainer = styled.div`
 `;
 
 const FooterName = styled.div`
-  color: white;
+  color: var(--black-200);
   font-weight: 700;
   font-size: 18px;
   text-align: center;
+  &:hover {
+    color: var(--white);
+  }
 `;
 
 const FooterText = styled.div`
-  color: rgba(170, 170, 170, 0.8);
+  color: var(--black-350);
   font-size: 16px;
   text-align: center;
 `;
 
 const FooterLink = styled.span`
-  color: rgba(170, 170, 170, 0.8);
+  color: var(--black-350);
   text-align: center;
   font-size: 14px;
   margin: 10px;
+  &:hover {
+    color: var(--white);
+  }
 `;
 
 const Logo = styled.div`
@@ -108,17 +115,27 @@ function Footer() {
         </FooterText>
       </FooterInfoContainer>
       <FooterInfoContainer>
-        <FooterName>BE_박기훈</FooterName>
+        <FooterName
+          onClick={() => window.open('https://github.com/kkihoon2', '_blank')}
+        >
+          BE_박기훈
+        </FooterName>
         <FooterText>
           GitHub
-          <br />@
+          <br />
+          @kkihoon2
         </FooterText>
       </FooterInfoContainer>
       <FooterInfoContainer>
-        <FooterName>BE_이인건</FooterName>
+        <FooterName
+          onClick={() => window.open('https://github.com/ingeon2', '_blank')}
+        >
+          BE_이인건
+        </FooterName>
         <FooterText>
           GitHub
-          <br />@
+          <br />
+          @ingeon2
         </FooterText>
       </FooterInfoContainer>
       <FooterLink onClick={() => window.open(blogLink, '_blank')}>
