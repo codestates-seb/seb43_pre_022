@@ -2,56 +2,14 @@ import '../Global.css';
 
 import styled from 'styled-components';
 
-export const Mainbar = styled.div`
-  box-sizing: border-box;
-  width: 50%;
-  height: 100vh;
+import ButtonCom from '../Styles/ButtonCom';
+
+export const AllQuestionContainer = styled.div`
   margin-top: 50px;
-  border: 1px solid gray;
-  word-break: break-all;
-  display: flex;
-  justify-content: baseline;
-  align-items: center;
-  flex-direction: column;
-  @media screen and (max-width: 1000px) {
-    margin-left: 0px;
-    width: 100%;
-  }
-  @media screen and (max-width: 500px) {
-    left: 0px;
-    width: 100%;
-  }
-  .QuestionsAll {
-    height: 150px;
-    width: 100%;
-    border: 1px solid gray;
-  }
-`;
-
-function AllQuestions() {
-  return (
-    <Mainbar>
-      <div className="QuestionsAll">All Questions</div>
-      <div>single question</div>
-    </Mainbar>
-  );
-}
-
-export default AllQuestions;
-import '../Global.css';
-
-import styled from 'styled-components';
-
-export const Mainbar = styled.div`
-  box-sizing: border-box;
   width: 50%;
   height: 100vh;
-  border: 1px solid gray;
-  word-break: break-all;
-  display: flex;
-  justify-content: baseline;
-  align-items: center;
-  flex-direction: column;
+  border-left: 1px solid gray;
+
   @media screen and (max-width: 1000px) {
     margin-left: 0px;
     width: 100%;
@@ -60,19 +18,115 @@ export const Mainbar = styled.div`
     left: 0px;
     width: 100%;
   }
-  .QuestionsAll {
+  .AllQuestionHeader {
     height: 150px;
     width: 100%;
-    border: 1px solid gray;
+    border-bottom: 1px solid gray;
+  }
+  .SingleQuestions {
+    list-style-type: none;
+    padding: 10px;
+  }
+  .AllQuestionTitle {
+    width: 100%;
+    font-size: 27px;
+    margin: 20px;
+  }
+`;
+
+const AskQuestionButton = styled(ButtonCom)`
+  background-color: var(--blue-button);
+  width: 100px;
+  height: 40px;
+  color: var(--white);
+  font-size: 13px;
+  &:hover {
+    background-color: var(--blue-button-hover);
+  }
+`;
+
+const AllQuestionButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 20px;
+`;
+
+const SortButtonContainer = styled.div`
+  height: 30px;
+  margin-top: 5px;
+`;
+
+const SortButton = styled(ButtonCom)`
+  border: 1px solid gray;
+  height: 35px;
+  font-size: 12px;
+`;
+
+const SingleQuestion = styled.li`
+  display: flex;
+  width: 100%;
+  height: 160px;
+  border-bottom: 1px solid black;
+  list-style-type: none;
+  .QuestionTitle {
+    font-size: 17px;
+    color: var(--blue-600);
+  }
+  .QuestionText {
+    font-size: 13px;
+    color: var(--black);
+  }
+  .CounterAnswer {
+    width: 40%;
+    text-align: right;
+    font-weight: bold;
+    padding: 10px;
+  }
+`;
+
+const WriterInfo = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  > span {
+    margin: 5px;
   }
 `;
 
 function AllQuestions() {
   return (
-    <Mainbar>
-      <div className="QuestionsAll">All Questions</div>
-      <div>single question</div>
-    </Mainbar>
+    <AllQuestionContainer>
+      <div className="AllQuestionHeader">
+        <div className="AllQuestionTitle">All Questions</div>
+        <AllQuestionButtonContainer>
+          <AskQuestionButton>Ask Question</AskQuestionButton>
+          <SortButtonContainer>
+            <SortButton>Newest</SortButton>
+            <SortButton>Unanswered</SortButton>
+          </SortButtonContainer>
+        </AllQuestionButtonContainer>
+      </div>
+      <ul className="SingleQuestions">
+        <SingleQuestion>
+          <div className="CounterAnswer">0answers</div>
+          <div>
+            <div className="QuestionTitle">어쩌구저쩌구 제목 어쩌구</div>
+            <div className="QuestionText">
+              내용이 많으면?내용이 많으면?내용이 많으면?내용이 많으면?내용이
+              많으면?내용이 많으면?내용이 많으면?내용이 많으면?내용이
+              많으면?내용이 많으면?내용이 많으면?내용이 많으면?내용이
+              많으면?내용이 많으면?내용이 많으면?내용이 많으면?내용이
+              많으면?내용이 많으면?내용이 많으면?내용이 많으면?내용이
+              많으면?내용이 많으면?
+            </div>
+            <WriterInfo>
+              <span>raccoon0814</span>
+              <span>asked 12 min ago</span>
+            </WriterInfo>
+          </div>
+        </SingleQuestion>
+      </ul>
+    </AllQuestionContainer>
   );
 }
 

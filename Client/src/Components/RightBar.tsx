@@ -1,52 +1,5 @@
-import '../Global.css';
-
 import styled from 'styled-components';
-
-export const Div = styled.div`
-  width: 299px;
-  height: 308px;
-  border: 1px solid gray;
-  margin-top: 50px;
-  flex-shrink: 0;
-  font-size: 12px;
-  @media screen and (max-width: 1000px) {
-    display: none;
-  }
-  .background {
-    background-color: var(--yellow-100);
-    padding: 10px;
-    font-weight: bold;
-    color: var(--black-600);
-  }
-  .text {
-    background-color: var(--yellow-050);
-    padding: 7px 15px;
-  }
-`;
-function RightBar() {
-  return (
-    <Div>
-      <div className="background">The Overflow Blog</div>
-      <div className="text">The philosopher who believes in Web Assembly</div>
-      <div className="text">Community is the future of AI</div>
-      <div className="background">Featured on Meta</div>
-      <div className="text">
-        Improving the copy in the close modal and post notices - 2023 edition
-      </div>
-      <div className="text">Temporary policy: ChatGPT is banned</div>
-      <div className="text">The [protection] tag is being burninated </div>
-      <div className="text">
-        Content Discovery initiative 4/13 update: Related questions using a
-        Machine...
-      </div>
-    </Div>
-  );
-}
-
-export default RightBar;
 import '../Global.css';
-
-import styled from 'styled-components';
 
 export const Div = styled.div`
   width: 299px;
