@@ -10,7 +10,6 @@ export const Content = styled.div`
   box-sizing: border-box;
   width: 100%;
   height: 200vh;
-  border: 1px solid gray;
   display: flex;
   justify-content: center;
 `;

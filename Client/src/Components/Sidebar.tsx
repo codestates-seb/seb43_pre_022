@@ -3,7 +3,7 @@ import '../Global.css';
 import styled from 'styled-components';
 
 export const Div = styled.div`
-  width: 299px;
+  width: 300px;
   height: 308px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;

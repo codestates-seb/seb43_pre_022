@@ -1,3 +1,4 @@
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logo from '../assets/stacklogo2.png';
@@ -92,15 +93,22 @@ const NavInput = styled(InputCom)`
 `;
 
 function Header() {
+  const navigate = useNavigate();
+  const loginClick = () => {
+    navigate('/signin');
+  };
+  const signupClick = () => {
+    navigate('/signup');
+  };
   return (
     <NavWrapper>
       <StyledNav>
         <div />
 
         <DivCom>
-          <a href="/home">
+          <Link to="/">
             <img src={logo} alt="" width="140px" height="40px" />
-          </a>
+          </Link>
         </DivCom>
         <NavDiv>
           <ol id="Navol">
@@ -116,11 +124,15 @@ function Header() {
         </NavDivFlex>
 
         <NavDiv>
-          <NavButtonA isBlue={false}>Login</NavButtonA>
+          <NavButtonA isBlue={false} onClick={loginClick}>
+            Login
+          </NavButtonA>
         </NavDiv>
 
         <NavDiv>
-          <NavButtonA isBlue>Signup</NavButtonA>
+          <NavButtonA isBlue onClick={signupClick}>
+            Signup
+          </NavButtonA>
         </NavDiv>
       </StyledNav>
     </NavWrapper>
