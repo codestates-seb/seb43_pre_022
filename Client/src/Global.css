@@ -1,8 +1,14 @@
 /*부트스트랩 쓸 예정*/
 /*grid, color등*/
+body {
+    margin: 0;
+    padding: 0;
+}
+
+* { 
+    box-sizing: border-box;
 
 
- * { 
     /* 파란버튼 기본색, 호버 색, 눌렸을 때 색 */
     --blue-button: var(--blue-500);
     --blue-button-hover: var(--blue-600);

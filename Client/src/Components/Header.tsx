@@ -5,8 +5,10 @@ import InputCom from '../Styles/InputCom';
 import logo from '../assets/logo.png';
 
 const NavWrapper = styled(DivCom)`
-  background-color: --black-025;
-
+  background-color: var(--black-025);
+  position: fixed;
+  z-index: 1;
+  border-top: 3px solid var(--orange-400);
   box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05),
     0 2px 8px hsla(0, 0%, 0%, 0.05);
   height: 47.33px;
@@ -22,7 +24,7 @@ const StyledNav = styled.nav`
   padding-top: calc(8px);
   padding-bottom: calc(8px);
   heigth: 50px;
-  width: 90vw;
+  width: 75vw;
 `;
 
 const NavDiv = styled.div`
