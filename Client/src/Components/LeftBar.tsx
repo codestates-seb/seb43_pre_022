@@ -7,7 +7,7 @@ export const Div = styled.div`
   color: var(--black-600);
   box-sizing: border-box;
   position: sticky;
-  top: 0;
+  margin-top: 50px;
   height: 400px;
   border: 1px solid gray;
   flex-shrink: 0;
