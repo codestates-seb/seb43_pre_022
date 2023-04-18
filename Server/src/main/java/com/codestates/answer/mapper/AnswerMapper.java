@@ -25,7 +25,14 @@ public interface AnswerMapper {
 
         return answer;
     }
-    Answer answerPatchDtoToAnswer(AnswerPatchDto answerPatchDto);
+    default Answer answerPatchDtoToAnswer(AnswerPatchDto answerPatchDto){
+        Answer answer = new Answer();
+
+        answer.setAnswerId(answerPatchDto.getAnswerId());
+        answer.setContent(answerPatchDto.getContent());
+
+        return answer;
+    }
 
     default AnswerResponseDto answerToAnswerResponseDto(Answer answer) {
         AnswerResponseDto answerResponseDto = new AnswerResponseDto();
@@ -34,6 +41,8 @@ public interface AnswerMapper {
         answerResponseDto.setQuestionId(answer.getQuestion().getQuestionId());
         answerResponseDto.setContent(answer.getContent());
         answerResponseDto.setAnswerId(answer.getAnswerId());
+        answerResponseDto.setCreatedAt(answer.getCreatedAt());
+        answerResponseDto.setModifiedAt(answer.getModifiedAt());
 
         return answerResponseDto;
     }
