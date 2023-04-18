@@ -1,11 +1,11 @@
-import './Global.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
-import QuestionList from './Pages/QuestionList';
+import Footer from './Components/footer';
 
 function App() {
   return (
-    <div>
-      <QuestionList />
+    <div className="App">
+      <Footer />
     </div>
   );
 }

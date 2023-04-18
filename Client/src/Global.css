@@ -2,7 +2,7 @@
 /*grid, color등*/
 
 
-* { 
+ * { 
     /* 파란버튼 기본색, 호버 색, 눌렸을 때 색 */
     --blue-button: var(--blue-500);
     --blue-button-hover: var(--blue-600);
