@@ -3,6 +3,7 @@ import '../Global.css';
 import styled from 'styled-components';
 
 export const Div = styled.div`
+  margin-top: 50px;
   color: var(--black-600);
   box-sizing: border-box;
   position: sticky;

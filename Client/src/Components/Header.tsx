@@ -7,11 +7,17 @@ import ListCom from '../Styles/ListCom';
 
 const NavWrapper = styled(DivCom)`
   background-color: var(--black-025);
+<<<<<<< HEAD
+=======
   position: fixed;
+  z-index: 1;
+  border-top: 3px solid var(--orange-400);
+>>>>>>> 2d0c170c4212992972c351bc8443fddaa363ed58
   box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05),
     0 2px 8px hsla(0, 0%, 0%, 0.05);
   height: 47.33px;
-  width: 100%;
+  width: 100vw;
+  position: fixed;
   z-index: 1;
 `;
 
@@ -56,6 +62,7 @@ const StyledListCom = styled(ListCom)`
 const NavDivFlex = styled(NavDiv)`
   display: flex;
   padding: 0 10px;
+
   flex: 1 2 auto;
 `;
 
@@ -105,7 +112,7 @@ function Header() {
 
         <NavDivFlex>
           <img alt="" />
-          <NavInput placeholder="Search..." maxl="100px" />
+          <NavInput placeholder="Search..." maxl="240px" />
         </NavDivFlex>
 
         <NavDiv>
