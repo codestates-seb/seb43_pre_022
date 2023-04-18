@@ -3,13 +3,16 @@ import '../Global.css';
 import styled from 'styled-components';
 
 export const Div = styled.div`
-  width: 300px;
+  width: 299px;
   height: 308px;
-  border: 1px solid gray;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
   flex-shrink: 0;
   font-size: 12px;
-  float: right;
   background-color: var(--yellow-050);
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  margin-left: 10px;
   @media screen and (max-width: 1000px) {
     display: none;
   }
@@ -24,7 +27,7 @@ export const Div = styled.div`
     padding: 7px 15px;
   }
 `;
-function RightBar() {
+function Sidebar() {
   return (
     <Div>
       <div className="background">The Overflow Blog</div>
@@ -44,4 +47,4 @@ function RightBar() {
   );
 }
 
-export default RightBar;
+export default Sidebar;
