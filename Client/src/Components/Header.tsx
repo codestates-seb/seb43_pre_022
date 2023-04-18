@@ -23,7 +23,7 @@ const StyledNav = styled.nav`
   padding-top: calc(8px);
   padding-bottom: calc(8px);
   heigth: 50px;
-  width: 90vw;
+  width: 75vw;
 `;
 
 const NavDiv = styled.div`
