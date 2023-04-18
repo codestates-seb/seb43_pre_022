@@ -1,13 +1,16 @@
 import './Global.css';
-// import Header from './Components/Header';
-import Navi from './Components/Nav';
+import Header from './Components/Header';
+import QuestionList from './Pages/QuestionList';
+import Footer from './Components/Footer';
+import LogOut from './Pages/Logout';
 
 function App() {
   return (
-    <>
-      <Navi />
-      <div />
-    </>
+    <div className="App">
+      <Header />
+      <LogOut />
+      <Footer />
+    </div>
   );
 }
 
