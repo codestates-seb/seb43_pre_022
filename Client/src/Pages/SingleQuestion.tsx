@@ -10,7 +10,6 @@ import Sidebar from '../Components/Sidebar';
 export const Content = styled.div`
   box-sizing: border-box;
   width: 100%;
-  border: 1px solid gray;
   display: flex;
   justify-content: center;
 `;
@@ -19,7 +18,7 @@ export const QuestionPage = styled.div`
   width: 65%;
   margin-top: 50px;
   float: right;
-  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  border-left: 1px solid rgba(0, 0, 0, 0.15);
   @media screen and (max-width: 1300px) {
     width: 90%;
   }

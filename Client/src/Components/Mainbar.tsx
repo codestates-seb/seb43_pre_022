@@ -23,7 +23,7 @@ export const Main = styled.div`
   .AnswerList {
     max-height: 1000px;
     width: 96%;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     padding: 15px 25px;
   }
   form,

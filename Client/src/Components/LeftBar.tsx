@@ -1,5 +1,6 @@
 import '../Global.css';
 
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Div = styled.div`
@@ -26,16 +27,33 @@ export const Div = styled.div`
   .link {
     font-size: 13px;
     margin-bottom: 20px;
+    text-decoration-line: none;
+    color: var(--black-600);
   }
 `;
 
 function LeftBar() {
   return (
     <Div>
-      <div className="link">Home</div>
+      <div className="link">
+        <Link to="/" className="link">
+          Home
+        </Link>
+      </div>
       <div className="link">PUBLIC</div>
-      <div className="link">Questions</div>
-      <div className="link">Create TEAMS</div>
+      <div className="link">
+        <Link to="/" className="link">
+          Questions
+        </Link>
+      </div>
+      <div className="link">
+        <Link
+          to="https://github.com/codestates-seb/seb43_pre_022"
+          className="link"
+        >
+          Create TEAMS
+        </Link>
+      </div>
     </Div>
   );
 }

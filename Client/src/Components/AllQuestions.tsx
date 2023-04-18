@@ -1,5 +1,6 @@
 import '../Global.css';
 
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import ButtonCom from '../Styles/ButtonCom';
@@ -8,7 +9,7 @@ export const AllQuestionContainer = styled.div`
   margin-top: 50px;
   width: 50%;
   height: 100vh;
-  border-left: 1px solid gray;
+  border-left: 1px solid rgba(0, 0, 0, 0.15);
 
   @media screen and (max-width: 1000px) {
     margin-left: 0px;
@@ -21,7 +22,7 @@ export const AllQuestionContainer = styled.div`
   .AllQuestionHeader {
     height: 150px;
     width: 100%;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   }
   .SingleQuestions {
     list-style-type: none;
@@ -67,11 +68,15 @@ const SingleQuestion = styled.li`
   display: flex;
   width: 100%;
   height: 160px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   list-style-type: none;
   .QuestionTitle {
     font-size: 17px;
     color: var(--blue-600);
+    &: hover {
+      cursor: pointer;
+      color: var(--blue-500);
+    }
   }
   .QuestionText {
     font-size: 13px;
@@ -94,6 +99,10 @@ const WriterInfo = styled.div`
 `;
 
 function AllQuestions() {
+  const navigate = useNavigate();
+  const singleQuestionClick = () => {
+    navigate('/question');
+  };
   return (
     <AllQuestionContainer>
       <div className="AllQuestionHeader">
@@ -110,7 +119,13 @@ function AllQuestions() {
         <SingleQuestion>
           <div className="CounterAnswer">0answers</div>
           <div>
-            <div className="QuestionTitle">어쩌구저쩌구 제목 어쩌구</div>
+            <div
+              role="presentation"
+              className="QuestionTitle"
+              onClick={singleQuestionClick}
+            >
+              어쩌구저쩌구 제목 어쩌구
+            </div>
             <div className="QuestionText">
               내용이 많으면?내용이 많으면?내용이 많으면?내용이 많으면?내용이
               많으면?내용이 많으면?내용이 많으면?내용이 많으면?내용이
