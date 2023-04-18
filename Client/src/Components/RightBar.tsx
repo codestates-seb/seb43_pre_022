@@ -1,12 +1,15 @@
-import styled from 'styled-components';
 import '../Global.css';
 
+import styled from 'styled-components';
+
 export const Div = styled.div`
-  width: 299px;
+  width: 300px;
   height: 308px;
   border: 1px solid gray;
   flex-shrink: 0;
   font-size: 12px;
+  float: right;
+  background-color: var(--yellow-050);
   @media screen and (max-width: 1000px) {
     display: none;
   }

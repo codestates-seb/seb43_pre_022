@@ -1,5 +1,3 @@
-import './Global.css';
-
 import styled from 'styled-components';
 
 export const Mainbar = styled.div`
@@ -42,7 +40,7 @@ export const Mainbar = styled.div`
   }
 `;
 
-function SingleQuestion() {
+function Question() {
   return (
     <Mainbar>
       <div className="QuestionTitle">Question Title</div>
@@ -53,4 +51,4 @@ function SingleQuestion() {
   );
 }
 
-export default SingleQuestion;
+export default Question;

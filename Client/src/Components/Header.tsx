@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+
+import logo from '../assets/stacklogo2.png';
 import DivCom from '../Styles/DivCom';
 import InputCom from '../Styles/InputCom';
 import ListCom from '../Styles/ListCom';
-import logo from '../assets/stacklogo2.png';
 
 const NavWrapper = styled(DivCom)`
   background-color: var(--black-025);
@@ -28,7 +29,7 @@ const StyledNav = styled.nav`
   background-color: --black-025;
   padding-top: calc(8px);
   padding-bottom: calc(8px);
-  heigth: 50px;
+  height: 50px;
   width: 75vw;
 `;
 
@@ -90,7 +91,7 @@ const NavInput = styled(InputCom)`
   flex: 10 0 auto;
 `;
 
-function Navi() {
+function Header() {
   return (
     <NavWrapper>
       <StyledNav>
@@ -126,4 +127,4 @@ function Navi() {
   );
 }
 
-export default Navi;
+export default Header;
