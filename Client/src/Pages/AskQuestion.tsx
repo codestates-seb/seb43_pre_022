@@ -6,15 +6,22 @@ import { Editor } from '@toast-ui/react-editor';
 import 'tui-color-picker/dist/tui-color-picker.css';
 
 import styled from 'styled-components';
+import AskQuestionTip from '../Components/AskQuestionTip';
 import ButtonCom from '../Styles/ButtonCom';
 
-// const test = `# markdown`;
+const Div = styled.div`
+  display: flex;
+`;
+
 const AskQuestionContainer = styled.div`
   width: 100vw;
   padding-top: 100px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
+  @media screen and (max-width: 1000px) {
+    align-items: center;
+  }
 `;
 
 const AskQuestionTitle = styled.div`
@@ -89,49 +96,53 @@ const SubmitCansleButton = styled(ButtonCom)`
 
 function AskQuestion() {
   return (
-    <AskQuestionContainer>
-      <AskQuestionTitle>Ask a public question</AskQuestionTitle>
-      <AskQuestionNotice>
-        <SubHeading>Writing a good question</SubHeading>
-        <Summary>
-          You’re ready to ask a programming-related question and this form will
-          help guide you through the process. Looking to ask a non-programming
-          question? See the topics here to find a relevant site.
-        </Summary>
-        <span className="SubHeadingStpes">Stpes</span>
-        <ul>
-          <li>Summarize your problem in a one-line title.</li>
-          <li>Describe your problem in more detail.</li>
-          <li>Describe what you tried and what you expected to happen.</li>
-          <li>
-            Add “tags” which help surface your question to members of the
-            community.
-          </li>
-          <li>Review your question and post it to the site.</li>
-        </ul>
-      </AskQuestionNotice>
-      <InputTitleContainer>
-        <SubHeading>Title</SubHeading>
-        <Summary>
-          Be specific and imagine you are asking a question to another person
-        </Summary>
-        <InputTitle
-          type="text"
-          placeholder="e.g. Is ther R function for finding the index of an element in a vector?"
-        />
-      </InputTitleContainer>
-      <InputQuesiton>
-        <Editor
-          height="400px"
-          initialEditType="wysiwyg"
-          plugins={[colorSyntax]}
-        />
-      </InputQuesiton>
-      <AskButtonContainer>
-        <QuestionSubmitButton>등록</QuestionSubmitButton>
-        <SubmitCansleButton>취소</SubmitCansleButton>
-      </AskButtonContainer>
-    </AskQuestionContainer>
+    <Div>
+      <AskQuestionContainer>
+        <AskQuestionTitle>Ask a public question</AskQuestionTitle>
+        <AskQuestionNotice>
+          <SubHeading>Writing a good question</SubHeading>
+          <Summary>
+            You’re ready to ask a programming-related question and this form
+            will help guide you through the process. Looking to ask a
+            non-programming question? See the topics here to find a relevant
+            site.
+          </Summary>
+          <span className="SubHeadingStpes">Stpes</span>
+          <ul>
+            <li>Summarize your problem in a one-line title.</li>
+            <li>Describe your problem in more detail.</li>
+            <li>Describe what you tried and what you expected to happen.</li>
+            <li>
+              Add “tags” which help surface your question to members of the
+              community.
+            </li>
+            <li>Review your question and post it to the site.</li>
+          </ul>
+        </AskQuestionNotice>
+        <InputTitleContainer>
+          <SubHeading>Title</SubHeading>
+          <Summary>
+            Be specific and imagine you are asking a question to another person
+          </Summary>
+          <InputTitle
+            type="text"
+            placeholder="e.g. Is ther R function for finding the index of an element in a vector?"
+          />
+        </InputTitleContainer>
+        <InputQuesiton>
+          <Editor
+            height="400px"
+            initialEditType="wysiwyg"
+            plugins={[colorSyntax]}
+          />
+        </InputQuesiton>
+        <AskButtonContainer>
+          <QuestionSubmitButton>등록</QuestionSubmitButton>
+          <SubmitCansleButton>취소</SubmitCansleButton>
+        </AskButtonContainer>
+      </AskQuestionContainer>
+      <AskQuestionTip />
+    </Div>
   );
 }
 
