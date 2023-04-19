@@ -1,11 +1,16 @@
 import '../Global.css';
 
+import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Editor } from '@toast-ui/react-editor';
+import 'tui-color-picker/dist/tui-color-picker.css';
+
 import styled from 'styled-components';
 import ButtonCom from '../Styles/ButtonCom';
 
+// const test = `# markdown`;
 const AskQuestionContainer = styled.div`
   width: 100vw;
-  height: 100vh;
   padding-top: 100px;
   display: flex;
   flex-direction: column;
@@ -47,24 +52,25 @@ const InputTitleContainer = styled.div`
   border: 1px solid var(--black);
   width: 50%;
   padding: 15px;
-  margin-top: 20px;
+  margin: 20px 0px;
 `;
 
 const InputTitle = styled.input`
   width: 100%;
 `;
 
-const TempInput = styled.input`
+const InputQuesiton = styled.div`
   width: 50%;
-  margin: 20px 0px;
 `;
 
 const AskButtonContainer = styled.div`
   display: flex;
   width: 50%;
+  margin: 20px 0px;
 `;
 
 const QuestionSubmitButton = styled(ButtonCom)`
+  width: 60px;
   background-color: var(--blue-button);
   color: var(--white);
   font-size: 13px;
@@ -75,7 +81,8 @@ const QuestionSubmitButton = styled(ButtonCom)`
 `;
 
 const SubmitCansleButton = styled(ButtonCom)`
-  border: 1px solid gray;
+  width: 60px;
+  border: 1px solid var(--black-500);
   height: 35px;
   font-size: 12px;
 `;
@@ -113,7 +120,13 @@ function AskQuestion() {
           placeholder="e.g. Is ther R function for finding the index of an element in a vector?"
         />
       </InputTitleContainer>
-      <TempInput type="text" placeholder="해당 위치에 TOAST UI로 대체하기" />
+      <InputQuesiton>
+        <Editor
+          height="400px"
+          initialEditType="wysiwyg"
+          plugins={[colorSyntax]}
+        />
+      </InputQuesiton>
       <AskButtonContainer>
         <QuestionSubmitButton>등록</QuestionSubmitButton>
         <SubmitCansleButton>취소</SubmitCansleButton>
