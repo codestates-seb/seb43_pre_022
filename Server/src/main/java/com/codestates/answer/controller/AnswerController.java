@@ -30,7 +30,7 @@ public class AnswerController {
         this.answerMapper = answerMapper;
     }
 
-    @PostMapping
+    @PostMapping("/123")
     public ResponseEntity postAnswer(@Valid @RequestBody AnswerPostDto answerPostDto) {
         Answer answer = answerService.createAnswer(answerMapper.answerPostDtoToAnswer(answerPostDto));
 

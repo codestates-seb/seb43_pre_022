@@ -6,11 +6,12 @@ import com.codestates.comment.entity.Comment;
 import com.codestates.comment.repository.CommentRepository;
 import com.codestates.exception.BusinessLogicException;
 import com.codestates.exception.ExceptionCode;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class AnswerService {
     private final AnswerRepository answerRepository;
     public AnswerService(AnswerRepository answerRepository) {

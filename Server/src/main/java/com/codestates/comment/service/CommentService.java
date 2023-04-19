@@ -5,10 +5,13 @@ import com.codestates.comment.entity.Comment;
 import com.codestates.comment.repository.CommentRepository;
 import com.codestates.exception.BusinessLogicException;
 import com.codestates.exception.ExceptionCode;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-
+@Service
 public class CommentService {
     private final CommentRepository commentRepository;
     private final AnswerRepository answerRepository;

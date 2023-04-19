@@ -6,32 +6,41 @@ import com.codestates.login.CustomAuthorityUtils;
 import com.codestates.login.MemberRegistrationApplicationEvent;
 import com.codestates.member.entity.Member;
 import com.codestates.member.repository.MemberRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+
 @Service
+@Slf4j
 public class MemberService {
     private final MemberRepository memberRepository;
-    //private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;//securityConfig에서 Bean 등록해준다.
     private final ApplicationEventPublisher publisher;
     private final CustomAuthorityUtils authorityUtils;
 
-    public MemberService(MemberRepository memberRepository, ApplicationEventPublisher publisher, CustomAuthorityUtils authorityUtils) {
+    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder, ApplicationEventPublisher publisher, CustomAuthorityUtils authorityUtils) {
         this.memberRepository = memberRepository;
-
+        this.passwordEncoder = passwordEncoder;
         this.publisher = publisher;
         this.authorityUtils = authorityUtils;
     }
+
     public Member createMember(Member member){
         verifyExistsEmail(member.getEmail());
 
         // 패스워드 암호화로 저장
-        //String encryptedPassword=passwordEncoder.encode(member.getPassword());
-        //member.setPassword(encryptedPassword);
+        String encryptedPassword=passwordEncoder.encode(member.getPassword());
+        member.setPassword(encryptedPassword);
         //member 이메일로 role 확인후 DB저장
         List<String> roles = authorityUtils.createRoles(member.getPassword());
         member.setRoles(roles);
@@ -58,6 +67,11 @@ public class MemberService {
         return memberRepository.save(findMember);
     }
     public Member findMember(long memberId){
+
+        Map principal = (Map) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        log.info("memberId22  "+String.valueOf((Long)principal.get("memberId")));
+
+
         return findVerifiedMember(memberId);
     }
 
