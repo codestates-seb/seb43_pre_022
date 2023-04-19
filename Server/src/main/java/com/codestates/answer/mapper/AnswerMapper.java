@@ -11,15 +11,15 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface AnswerMapper {
-    default Answer answerPostDtoToAnswer(AnswerPostDto answerPostDto) {
+    default Answer answerPostDtoToAnswer(long questionId, AnswerPostDto answerPostDto) {
         Answer answer = new Answer();
         Question question = new Question();
         Member member = new Member();
 
-        question.setQuestionId(answerPostDto.getQuestionId());
+        question.setQuestionId(questionId);
         member.setMemberId(answerPostDto.getMemberId());
 
-        answer.setContent(answer.getContent());
+        answer.setContent(answerPostDto.getContent());
         answer.setMember(member);
         answer.setQuestion(question);
 

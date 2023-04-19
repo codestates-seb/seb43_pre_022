@@ -20,9 +20,9 @@ import java.net.URI;
 
 @RestController
 @Validated
-@RequestMapping("/api/questions/{question-id}/{answer-id}") //어차피 개별 질문 조회에 들어가있으니 여기가 디폴트 될것같은데..
+@RequestMapping("/api") //어차피 개별 질문 조회에 들어가있으니 여기가 디폴트 될것같은데..
 public class CommentController {
-    private final static String COMMENT_DEFAULT_URL = "/api/questions/{question-id}";
+    private final static String COMMENT_DEFAULT_URL = "/api";
     private final CommentService commentService;
     private final CommentMapper commentMapper;
 
@@ -31,16 +31,17 @@ public class CommentController {
         this.commentMapper = commentMapper;
     }
 
-    @PostMapping
-    public ResponseEntity postComment(@Valid @RequestBody CommentPostDto commentPostDto) {
-        Comment comment = commentService.createComment(commentMapper.commentPostDtoToComment(commentPostDto));
+    @PostMapping("/answers/{answer-id}/comments")
+    public ResponseEntity postComment(@PathVariable("answer-id") @Positive long answerId,
+                                      @Valid @RequestBody CommentPostDto commentPostDto) {
+        Comment comment = commentService.createComment(commentMapper.commentPostDtoToComment(answerId, commentPostDto));
 
         URI location = UriCreator.createUri(COMMENT_DEFAULT_URL, comment.getCommentId());
 
         return ResponseEntity.created(location).build();
     }
 
-    @PatchMapping("/{comment-id}")
+    @PatchMapping("/comments/{comment-id}")
     public ResponseEntity patchComment(@PathVariable("comment-id") @Positive long commentId,
                                        @Valid @RequestBody CommentPatchDto commentPatchDto) {
         commentPatchDto.setCommentId(commentId);
@@ -51,7 +52,7 @@ public class CommentController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{comment-id}")
+    @DeleteMapping("/comments/{comment-id}")
     public ResponseEntity deleteComment(@PathVariable("comment-id") @Positive long commentId) {
         commentService.deleteComment(commentId);
 
