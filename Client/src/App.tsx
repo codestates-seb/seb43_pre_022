@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import Footer from './Components/Footer';
 import Header from './Components/Header';
+import AskQuestion from './Pages/AskQuestion';
 import LogOut from './Pages/LogOut';
 import QuestionList from './Pages/QuestionList';
 import SignIn from './Pages/SignIn';
@@ -18,6 +19,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/logout" element={<LogOut />} />
+        <Route path="/askquestion" element={<AskQuestion />} />
       </Routes>
       <Footer />
     </div>

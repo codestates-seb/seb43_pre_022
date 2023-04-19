@@ -1,0 +1,125 @@
+import '../Global.css';
+
+import styled from 'styled-components';
+import ButtonCom from '../Styles/ButtonCom';
+
+const AskQuestionContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const AskQuestionTitle = styled.div`
+  font-size: 27px;
+  font-weight: bold;
+  width: 50%;
+  margin-bottom: 10px;
+`;
+
+const AskQuestionNotice = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: var(--blue-100);
+  border: 1px solid var(--blue-200);
+  border-radius: 5px;
+  width: 50%;
+  padding: 15px;
+
+  .SubHeadingStpes {
+    font-size: 15px;
+  }
+`;
+
+const SubHeading = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+`;
+
+const Summary = styled.div`
+  margin: 10px 0px;
+  font-size: 15px;
+`;
+
+const InputTitleContainer = styled.div`
+  border: 1px solid var(--black);
+  width: 50%;
+  padding: 15px;
+  margin-top: 20px;
+`;
+
+const InputTitle = styled.input`
+  width: 100%;
+`;
+
+const TempInput = styled.input`
+  width: 50%;
+  margin: 20px 0px;
+`;
+
+const AskButtonContainer = styled.div`
+  display: flex;
+  width: 50%;
+`;
+
+const QuestionSubmitButton = styled(ButtonCom)`
+  background-color: var(--blue-button);
+  color: var(--white);
+  font-size: 13px;
+  &:hover {
+    background-color: var(--blue-button-hover);
+  }
+  margin-right: 10px;
+`;
+
+const SubmitCansleButton = styled(ButtonCom)`
+  border: 1px solid gray;
+  height: 35px;
+  font-size: 12px;
+`;
+
+function AskQuestion() {
+  return (
+    <AskQuestionContainer>
+      <AskQuestionTitle>Ask a public question</AskQuestionTitle>
+      <AskQuestionNotice>
+        <SubHeading>Writing a good question</SubHeading>
+        <Summary>
+          You’re ready to ask a programming-related question and this form will
+          help guide you through the process. Looking to ask a non-programming
+          question? See the topics here to find a relevant site.
+        </Summary>
+        <span className="SubHeadingStpes">Stpes</span>
+        <ul>
+          <li>Summarize your problem in a one-line title.</li>
+          <li>Describe your problem in more detail.</li>
+          <li>Describe what you tried and what you expected to happen.</li>
+          <li>
+            Add “tags” which help surface your question to members of the
+            community.
+          </li>
+          <li>Review your question and post it to the site.</li>
+        </ul>
+      </AskQuestionNotice>
+      <InputTitleContainer>
+        <SubHeading>Title</SubHeading>
+        <Summary>
+          Be specific and imagine you are asking a question to another person
+        </Summary>
+        <InputTitle
+          type="text"
+          placeholder="e.g. Is ther R function for finding the index of an element in a vector?"
+        />
+      </InputTitleContainer>
+      <TempInput type="text" placeholder="해당 위치에 TOAST UI로 대체하기" />
+      <AskButtonContainer>
+        <QuestionSubmitButton>등록</QuestionSubmitButton>
+        <SubmitCansleButton>취소</SubmitCansleButton>
+      </AskButtonContainer>
+    </AskQuestionContainer>
+  );
+}
+
+export default AskQuestion;
