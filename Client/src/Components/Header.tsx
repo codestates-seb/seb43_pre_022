@@ -1,8 +1,10 @@
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
+import logo from '../assets/stacklogo2.png';
 import DivCom from '../Styles/DivCom';
-import ListCom from '../Styles/ListCom';
 import InputCom from '../Styles/InputCom';
-import logo from '../assets/logo.png';
+import ListCom from '../Styles/ListCom';
 
 const NavWrapper = styled(DivCom)`
   background-color: var(--black-025);
@@ -10,10 +12,13 @@ const NavWrapper = styled(DivCom)`
   top: 0;
   z-index: 1;
   border-top: 3px solid var(--orange-400);
+>>>>>>> 2d0c170c4212992972c351bc8443fddaa363ed58
   box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05),
     0 2px 8px hsla(0, 0%, 0%, 0.05);
   height: 47.33px;
   width: 100vw;
+  position: fixed;
+  z-index: 1;
 `;
 
 const StyledNav = styled.nav`
@@ -24,7 +29,7 @@ const StyledNav = styled.nav`
   background-color: --black-025;
   padding-top: calc(8px);
   padding-bottom: calc(8px);
-  height: 50px;
+  heigth: 50px;
   width: 75vw;
 `;
 
@@ -87,15 +92,22 @@ const NavInput = styled(InputCom)`
 `;
 
 function Header() {
+  const navigate = useNavigate();
+  const loginClick = () => {
+    navigate('/signin');
+  };
+  const signupClick = () => {
+    navigate('/signup');
+  };
   return (
     <NavWrapper>
       <StyledNav>
         <div />
 
         <DivCom>
-          <a href="/home">
+          <Link to="/">
             <img src={logo} alt="" width="140px" height="40px" />
-          </a>
+          </Link>
         </DivCom>
         <NavDiv>
           <ol id="Navol">
@@ -111,11 +123,15 @@ function Header() {
         </NavDivFlex>
 
         <NavDiv>
-          <NavButtonA isBlue={false}>Login</NavButtonA>
+          <NavButtonA isBlue={false} onClick={loginClick}>
+            Login
+          </NavButtonA>
         </NavDiv>
 
         <NavDiv>
-          <NavButtonA isBlue>Signup</NavButtonA>
+          <NavButtonA isBlue onClick={signupClick}>
+            Signup
+          </NavButtonA>
         </NavDiv>
       </StyledNav>
     </NavWrapper>

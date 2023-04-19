@@ -3,12 +3,17 @@ import '../Global.css';
 import styled from 'styled-components';
 
 export const Div = styled.div`
-  width: 299px;
+  width: 300px;
   height: 308px;
-  border: 1px solid gray;
-  margin-top: 50px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
   flex-shrink: 0;
   font-size: 12px;
+  float: right;
+  background-color: var(--yellow-050);
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
+  margin-top: 70px;
+  margin-left: 10px;
   @media screen and (max-width: 1000px) {
     display: none;
   }
