@@ -1,8 +1,7 @@
 import './Global.css';
 import Header from './Components/Header';
-import QuestionList from './Pages/QuestionList';
 import Footer from './Components/Footer';
-import LogOut from './Pages/Logout';
+import LogOut from './Pages/LogOut';
 
 function App() {
   return (
