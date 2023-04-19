@@ -12,8 +12,10 @@ const NavWrapper = styled(DivCom)`
     0 2px 8px hsla(0, 0%, 0%, 0.05);
   height: 47.33px;
   width: 100vw;
-  position: fixed;
+  position: sticky;
+  top: 0px;
   z-index: 1;
+  border-top: 3px solid var(--orange-400);
 `;
 
 const StyledNav = styled.nav`
