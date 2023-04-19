@@ -1,0 +1,58 @@
+{
+    "questions": [
+      {"questionId":"1",
+       "title": "스택오버플로우 첫 질문",
+         "content":"첫번째 질문",
+         "createdAt":"3 days ago",
+         "modifiedAt":"today",
+         "memberId":"hihijin",
+       "answer": [
+      {"questionId":"1",
+       "answerId":"1",
+         "content":"첫번째 답변",
+         "createdAt":"2023-04-19",
+         "modifiedAt":"2023-04-19",
+         "memberId":"hihijin",
+        "comment": [
+      {"answerId":"1",
+       "commentId":"1",
+         "content":"답변1의 첫번째 댓글",
+         "createdAt":"yesterday",
+         "memberId":"hihijin"
+      },
+      {"answerId":"1",
+       "commentId":"2",
+         "content":"답변1의 두번째 댓글",
+         "createdAt":"yesterday",
+         "memberId":"hihijin"
+      }
+    ]
+      },
+      {
+        "questionId":"1",
+       "answerId":"2",
+         "content":"두번째 답변",
+         "createdAt":"2023-04-19",
+         "modifiedAt":"2023-04-19",
+         "memberId":"hihijin",
+        "comment": [
+      {"answerId":"2",
+       "commentId":"1",
+         "content":"답변2의 첫번째 댓글",
+         "createdAt":"yesterday",
+         "memberId":"hihijin"
+      }
+    ]
+      }
+    ]
+      },
+      {"questionId":"2",
+       "title": "스택오버플로우 두번째 질문",
+         "content":"두번째 질문",
+         "createdAt":"3 days ago",
+         "modifiedAt":"today",
+         "memberId":"hihijin",
+       "answer": []
+    }
+    ]
+  }
