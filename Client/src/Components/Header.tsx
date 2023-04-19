@@ -30,6 +30,7 @@ const StyledNav = styled.nav`
   padding-bottom: calc(8px);
   height: 44.33px;
   width: 75vw;
+  max-width: 1300px;
 `;
 
 const NavDiv = styled.div`
@@ -68,13 +69,15 @@ const NavDivFlex = styled(NavDiv)`
 
 const NavButtonA = styled.a<{ isBlue: boolean }>`
   display: flex;
+  justify-content: center;
   align-items: center;
   padding: 0 10px;
   border-radius: 3px;
   cursor: pointer;
-  height: 24px;
+  height: 33px;
+  width: ${(props) => (props.isBlue ? '66.42px' : '58.25px')};
 
-  font-size: 10px;
+  font-size: 13px;
   text-decoration: none;
   border: ${(props) =>
     props.isBlue
@@ -89,6 +92,7 @@ const NavButtonA = styled.a<{ isBlue: boolean }>`
 const NavInput = styled(InputCom)`
   display: flex;
   flex: 10 0 auto;
+  max-width: 670px;
 `;
 
 function Header() {
