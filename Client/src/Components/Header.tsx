@@ -8,6 +8,10 @@ import ListCom from '../Styles/ListCom';
 
 const NavWrapper = styled(DivCom)`
   background-color: var(--black-025);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-top: 3px solid var(--orange-400);
   box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05),
     0 2px 8px hsla(0, 0%, 0%, 0.05);
   height: 47.33px;
@@ -23,11 +27,12 @@ const StyledNav = styled.nav`
   flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
-  background-color: --black-025;
+  background-color: var(--black-025);
   padding-top: calc(8px);
   padding-bottom: calc(8px);
-  height: 50px;
+  height: 44.33px;
   width: 75vw;
+  max-width: 1300px;
 `;
 
 const NavDiv = styled.div`
@@ -35,7 +40,7 @@ const NavDiv = styled.div`
   justify-content: center;
   align-items: center;
   padding-right: 10px;
-  color: --header-color;
+  color: var(--header-color);
   height: 100%;
 
   #Navol {
@@ -49,7 +54,8 @@ const StyledListCom = styled(ListCom)`
   padding-right: 10px;
   color: var(--header-color);
   font-size: 12px;
-  &: hover {
+
+  &:hover {
     color: var(--header-color-hover);
     border-radius: 10px;
     background-color: var(--black-075);
@@ -65,13 +71,15 @@ const NavDivFlex = styled(NavDiv)`
 
 const NavButtonA = styled.a<{ isBlue: boolean }>`
   display: flex;
+  justify-content: center;
   align-items: center;
   padding: 0 10px;
   border-radius: 3px;
   cursor: pointer;
-  height: 24px;
+  height: 33px;
+  width: ${(props) => (props.isBlue ? '66.42px' : '58.25px')};
 
-  font-size: 10px;
+  font-size: 13px;
   text-decoration: none;
   border: ${(props) =>
     props.isBlue
@@ -86,6 +94,7 @@ const NavButtonA = styled.a<{ isBlue: boolean }>`
 const NavInput = styled(InputCom)`
   display: flex;
   flex: 10 0 auto;
+  max-width: 670px;
 `;
 
 function Header() {

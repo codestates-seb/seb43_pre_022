@@ -6,8 +6,8 @@ interface Formprops {
 }
 
 const FormCom = styled.form<Formprops>`
-    padding: ${(props) => props.paddings}
-    borer-radius: ${(props) => props.radius}
+  padding: ${(props) => props.paddings};
+  border-radius: ${(props) => props.radius};
 `;
 
 export default FormCom;
