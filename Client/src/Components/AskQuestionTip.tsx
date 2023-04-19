@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import pencil from '../assets/pencil.png';
 
 const Div = styled.div`
-  width: 40%;
+  width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
