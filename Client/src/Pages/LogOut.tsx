@@ -14,7 +14,7 @@ const LogOutwrapper = styled(DivCom)`
   height: 75vh;
 `;
 
-const LogOutFormDiv = styled(FormCom)`
+const LogOutForm = styled(FormCom)`
   display: flex;
   flex-direction: column;
   margin: 0 105px 24px;
@@ -55,6 +55,12 @@ const LogOutDiv = styled(DivCom)`
     height: 42px;
     width: 268px;
   }
+
+  .LOsectionbottom {
+    font-size: 12px;
+    color: hsl(210, 8%, 45%);
+    margin-top: 32px;
+  }
 `;
 
 const ULLogOutForm = styled.ul`
@@ -89,7 +95,7 @@ function LogOut() {
           Clicking “Log out” will log you out of the following domains on this
           device:
         </DivCom>
-        <LogOutFormDiv paddings="24px">
+        <LogOutForm paddings="24px">
           <ULLogOutForm>
             <LogOutList>askubuntu.com</LogOutList>
             <LogOutList>mathoverflow.net</LogOutList>
@@ -112,8 +118,12 @@ function LogOut() {
                 Cancel
               </LOButton>
             </div>
+            <div className="LOsectionbottom">
+              If you’re on a shared computer, remember to log out of your Open
+              ID provider (Facebook, Google, Stack Exchange, etc.) as well.
+            </div>
           </div>
-        </LogOutFormDiv>
+        </LogOutForm>
       </LogOutDiv>
     </LogOutwrapper>
   );
