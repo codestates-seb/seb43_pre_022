@@ -10,7 +10,6 @@ export const AllQuestionContainer = styled.div`
   width: 50%;
   height: 100vh;
   border-left: 1px solid rgba(0, 0, 0, 0.15);
-
   @media screen and (max-width: 1000px) {
     margin-left: 0px;
     width: 100%;
@@ -35,42 +34,66 @@ export const AllQuestionContainer = styled.div`
   }
 `;
 
-function AllQuestions() {
-  return (
-    <Mainbar>
-      <div className="QuestionsAll">All Questions</div>
-      <div>single question</div>
-    </Mainbar>
-  );
-}
+const AskQuestionButton = styled(ButtonCom)`
+  background-color: var(--blue-button);
+  width: 100px;
+  height: 40px;
+  color: var(--white);
+  font-size: 13px;
+  &:hover {
+    background-color: var(--blue-button-hover);
+  }
+`;
 
-export default AllQuestions;
-import '../Global.css';
-
-import styled from 'styled-components';
-
-export const Mainbar = styled.div`
-  box-sizing: border-box;
-  width: 50%;
-  height: 100vh;
-  border: 1px solid gray;
-  word-break: break-all;
+const AllQuestionButtonContainer = styled.div`
   display: flex;
-  justify-content: baseline;
-  align-items: center;
   flex-direction: column;
-  @media screen and (max-width: 1000px) {
-    margin-left: 0px;
-    width: 100%;
+  align-items: flex-end;
+  margin-right: 20px;
+`;
+
+const SortButtonContainer = styled.div`
+  height: 30px;
+  margin-top: 5px;
+`;
+
+const SortButton = styled(ButtonCom)`
+  border: 1px solid gray;
+  height: 35px;
+  font-size: 12px;
+`;
+
+const SingleQuestion = styled.li`
+  display: flex;
+  width: 100%;
+  height: 160px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  list-style-type: none;
+  .QuestionTitle {
+    font-size: 17px;
+    color: var(--blue-600);
+    &: hover {
+      cursor: pointer;
+      color: var(--blue-500);
+    }
   }
-  @media screen and (max-width: 500px) {
-    left: 0px;
-    width: 100%;
+  .QuestionText {
+    font-size: 13px;
+    color: var(--black);
   }
-  .QuestionsAll {
-    height: 150px;
-    width: 100%;
-    border: 1px solid gray;
+  .CounterAnswer {
+    width: 40%;
+    text-align: right;
+    font-weight: bold;
+    padding: 10px;
+  }
+`;
+
+const WriterInfo = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  > span {
+    margin: 5px;
   }
 `;
 
