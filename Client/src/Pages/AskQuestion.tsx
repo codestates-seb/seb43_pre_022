@@ -3,6 +3,7 @@ import '../Global.css';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
+import { Link } from 'react-router-dom';
 import 'tui-color-picker/dist/tui-color-picker.css';
 
 import styled from 'styled-components';
@@ -138,7 +139,9 @@ function AskQuestion() {
         </InputQuesiton>
         <AskButtonContainer>
           <QuestionSubmitButton>등록</QuestionSubmitButton>
-          <SubmitCansleButton>취소</SubmitCansleButton>
+          <Link to="/">
+            <SubmitCansleButton>취소</SubmitCansleButton>
+          </Link>
         </AskButtonContainer>
       </AskQuestionContainer>
       <AskQuestionTip />

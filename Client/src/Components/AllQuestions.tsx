@@ -1,6 +1,9 @@
 import '../Global.css';
 
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
 import styled from 'styled-components';
 
 import ButtonCom from '../Styles/ButtonCom';
@@ -26,7 +29,7 @@ export const AllQuestionContainer = styled.div`
   }
   .SingleQuestions {
     list-style-type: none;
-    padding: 10px;
+    margin: 0;
   }
   .AllQuestionTitle {
     width: 100%;
@@ -70,6 +73,7 @@ const SingleQuestion = styled.li`
   height: 160px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   list-style-type: none;
+  padding: 20px 10px 10px 10px;
   .QuestionTitle {
     font-size: 17px;
     color: var(--blue-600);
@@ -81,34 +85,69 @@ const SingleQuestion = styled.li`
   .QuestionText {
     font-size: 13px;
     color: var(--black);
+    margin-top: 10px;
+    width: 100%;
+    height: 79px;
+    overflow: hidden;
   }
   .CounterAnswer {
-    width: 40%;
+    width: 20%;
     text-align: right;
-    font-weight: bold;
-    padding: 10px;
+    padding: 0px 10px;
+    color: var(--gray-title);
+  }
+  .SingleQuestionContainer {
+    width: 100%;
   }
 `;
 
 const WriterInfo = styled.div`
   display: flex;
   justify-content: flex-end;
-  > span {
+  align-items: flex-end;
+  padding-bottom: 10px;
+  position: > span {
     margin: 5px;
   }
 `;
+
+interface Question {
+  questionId: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  modifiedAt: string;
+  memberId: string;
+  answer: [];
+}
 
 function AllQuestions() {
   const navigate = useNavigate();
   const singleQuestionClick = () => {
     navigate('/question');
   };
+  const [questions, setQuestions] = useState<any[]>([]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      axios('http://localhost:4000/questions')
+        .then((response) => {
+          const { data } = response;
+          setQuestions(data);
+        })
+        .catch((error) => console.log(error));
+    }, 500);
+  }, []);
+
+  console.log(questions);
   return (
     <AllQuestionContainer>
       <div className="AllQuestionHeader">
         <div className="AllQuestionTitle">All Questions</div>
         <AllQuestionButtonContainer>
-          <AskQuestionButton>Ask Question</AskQuestionButton>
+          <Link to="/askquestion">
+            <AskQuestionButton>Ask Question</AskQuestionButton>
+          </Link>
           <SortButtonContainer>
             <SortButton>Newest</SortButton>
             <SortButton>Unanswered</SortButton>
@@ -116,30 +155,30 @@ function AllQuestions() {
         </AllQuestionButtonContainer>
       </div>
       <ul className="SingleQuestions">
-        <SingleQuestion>
-          <div className="CounterAnswer">0answers</div>
-          <div>
-            <div
-              role="presentation"
-              className="QuestionTitle"
-              onClick={singleQuestionClick}
-            >
-              어쩌구저쩌구 제목 어쩌구
-            </div>
-            <div className="QuestionText">
-              내용이 많으면?내용이 많으면?내용이 많으면?내용이 많으면?내용이
-              많으면?내용이 많으면?내용이 많으면?내용이 많으면?내용이
-              많으면?내용이 많으면?내용이 많으면?내용이 많으면?내용이
-              많으면?내용이 많으면?내용이 많으면?내용이 많으면?내용이
-              많으면?내용이 많으면?내용이 많으면?내용이 많으면?내용이
-              많으면?내용이 많으면?
-            </div>
-            <WriterInfo>
-              <span>raccoon0814</span>
-              <span>asked 12 min ago</span>
-            </WriterInfo>
-          </div>
-        </SingleQuestion>
+        {questions &&
+          questions.map((item: Question): JSX.Element => {
+            return (
+              <SingleQuestion key={item.questionId}>
+                <div className="CounterAnswer">
+                  {item.answer.length} answers
+                </div>
+                <div className="SingleQuestionContainer">
+                  <div
+                    role="presentation"
+                    className="QuestionTitle"
+                    onClick={singleQuestionClick}
+                  >
+                    {item.title}
+                  </div>
+                  <div className="QuestionText">{item.content}</div>
+                  <WriterInfo>
+                    <span>{item.memberId}</span>
+                    <span>asked {item.createdAt}</span>
+                  </WriterInfo>
+                </div>
+              </SingleQuestion>
+            );
+          })}
       </ul>
     </AllQuestionContainer>
   );

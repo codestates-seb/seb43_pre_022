@@ -1,7 +1,6 @@
-import React from 'react';
-
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
+import ScrollToTop from './Components/ScrollToTop';
 
 import App from './App';
 
@@ -10,6 +9,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Router>
+    <ScrollToTop />
     <App />
   </Router>,
 );
