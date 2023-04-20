@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class AnswerService {
     private final AnswerRepository answerRepository;
@@ -55,5 +56,7 @@ public class AnswerService {
         return findAnswer;
     }
 
-
+    public List<Answer> findAnswers(long questionId) {
+        return answerRepository.findByQuestion_QuestionId(questionId);
+    }
 }

@@ -1,22 +1,47 @@
 package com.codestates.question.dto;
 
+import com.codestates.answer.entity.Answer;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Getter
-@Setter
 public class QuestionResponseDto {
-    private long questionId;
+    @Getter
+    @Setter
+    public static class Answers {
+        private long questionId;
 
-    private long memberId;
+        private long memberId;
 
-    private String title;
+        private String title;
 
-    private String content;
+        private String content;
 
-    private LocalDateTime createdAt;
+        private LocalDateTime createdAt;
 
-    private LocalDateTime modifiedAt;
+        private LocalDateTime modifiedAt;
+
+        private List<Answer> answers;
+    }
+
+    @Getter
+    @Setter
+    public static class AnswerIds {
+        private long questionId;
+
+        private long memberId;
+
+        private String title;
+
+        private String content;
+
+        private LocalDateTime createdAt;
+
+        private LocalDateTime modifiedAt;
+
+        private List<Long> answerIds;
+    }
+
 }

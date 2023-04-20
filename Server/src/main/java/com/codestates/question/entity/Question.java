@@ -1,11 +1,15 @@
 package com.codestates.question.entity;
 
+import com.codestates.answer.entity.Answer;
 import com.codestates.member.entity.Member;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,4 +34,15 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "memberId")
     private Member member;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "question")
+    private List<Answer> answers = new ArrayList<>();
+
+//    public void addAnswer(Answer answer) {
+//        answers.add(answer);
+//        if (answer.getQuestion() != this) {
+//            answer.setQuestion(this);
+//        }
+//    }
 }

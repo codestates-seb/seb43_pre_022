@@ -50,7 +50,7 @@ public class QuestionController {
         questionPatchDto.setQuestionId(questionId);
         Question question = questionService.updateQuestion(questionMapper.questionPatchDtoToQuestion(questionPatchDto));
 
-        QuestionResponseDto response = questionMapper.questionToQuestionResponseDto(question);
+        QuestionResponseDto.AnswerIds response = questionMapper.questionToQuestionResponseDto(question);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
 
@@ -60,7 +60,7 @@ public class QuestionController {
     public ResponseEntity getQuestion(@PathVariable("question-id") @Positive long questionId) {
         Question question = questionService.findQuestion(questionId);
 
-        QuestionResponseDto response = questionMapper.questionToQuestionResponseDto(question);
+        QuestionResponseDto.AnswerIds response = questionMapper.questionToQuestionResponseDto(question);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
@@ -73,7 +73,7 @@ public class QuestionController {
         Page<Question> pageQuestions = questionService.findQuestions(page - 1, size);
         List<Question> questions = pageQuestions.getContent();
 
-        List<QuestionResponseDto> responses = questionMapper.questionsToQuestionResponseDtos(questions);
+        List<QuestionResponseDto.AnswerIds> responses = questionMapper.questionsToQuestionResponseDtos(questions);
 
         return new ResponseEntity<>(new MultiResponseDto<>(responses, pageQuestions), HttpStatus.OK);
     }

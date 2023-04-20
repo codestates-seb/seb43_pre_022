@@ -4,6 +4,7 @@ package com.codestates.answer.entity;
 import com.codestates.comment.entity.Comment;
 import com.codestates.member.entity.Member;
 import com.codestates.question.entity.Question;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,6 +39,7 @@ public class Answer {
     @JoinColumn(name = "memberId")
     private Member member;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "questionId")
     private Question question;

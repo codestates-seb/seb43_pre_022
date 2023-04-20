@@ -68,10 +68,6 @@ public class MemberService {
     }
     public Member findMember(long memberId){
 
-        Map principal = (Map) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        log.info("memberId22  "+String.valueOf((Long)principal.get("memberId")));
-
-
         return findVerifiedMember(memberId);
     }
 

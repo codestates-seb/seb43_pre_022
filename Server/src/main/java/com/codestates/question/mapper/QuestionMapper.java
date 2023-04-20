@@ -1,5 +1,6 @@
 package com.codestates.question.mapper;
 
+import com.codestates.answer.entity.Answer;
 import com.codestates.member.entity.Member;
 import com.codestates.question.dto.QuestionPatchDto;
 import com.codestates.question.dto.QuestionPostDto;
@@ -15,8 +16,6 @@ public interface QuestionMapper {
     default Question questionPostDtoToQuestion(QuestionPostDto questionPostDto) {
         Question question = new Question();
         Member member = new Member();
-
-        member.setMemberId(questionPostDto.getMemberId());
 
         question.setTitle(questionPostDto.getTitle());
         question.setContent(questionPostDto.getContent());
@@ -35,9 +34,29 @@ public interface QuestionMapper {
         return question;
     }
 
-    default QuestionResponseDto questionToQuestionResponseDto(Question question) {
-        QuestionResponseDto questionResponseDto = new QuestionResponseDto();
+//    default QuestionResponseDto.Answers questionToQuestionResponseDto(Question question) {
+//
+//        QuestionResponseDto.Answers questionResponseDto = new QuestionResponseDto.Answers();
+//
+//        questionResponseDto.setQuestionId(question.getQuestionId());
+//        questionResponseDto.setMemberId(question.getMember().getMemberId());
+//        questionResponseDto.setTitle(question.getTitle());
+//        questionResponseDto.setContent(question.getContent());
+//        questionResponseDto.setCreatedAt(question.getCreatedAt());
+//        questionResponseDto.setModifiedAt(question.getModifiedAt());
+//        questionResponseDto.setAnswers(question.getAnswers());
+//
+//        return questionResponseDto;
+//    }
 
+//    default List<QuestionResponseDto.Answers> questionsToQuestionResponseDtos(List<Question> questions) {
+//        return questions.stream()
+//                .map(question -> questionToQuestionResponseDto(question))
+//                .collect(Collectors.toList());
+//    }
+
+    default QuestionResponseDto.AnswerIds questionToQuestionResponseDto(Question question) {
+        QuestionResponseDto.AnswerIds questionResponseDto = new QuestionResponseDto.AnswerIds();
         questionResponseDto.setQuestionId(question.getQuestionId());
         questionResponseDto.setMemberId(question.getMember().getMemberId());
         questionResponseDto.setTitle(question.getTitle());
@@ -45,10 +64,16 @@ public interface QuestionMapper {
         questionResponseDto.setCreatedAt(question.getCreatedAt());
         questionResponseDto.setModifiedAt(question.getModifiedAt());
 
+        List<Answer> answers = question.getAnswers();
+        List<Long> answerIds = answers.stream()
+                .map(answer -> answer.getAnswerId())
+                .collect(Collectors.toList());
+        questionResponseDto.setAnswerIds(answerIds);
+
         return questionResponseDto;
     }
 
-    default List<QuestionResponseDto> questionsToQuestionResponseDtos(List<Question> questions) {
+    default List<QuestionResponseDto.AnswerIds> questionsToQuestionResponseDtos(List<Question> questions) {
         return questions.stream()
                 .map(question -> questionToQuestionResponseDto(question))
                 .collect(Collectors.toList());
