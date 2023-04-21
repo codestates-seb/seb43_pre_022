@@ -20,7 +20,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class Answer {
+public class
+Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,7 +45,7 @@ public class Answer {
     @JoinColumn(name = "questionId")
     private Question question;
 
-    @OneToMany(mappedBy = "answer")
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
 }

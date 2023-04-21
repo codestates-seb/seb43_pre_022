@@ -51,6 +51,14 @@ public class AnswerController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
+    @GetMapping("/answers/{answer-id}")
+    public ResponseEntity getAnswer(@PathVariable("answer-id") @Positive long answerId) {
+        Answer answer = answerService.findAnswer(answerId);
+        AnswerResponseDto response = answerMapper.answerToAnswerResponseDto(answer);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
     @DeleteMapping("/answers/{answer-id}")
     public ResponseEntity deleteAnswer(@PathVariable("answer-id") @Positive long answerId) {
         answerService.deleteAnswer(answerId);

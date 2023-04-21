@@ -7,8 +7,6 @@ import javax.validation.constraints.Positive;
 
 @Getter
 public class CommentPostDto {
-    @Positive
-    private long memberId;
 
     @Positive
     private long answerId;

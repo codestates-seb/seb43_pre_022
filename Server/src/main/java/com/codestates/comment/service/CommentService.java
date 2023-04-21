@@ -15,11 +15,9 @@ import java.util.Optional;
 @Service
 public class CommentService {
     private final CommentRepository commentRepository;
-    private final AnswerRepository answerRepository;
 
-    public CommentService(CommentRepository commentRepository, AnswerRepository answerRepository) {
+    public CommentService(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
-        this.answerRepository = answerRepository;
     }
     public Comment createComment(Comment comment) {
         Long memberIdFromToken = getMemberIdFromToken();
@@ -53,6 +51,10 @@ public class CommentService {
 
     public List findComments(long answerId) {
         return commentRepository.findByAnswer_AnswerId(answerId);
+    }
+
+    public Comment findComment(long commentId) {
+        return findVerifiedComment(commentId);
     }
 
 

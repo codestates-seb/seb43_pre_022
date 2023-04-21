@@ -8,22 +8,32 @@ import com.codestates.comment.entity.Comment;
 import com.codestates.member.entity.Member;
 import org.mapstruct.Mapper;
 
+import java.time.LocalDateTime;
+
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
     default Comment commentPostDtoToComment(long answerId, CommentPostDto commentPostDto) {
         Comment comment = new Comment();
-        Member member = new Member();
         Answer answer = new Answer();
+        Member member = new Member();
 
+        answer.setMember(member);
         answer.setAnswerId(answerId);
-        member.setMemberId(commentPostDto.getMemberId());
 
         comment.setContent(commentPostDto.getContent());
-        comment.setMember(member);
         comment.setAnswer(answer);
+        comment.setMember(member);
 
         return comment;
     }
-    Comment commentPatchDtoToComment(CommentPatchDto commentPatchDto);
+
+    default Comment commentPatchDtoToComment(CommentPatchDto commentPatchDto){
+        Comment comment = new Comment();
+        comment.setCommentId(commentPatchDto.getCommentId());
+        comment.setContent(commentPatchDto.getContent());
+        comment.setModifiedAt(LocalDateTime.now());
+
+        return comment;
+    }
     CommentResponseDto commentToCommentResponseDto(Comment comment);
 }

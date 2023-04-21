@@ -58,12 +58,7 @@ public class QuestionService {
     }
 
     public Question findQuestion(long questionId) {
-        List<Answer> answers = answerService.findAnswers(questionId);
-        for(Answer answer : answers) {
-            answerService.findAnswer(answer.getAnswerId());
-        }
         return findVerifiedQuestion(questionId);
-
     }
 
     private Question findVerifiedQuestion(long questionId) {

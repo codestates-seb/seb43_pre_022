@@ -52,6 +52,14 @@ public class CommentController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
+    @GetMapping("/comments/{comment-id}")
+    public ResponseEntity getComment(@PathVariable("comment-id") @Positive long commentId) {
+        Comment comment = commentService.findComment(commentId);
+        CommentResponseDto response = commentMapper.commentToCommentResponseDto(comment);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
     @DeleteMapping("/comments/{comment-id}")
     public ResponseEntity deleteComment(@PathVariable("comment-id") @Positive long commentId) {
         commentService.deleteComment(commentId);

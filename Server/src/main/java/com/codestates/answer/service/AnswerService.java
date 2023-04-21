@@ -41,8 +41,6 @@ public class AnswerService {
         Optional.ofNullable(answer.getContent())
                 .ifPresent(content -> findAnswer.setContent(content));
 
-        List<Comment> comments = commentService.findComments(findAnswer.getAnswerId());
-        findAnswer.setComments(comments);
         return answerRepository.save(findAnswer);
     }
 
@@ -58,12 +56,6 @@ public class AnswerService {
         answerRepository.delete(findAnswer);
     }
 
-    public List<Comment> findComments(long answerId) {
-        Answer findAnswer = findVerifiedAnswer(answerId);
-        List<Comment> comments = findAnswer.getComments();
-
-        return comments;
-    }
 
     //이거 questionService에서 findQuestion(겟 쿠에스천)에서 사용, 여기 안에서 앤서들에 커맨츠 세팅됨
     //questionService의 findVerifiedQuestion에서 쿠에스천에 앤서스 세팅한 후 findQuestion을 겟 핸들링애 매칭
@@ -77,12 +69,16 @@ public class AnswerService {
         Answer findAnswer = optionalAnswer.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
 
+
+        //AnswerResponseDto의 commentIds를 채워야해서 만든 코드
         List<Comment> comments = commentService.findComments(findAnswer.getAnswerId());
         findAnswer.setComments(comments);
 
         return findAnswer;
     }
 
+    //이친구는 쿠에스천 서비스에서 List<answer> 채울려고 만든 매서드
+    //List<answer>은 나중에 번호만 따서 다시 넣어줄거고, 컨트롤러에선 사용안해
     public List<Answer> findAnswers(long questionId) {
         return answerRepository.findByQuestion_QuestionId(questionId);
     }
