@@ -54,9 +54,6 @@ public class QuestionService {
         Optional.ofNullable(question.getContent()).ifPresent(content -> findQuestion.setContent(content));
         findQuestion.setModifiedAt(LocalDateTime.now());
 
-        List<Answer> answers = answerService.findAnswers(findQuestion.getQuestionId());
-        findQuestion.setAnswers(answers);
-
         return questionRepository.save(findQuestion);
     }
 

@@ -36,7 +36,7 @@ public class Question {
     private Member member;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answers = new ArrayList<>();
 
 //    public void addAnswer(Answer answer) {
