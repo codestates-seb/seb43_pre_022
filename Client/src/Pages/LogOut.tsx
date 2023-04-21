@@ -94,7 +94,7 @@ function LogOut() {
 
   /** logout 성공 시 토큰 삭제 */
   const logoutsuccess = () => {
-    localStorage.remove('access_token');
+    localStorage.removeItem('access_token');
   };
 
   /** logout 취소 시 경로 이동 */
