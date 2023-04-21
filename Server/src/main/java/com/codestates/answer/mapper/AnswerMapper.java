@@ -35,7 +35,6 @@ public interface AnswerMapper {
         Answer answer = new Answer();
         answer.setAnswerId(answerPatchDto.getAnswerId());
         answer.setContent(answerPatchDto.getContent());
-        answer.setModifiedAt(LocalDateTime.now());
 
         return answer;
     }

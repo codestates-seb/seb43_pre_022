@@ -31,7 +31,6 @@ public interface CommentMapper {
         Comment comment = new Comment();
         comment.setCommentId(commentPatchDto.getCommentId());
         comment.setContent(commentPatchDto.getContent());
-        comment.setModifiedAt(LocalDateTime.now());
 
         return comment;
     }

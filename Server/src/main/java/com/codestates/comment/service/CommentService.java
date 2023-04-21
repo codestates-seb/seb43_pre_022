@@ -8,6 +8,7 @@ import com.codestates.exception.ExceptionCode;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -35,6 +36,8 @@ public class CommentService {
 
         Optional.ofNullable(comment.getContent())
                 .ifPresent(content -> findComment.setContent(content));
+
+        findComment.setModifiedAt(LocalDateTime.now());
 
         return commentRepository.save(findComment);
     }

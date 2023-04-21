@@ -10,6 +10,7 @@ import com.codestates.exception.ExceptionCode;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,8 @@ public class AnswerService {
 
         Optional.ofNullable(answer.getContent())
                 .ifPresent(content -> findAnswer.setContent(content));
+
+        findAnswer.setModifiedAt(LocalDateTime.now());
 
         return answerRepository.save(findAnswer);
     }
