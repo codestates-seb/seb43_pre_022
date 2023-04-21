@@ -1,41 +1,61 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// 이렇게 설정하면 tag빼고는 보존이 가능
-const initialState = {
-  titleValue:
-    JSON.parse(localStorage.getItem('titleValue')!) === null
-      ? ''
-      : JSON.parse(localStorage.getItem('titleValue')!),
-  questionValue:
-    JSON.parse(localStorage.getItem('questionValue')!) === null
-      ? ''
-      : JSON.parse(localStorage.getItem('questionValue')!),
-  tagList: [],
-};
+export interface Question {
+  questionId: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  modifiedAt: string;
+  memberId: string;
+  answer: any[];
+}
 
-const commentReducer = createSlice({
-  name: 'askquestion',
+const initialState: Question[] = [
+  {
+    questionId:
+      JSON.parse(localStorage.getItem('questionId')!) === null
+        ? ''
+        : JSON.parse(localStorage.getItem('questionId')!),
+    title:
+      JSON.parse(localStorage.getItem('title')!) === null
+        ? ''
+        : JSON.parse(localStorage.getItem('title')!),
+    content:
+      JSON.parse(localStorage.getItem('content')!) === null
+        ? ''
+        : JSON.parse(localStorage.getItem('content')!),
+    createdAt:
+      JSON.parse(localStorage.getItem('createdAt')!) === null
+        ? ''
+        : JSON.parse(localStorage.getItem('createdAt')!),
+    modifiedAt:
+      JSON.parse(localStorage.getItem('modifiedAt')!) === null
+        ? ''
+        : JSON.parse(localStorage.getItem('modifiedAt')!),
+    memberId:
+      JSON.parse(localStorage.getItem('memberId')!) === null
+        ? ''
+        : JSON.parse(localStorage.getItem('memberId')!),
+    answer:
+      JSON.parse(localStorage.getItem('answer')!) === null
+        ? ''
+        : JSON.parse(localStorage.getItem('answer')!),
+  },
+];
+
+const questionSlice: any = createSlice({
+  name: 'questions',
   initialState,
   reducers: {
-    changeTitleValue: (
-      state: { titleValue: any },
-      action: { payload: { data: any } },
-    ) => {
-      localStorage.setItem('titleValue', JSON.stringify(action.payload.data));
-      state.titleValue = JSON.parse(localStorage.getItem('titleValue')!);
-    },
-    changeQuestionValue: (
-      state: { questionValue: any },
-      action: { payload: { data: any } },
-    ) => {
-      localStorage.setItem(
-        'questionValue',
-        JSON.stringify(action.payload.data),
-      );
-      state.questionValue = JSON.parse(localStorage.getItem('questionValue')!);
+    READ: (
+      state: Question[],
+      action: PayloadAction<Question[]>,
+    ): Question[] => {
+      console.log(action.payload);
+      return action.payload;
     },
   },
 });
 
-export const askquestionActions = commentReducer.actions;
-export default commentReducer.reducer;
+export const { READ } = questionSlice.actions;
+export default questionSlice.reducer;

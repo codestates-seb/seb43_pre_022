@@ -1,12 +1,16 @@
 import '../Global.css';
 
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-
 import styled from 'styled-components';
+import { READ } from '../Reducers/questionReducer';
 
 import ButtonCom from '../Styles/ButtonCom';
+
+import { Question } from '../Reducers/questionReducer';
+import { RootState } from '../store/store';
 
 export const AllQuestionContainer = styled.div`
   margin-top: 50px;
@@ -111,35 +115,29 @@ const WriterInfo = styled.div`
   }
 `;
 
-interface Question {
-  questionId: string;
-  title: string;
-  content: string;
-  createdAt: string;
-  modifiedAt: string;
-  memberId: string;
-  answer: [];
-}
-
 function AllQuestions() {
   const navigate = useNavigate();
   const singleQuestionClick = () => {
     navigate('/question');
   };
-  const [questions, setQuestions] = useState<any[]>([]);
+
+  const dispatch = useDispatch();
+  const questions = useSelector((state: RootState) => state.crudquestion);
+
+  console.log(questions);
 
   useEffect(() => {
     setTimeout(() => {
       axios('http://localhost:4000/questions')
         .then((response) => {
           const { data } = response;
-          setQuestions(data);
+          console.log(data);
+          dispatch(READ(data));
         })
         .catch((error) => console.log(error));
     }, 500);
-  }, []);
+  }, [dispatch]);
 
-  console.log(questions);
   return (
     <AllQuestionContainer>
       <div className="AllQuestionHeader">
@@ -156,8 +154,8 @@ function AllQuestions() {
       </div>
       <ul className="SingleQuestions">
         {questions &&
-          questions.map((item: Question): JSX.Element => {
-            return (
+          questions.map(
+            (item: Question): JSX.Element => (
               <SingleQuestion key={item.questionId}>
                 <div className="CounterAnswer">
                   {item.answer.length} answers
@@ -177,8 +175,8 @@ function AllQuestions() {
                   </WriterInfo>
                 </div>
               </SingleQuestion>
-            );
-          })}
+            ),
+          )}
       </ul>
     </AllQuestionContainer>
   );

@@ -1,14 +1,21 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, Store } from '@reduxjs/toolkit';
 
 import answerReducer from '../Reducers/answerReducer';
 import commentReducer from '../Reducers/commentReducer';
 import loginInfoReducer from '../Reducers/loginInfoReducer';
 import questionReducer from '../Reducers/questionReducer';
 
-const store = configureStore({
+export type RootState = {
+  loginInfoReducer: any;
+  crudquestion: any;
+  answerReducer: any;
+  commentReducer: any;
+};
+
+const store: Store<RootState> = configureStore({
   reducer: {
     loginInfoReducer,
-    questionReducer,
+    crudquestion: questionReducer,
     answerReducer,
     commentReducer,
   },
