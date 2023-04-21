@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import ButtonCom from '../Styles/ButtonCom';
 
 export const AllQuestionContainer = styled.div`
-  margin-top: 50px;
   width: 50%;
   height: 100vh;
   border-left: 1px solid rgba(0, 0, 0, 0.15);

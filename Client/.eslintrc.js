@@ -15,6 +15,8 @@ module.exports = {
     'prettier',
   ],
   rules: {
+    'object-shorthand': 0,
+    'object-literal-shorthand': 0,
     'prettier/prettier': [
       'error',
       {

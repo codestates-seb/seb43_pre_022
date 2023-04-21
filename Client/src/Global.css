@@ -5,6 +5,15 @@ body {
     padding: 0;
 }
 
+button:hover{
+    cursor: pointer;
+    
+}
+
+ul{
+    list-style: none;
+}
+
 * { 
     box-sizing: border-box;
 
