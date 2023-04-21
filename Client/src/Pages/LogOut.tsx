@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 import DivCom from '../Styles/DivCom';
 import InputCom from '../Styles/InputCom';
@@ -88,6 +89,19 @@ const LOButton = styled(ButtonCom)`
 `;
 
 function LogOut() {
+  /** useNavigate */
+  const navigation = useNavigate();
+
+  /** logout 성공 시 토큰 삭제 */
+  const logoutsuccess = () => {
+    localStorage.removeItem('access_token');
+  };
+
+  /** logout 취소 시 경로 이동 */
+  const logoutcancel = () => {
+    navigation(-1);
+  };
+
   return (
     <LogOutwrapper>
       <LogOutDiv>
@@ -107,14 +121,16 @@ function LogOut() {
           </ULLogOutForm>
           <div className="input-container">
             <div className="LOsection2">
-              <input id="LOcheckbox" name="LOcheckbox" type="checkbox"></input>
+              <input id="LOcheckbox" name="LOcheckbox" type="checkbox" />
               <label id="LOinputlabel" htmlFor="LOcheckbox">
                 Log out on all devices
               </label>
             </div>
             <div className="LOsection3">
-              <LOButton paddings="10px">Log out</LOButton>
-              <LOButton paddings="10px" id="LOCancel">
+              <LOButton paddings="10px" onClick={logoutsuccess}>
+                Log out
+              </LOButton>
+              <LOButton paddings="10px" id="LOCancel" onClick={logoutcancel}>
                 Cancel
               </LOButton>
             </div>

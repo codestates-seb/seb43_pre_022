@@ -1,4 +1,7 @@
 import styled from 'styled-components';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 import DivCom from '../Styles/DivCom';
 import FormCom from '../Styles/FormCom';
@@ -10,10 +13,10 @@ const BackContainer = styled(DivCom)`
   position: relative;
   display: flex;
   flex: 1 0 auto;
-  margin-top: 47.33px;
+  /* margin-top: 47.33px; */
   justify-content: center;
   box-sizing: border-box;
-  height: calc(100vh - 47.33px - 260px);
+  height: calc(100vh - 64.33px - 260px);
   padding: 300px 0;
   max-width: 100%;
   background-color: var(--black-050);
@@ -100,6 +103,11 @@ const SignInForm = styled(FormCom)`
       outline: none;
     }
   }
+  /* 유효성 검사 */
+  .invalid {
+    font-size: 13px;
+    color: red;
+  }
 `;
 
 // Sign in Button
@@ -112,9 +120,76 @@ const SignInButton = styled(ButtonCom)`
   }
 `;
 
+/** 함수 컴포넌트 시작 */
 function SignIn() {
+  /** usenavigate */
+  const navigation = useNavigate();
+
+  /** 로그인 정보 객체 및 인풋창 상태관리 */
+  const [signInInfo, setSignInInfo] = useState({
+    email: '',
+    password: '',
+  });
+  const [idValid, setidValid] = useState(false);
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [signInMSG, setSignInMSG] = useState('');
+
+  /** email,password 유효성 검사 정규식 */
+  const regExid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const regExpw = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]/;
+
+  /** email 값 설정 및 유효성검사 */
+  const handleIdValue = (e) => {
+    setSignInInfo({ ...signInInfo, email: e.target.value });
+    if (regExid.test(e.target.value) || e.target.value === '') {
+      setidValid(true);
+    } else {
+      setidValid(false);
+    }
+  };
+  /** password 값 설정 및 유효성검사 */
+  const handlePasswordValue = (e) => {
+    setSignInInfo({ ...signInInfo, password: e.target.value });
+    if (regExpw.test(e.target.value) || e.target.value === '') {
+      setPasswordValid(true);
+    } else {
+      setPasswordValid(false);
+    }
+  };
+
+  /** 로그인 버튼 누를 시 작동하는 함수 */
+  const handleSignIn = () => {
+    /** axios 보내기 전에 유효성 검사 */
+    if (!idValid || !passwordValid) {
+      setSignInMSG('invalid email address or password');
+      console.log(signInMSG);
+      localStorage.setItem('invalidMSG', signInMSG);
+      return console.log('Invalid');
+    }
+    /** 통과시 post 요청 */
+    axios
+      .post(`http://localhost:8000/`, signInInfo)
+      .then((response) => {
+        const data = response;
+        //  axios response type 때문에 변수에 저장하는 것에 어려움이 있음. 해결 요망.
+        alert(`Welcome back!`);
+        //  signin 성공시 토큰 로컬에 저장.
+        console.log(data);
+        localStorage.setItem('access_token', JSON.stringify(data));
+        localStorage.removeItem('invalidMSG');
+        navigation('/');
+      })
+      .catch((error) => {
+        console.log(error);
+        /** signinMSG 유효하지 않다고 설정 */
+        setSignInMSG('invalid email address or password');
+      });
+    return console.log('never');
+  };
+  console.log(localStorage.getItem('invalidMSG'));
   return (
     <BackContainer>
+      {/* Signin Container 4개의 section으로 구분 */}
       <SignInContainer>
         {/* section #1: image container */}
         <DivCom className="imageContainer">
@@ -148,7 +223,7 @@ function SignIn() {
             radius="5px"
             color="white"
           >
-            Sign up with Facebook
+            Sign in with Facebook
           </SIAouthButton>
         </div>
         {/* section #3: Inputs */}
@@ -159,14 +234,26 @@ function SignIn() {
               <label id="SILabelEmail" htmlFor="SIEmail">
                 Email
               </label>
-              <input id="SIInputE" name="SIEmail" type="text"></input>
+              <input
+                id="SIInputE"
+                name="SIEmail"
+                type="text"
+                onChange={handleIdValue}
+              ></input>
             </div>
+            {/* 유효성 검사 탈락 메세지 */}
+            <div className="invalid">{localStorage.getItem('invalidMSG')}</div>
             {/* SECTION #3-2 PW */}
             <div className="SIPassword">
               <label id="SILabelPW" htmlFor="SIPassword">
                 Password
               </label>
-              <input id="SIInputP" name="SIPassword" type="password"></input>
+              <input
+                id="SIInputP"
+                name="SIPassword"
+                type="password"
+                onChange={handlePasswordValue}
+              ></input>
             </div>
             {/* SECTION #3-3 Sign in button */}
             <SignInButton
@@ -174,6 +261,7 @@ function SignIn() {
               paddings="10px"
               radius="5px"
               color="white"
+              onClick={handleSignIn}
             >
               Sign in
             </SignInButton>

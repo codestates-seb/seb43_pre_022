@@ -105,6 +105,12 @@ function Header() {
   const signupClick = () => {
     navigate('/signup');
   };
+  const logoutClick = () => {
+    navigate('/logout');
+  };
+
+  const token = localStorage.getItem('access_token');
+
   return (
     <NavWrapper>
       <StyledNav>
@@ -128,17 +134,32 @@ function Header() {
           <NavInput placeholder="Search..." maxl="240px" />
         </NavDivFlex>
 
-        <NavDiv>
-          <NavButtonA isBlue={false} onClick={loginClick}>
-            Login
-          </NavButtonA>
-        </NavDiv>
-
-        <NavDiv>
-          <NavButtonA isBlue onClick={signupClick}>
-            Signup
-          </NavButtonA>
-        </NavDiv>
+        {/* 토큰 유무에 따라 다른 header 항목 렌더링 */}
+        {token ? (
+          <>
+            <NavDiv>
+              <img width="24px" height="24px" alt="profile" />
+            </NavDiv>
+            <NavDiv>
+              <NavButtonA isBlue={false} onClick={logoutClick}>
+                Logout
+              </NavButtonA>
+            </NavDiv>
+          </>
+        ) : (
+          <>
+            <NavDiv>
+              <NavButtonA isBlue={false} onClick={loginClick}>
+                Login
+              </NavButtonA>
+            </NavDiv>
+            <NavDiv>
+              <NavButtonA isBlue onClick={signupClick}>
+                Signup
+              </NavButtonA>
+            </NavDiv>
+          </>
+        )}
       </StyledNav>
     </NavWrapper>
   );
