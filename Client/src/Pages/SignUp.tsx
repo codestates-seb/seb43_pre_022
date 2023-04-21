@@ -1,8 +1,15 @@
+import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 
 import DivCom from '../Styles/DivCom';
 import FormCom from '../Styles/FormCom';
 import ButtonCom from '../Styles/ButtonCom';
+
+import { login, logout, changeUserInfo } from '../Reducers/loginInfoReducer';
+import { RootState } from '../store/store';
 
 const BackContainer = styled(DivCom)`
   display: flex;
@@ -137,6 +144,18 @@ const SignUpForm = styled(FormCom)`
   flex-direction: column;
   margin: 0 0 24px;
   height: 540px;
+
+  // email validation
+  .emailinvalid {
+    font-size: 13px;
+    padding-top: 5px;
+    color: red;
+  }
+  // password validation
+  .pwinvalid {
+    color: red;
+    padding-top: 5px;
+  }
 `;
 
 // Aouth Buttons
@@ -154,10 +173,86 @@ const SignUpButton = styled(ButtonCom)`
   }
 `;
 
+/** 함수 컴포넌트 시작 */
 function SignUp() {
+  /** Usenavigate */
+  const navigation = useNavigate();
+
+  //  redux toolkit - pending
+  //  state 하나씩 console.log 찍어보면 구조 확인 가능
+  //  아까 선언한 RootState로 type 에러를 잡아줌.
+  const isLogin = useSelector(
+    (state: RootState) => state.loginInfoReducer.login,
+  );
+  console.log(isLogin);
+  const dispatch = useDispatch();
+
+  /** ID,PW */
+  const [signUpInfo, setSignUpInfo] = useState({
+    displayname: '',
+    email: '',
+    password: '',
+  });
+  const [idValid, setidValid] = useState(false);
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [emailMSG, setEmailMSG] = useState('');
+  const [passwordMSG, setPasswordMSG] = useState('');
+
+  /** email,password 유효성 검사 정규식 */
+  const regExid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const regExpw = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]/;
+
+  /** displayname 값 설정 */
+  const handleNameValue = (e) => {
+    setSignUpInfo({ ...signUpInfo, displayname: e.target.value });
+  };
+  /** email 값 설정 및 유효성검사 */
+  const handleIdValue = (e) => {
+    setSignUpInfo({ ...signUpInfo, email: e.target.value });
+    if (regExid.test(e.target.value) || e.target.value === '') {
+      setidValid(true);
+      setEmailMSG('');
+    } else {
+      setidValid(false);
+      setEmailMSG('invalid email address');
+    }
+  };
+  /** password 값 설정 및 유효성검사 */
+  const handlePasswordValue = (e) => {
+    setSignUpInfo({ ...signUpInfo, password: e.target.value });
+    if (regExpw.test(e.target.value) || e.target.value === '') {
+      setPasswordMSG(
+        'Passwords must contain at least eight characters, including at least 1 letter and 1 number.',
+      );
+      setPasswordValid(true);
+    } else {
+      setPasswordMSG(
+        'Passwords must contain at least eight characters, including at least 1 letter and 1 number.',
+      );
+      setPasswordValid(false);
+    }
+  };
+
+  /** 회원가입 버튼 누를 시 작동하는 함수 */
+  const handleSignUp = () => {
+    axios
+      .post(`http://localhost:8000/`, signUpInfo)
+      .then((response) => {
+        alert('you successfully signed up!');
+        navigation('/signin');
+      })
+      .catch((error) => {
+        /** 중복인 경우와 다른이유로 실패한 경우 삼항으로 구분 */
+        console.log(error);
+        alert('you failed to signup!');
+      });
+  };
+
   return (
     <BackContainer>
+      {/* Signup left,right로 구분 */}
       <SignUpContainer>
+        {/* 왼쪽 부분 */}
         <div className="left">
           <h1 className="lefthead">Join the Stack Overflow community</h1>
           <div className="LeftItemsOutContainer">
@@ -198,7 +293,7 @@ function SignUp() {
             </div>
           </div>
         </div>
-
+        {/* 오른쪽 부분 */}
         <div className="right">
           <div className="buttonContainer">
             <AouthButton
@@ -229,30 +324,53 @@ function SignUp() {
             </AouthButton>
           </div>
           <div className="SignUpFormContainer">
+            {/* SignUpForm 6단분리 */}
             <SignUpForm>
-              {/* SECTION #1 DisplayName*/}
+              {/* SECTION #1 DisplayName  */}
               <div className="SUDisplayname">
                 <label id="SULabelDisplayname" htmlFor="SUDisplayname">
                   Display name
                 </label>
-                <input id="SUInputD" name="SUDisplayname" type="text"></input>
+                <input
+                  id="SUInputD"
+                  name="SUDisplayname"
+                  type="text"
+                  onChange={handleNameValue}
+                ></input>
               </div>
-              {/* SECTION #2 E-mail*/}
+              {/* SECTION #2 E-mail */}
               <div className="SUEmail">
                 <label id="SULabelEmail" htmlFor="SUEmail">
                   Email
                 </label>
-                <input id="SUInputE" name="SUEmail" type="text"></input>
+                <input
+                  id="SUInputE"
+                  name="SUEmail"
+                  type="text"
+                  onChange={handleIdValue}
+                ></input>
+                {/* email validation MSG 출력 */}
+                <div className="emailinvalid">{emailMSG}</div>
               </div>
               {/* SECTION #3 PW */}
               <div className="SUPassword">
                 <label id="SULabelPW" htmlFor="SUPassword">
                   Password
                 </label>
-                <input id="SUInputP" name="SUPassword" type="password"></input>
-                <p id="passwordTerm">
-                  Passwords must contain at least eight characters, including at
-                  least 1 letter and 1 number.
+                <input
+                  id="SUInputP"
+                  name="SUPassword"
+                  type="password"
+                  onChange={handlePasswordValue}
+                ></input>
+                {/** password validation MSG 나중에 조금 더 세분화해서  */}
+                <p
+                  id="passwordTerm"
+                  className={passwordValid ? 'pwvalid' : 'pwinvalid'}
+                  placeholder="Passwords must contain at least eight characters, including at
+                least 1 letter and 1 number."
+                >
+                  {passwordMSG}
                 </p>
               </div>
               {/* SECTION #4 I'm not a robot */}
@@ -275,6 +393,7 @@ function SignUp() {
                 paddings="10px"
                 radius="5px"
                 color="white"
+                onClick={handleSignUp}
               >
                 Sign up
               </SignUpButton>
