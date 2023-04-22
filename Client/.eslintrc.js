@@ -15,6 +15,11 @@ module.exports = {
     'prettier',
   ],
   rules: {
+    'react/function-component-definition': [
+      2,
+      { namedComponents: 'function-declaration' },
+    ],
+    'react/destructuring-assignment': [0, 'always'],
     'object-shorthand': 0,
     'object-literal-shorthand': 0,
     'prettier/prettier': [
@@ -38,6 +43,7 @@ module.exports = {
     ],
     'jsx-a11y/no-noninteractive-element-interactions': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
+    '@typescript-eslint/no-unused-vars':"warn"
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {

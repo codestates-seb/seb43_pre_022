@@ -1,4 +1,8 @@
-import * as reactRouterDom from 'react-router-dom';
+import {
+  Navigate,
+  Route,
+  Routes,
+} from 'react-router-dom';
 
 import Footer from './Components/Footer';
 import Header from './Components/Header';
@@ -12,19 +16,34 @@ import SignUp from './Pages/SignUp';
 import SingleQuestion from './Pages/SingleQuestion';
 
 function App() {
+  //  JWT token 보유 여부에 따라 truthy || falsy
+  const token = localStorage.getItem('access_token');
+
   return (
     <div>
       <Header />
-      <reactRouterDom.Routes>
-        <reactRouterDom.Route path="/" element={<QuestionList />} />
-        <reactRouterDom.Route path="/question" element={<SingleQuestion />} />
-        <reactRouterDom.Route path="/signin" element={<SignIn />} />
-        <reactRouterDom.Route path="/signup" element={<SignUp />} />
-        <reactRouterDom.Route path="/logout" element={<LogOut />} />
-        <reactRouterDom.Route path="/askquestion" element={<AskQuestion />} />
-        <reactRouterDom.Route path="/answeredit/:id" element={<AnswerEdit />} />
-        <reactRouterDom.Route path="/error" element={<ErrorPage />} />
-      </reactRouterDom.Routes>
+      <Routes>
+        <Route path="/" element={<QuestionList />} />
+        <Route path="/question" element={<SingleQuestion />} />
+        <Route
+          path="/signin"
+          element={token ? <Navigate to="/" /> : <SignIn />}
+        />
+        <Route
+          path="/signup"
+          element={token ? <Navigate to="/" /> : <SignUp />}
+        />
+        <Route path="/logout" element={<LogOut />} />
+        <Route
+          path="/answeredit/:id"
+          element={token ? <AnswerEdit /> : <Navigate to="/signin" />}
+        />
+        <Route
+          path="/askquestion"
+          element={token ? <AskQuestion /> : <Navigate to="/signin" />}
+        />
+        <Route path="/error" element={<ErrorPage />} />
+      </Routes>
       <Footer />
     </div>
   );

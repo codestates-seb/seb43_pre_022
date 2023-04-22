@@ -9,7 +9,6 @@ export const AllQuestionContainer = styled.div`
   width: 50%;
   height: 100vh;
   border-left: 1px solid rgba(0, 0, 0, 0.15);
-
   @media screen and (max-width: 1000px) {
     margin-left: 0px;
     width: 100%;
