@@ -15,6 +15,13 @@ module.exports = {
     'prettier',
   ],
   rules: {
+    'react/function-component-definition': [
+      2,
+      { namedComponents: 'function-declaration' },
+    ],
+    'react/destructuring-assignment': [0, 'always'],
+    'object-shorthand': 0,
+    'object-literal-shorthand': 0,
     'prettier/prettier': [
       'error',
       {

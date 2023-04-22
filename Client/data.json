@@ -1,58 +1,115 @@
 {
-    "questions": [
-      {"questionId":"1",
-       "title": "스택오버플로우 첫 질문",
-         "content":"첫번째 질문",
-         "createdAt":"3 days ago",
-         "modifiedAt":"today",
-         "memberId":"hihijin",
-       "answer": [
-      {"questionId":"1",
-       "answerId":"1",
-         "content":"첫번째 답변",
-         "createdAt":"2023-04-19",
-         "modifiedAt":"2023-04-19",
-         "memberId":"hihijin",
-        "comment": [
-      {"answerId":"1",
-       "commentId":"1",
-         "content":"답변1의 첫번째 댓글",
-         "createdAt":"yesterday",
-         "memberId":"hihijin"
-      },
-      {"answerId":"1",
-       "commentId":"2",
-         "content":"답변1의 두번째 댓글",
-         "createdAt":"yesterday",
-         "memberId":"hihijin"
-      }
-    ]
-      },
-      {
-        "questionId":"1",
-       "answerId":"2",
-         "content":"두번째 답변",
-         "createdAt":"2023-04-19",
-         "modifiedAt":"2023-04-19",
-         "memberId":"hihijin",
-        "comment": [
-      {"answerId":"2",
-       "commentId":"1",
-         "content":"답변2의 첫번째 댓글",
-         "createdAt":"yesterday",
-         "memberId":"hihijin"
-      }
-    ]
-      }
-    ]
-      },
-      {"questionId":"2",
-       "title": "스택오버플로우 두번째 질문",
-         "content":"두번째 질문",
-         "createdAt":"3 days ago",
-         "modifiedAt":"today",
-         "memberId":"hihijin",
-       "answer": []
+  "questions": [
+    {
+      "id": "1",
+      "questionId": "1",
+      "title": "스택오버플로우 첫 질문",
+      "content": "첫번째 질문",
+      "createdAt": "3 days ago",
+      "modifiedAt": "today",
+      "memberId": "hihijin",
+      "answers": [
+        {
+          "id": "2",
+          "questionId": "1",
+          "answerId": "1",
+          "content": "첫번째 답변",
+          "comments": [
+            {
+              "id": "3",
+              "questionId": "1",
+              "answerId": "1",
+              "commentId": "1",
+              "content": "답변1의 첫번째 댓글"
+            },
+            {
+              "id": "4",
+              "questionId": "1",
+              "answerId": "1",
+              "commentId": "2",
+              "content": "답변1의 두번째 댓글"
+            }
+          ]
+        },
+        {
+          "id": "5",
+          "questionId": "1",
+          "answerId": "2",
+          "content": "두번째 답변",
+          "comments": [
+            {
+              "id": "6",
+              "questionId": "1",
+              "answerId": "2",
+              "commentId": "1",
+              "content": "답변2의 첫번째 댓글"
+            }
+          ]
+        }
+      ]
     }
-    ]
-  }
+  ],
+  "answers": [
+    {
+      "id": "5",
+      "questionId": "1",
+      "answerId": "5",
+      "content": "ㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄻㄴㄻㄴㅇㄹㄴㅇㄹㄷ",
+      "comments": []
+    },
+    {
+      "id": "555",
+      "questionId": "1",
+      "answerId": "555",
+      "content": "2번째 수정입니당",
+      "comments": []
+    },
+    {
+      "id": "0.861929164309704",
+      "questionId": "1",
+      "answerId": "0.861929164309704",
+      "content": "ㅇㅀㅇㅀ",
+      "comments": []
+    }
+  ],
+  "comments": [
+    {
+      "id": "11",
+      "questionId": "1",
+      "answerId": "555",
+      "commentId": "11",
+      "content": "답변2의 첫번째 댓글"
+    },
+    {
+      "id": "0.4718914234785614",
+      "questionId": "1",
+      "answerId": "5",
+      "commentId": "0.4718914234785614",
+      "content": "안녕이건수정",
+      "comments": []
+    },
+    {
+      "id": "0.304857161216157",
+      "questionId": "1",
+      "answerId": "5",
+      "commentId": "0.304857161216157",
+      "content": "ㅌㅊㅍㅌㅊㅍㅌㅊㅍㅇㅌㄹ흉ㄹ홀ㅇ",
+      "comments": []
+    },
+    {
+      "id": "0.05709156404280691",
+      "questionId": "1",
+      "answerId": "0.861929164309704",
+      "commentId": "0.05709156404280691",
+      "content": "ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ",
+      "comments": []
+    },
+    {
+      "id": "0.9013492009666104",
+      "questionId": "1",
+      "answerId": "555",
+      "commentId": "0.9013492009666104",
+      "content": "ㄴㅇㄹㅇㄴㄹㄴ"
+    }
+  ]
+}

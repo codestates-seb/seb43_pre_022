@@ -1,7 +1,12 @@
-import { Route, Routes, Navigate } from 'react-router-dom';
+import {
+  Navigate,
+  Route,
+  Routes,
+} from 'react-router-dom';
 
 import Footer from './Components/Footer';
 import Header from './Components/Header';
+import AnswerEdit from './Pages/AnswerEdit';
 import AskQuestion from './Pages/AskQuestion';
 import ErrorPage from './Pages/ErrorPage';
 import LogOut from './Pages/LogOut';
@@ -29,6 +34,10 @@ function App() {
           element={token ? <Navigate to="/" /> : <SignUp />}
         />
         <Route path="/logout" element={<LogOut />} />
+        <Route
+          path="/answeredit/:id"
+          element={token ? <AnswerEdit /> : <Navigate to="/signin" />}
+        />
         <Route
           path="/askquestion"
           element={token ? <AskQuestion /> : <Navigate to="/signin" />}
