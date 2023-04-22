@@ -39,7 +39,7 @@ export const Main = styled.div`
     list-style: none;
     width: 100%;
   }
-  form,
+  .answerForm,
   .AnswerInput {
     height: 200px;
     width: 98%;
@@ -77,7 +77,8 @@ export const Main = styled.div`
   .answerChoose {
     border: none;
     background: none;
-    margin-left: -50px;
+    margin-left: -70px;
+    margin-right: 10px;
   }
   .PostBtn {
     border-radius: 3px;
@@ -104,16 +105,18 @@ export const Main = styled.div`
     background-color: var(--blue-500);
     border-radius: 3px;
     margin-top: 5px;
+    margin-bottom: 10px;
     border: none;
     color: white;
     padding: 7px;
     font-size: 12px;
-    margin-bottom: 10px;
   }
   .commentUl {
     margin-top: 30px;
     li {
-      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 10px;
       font-size: 13px;
       padding: 10px;
@@ -123,13 +126,42 @@ export const Main = styled.div`
       &:first-child {
         border-top: 1px solid rgba(0, 0, 0, 0.1);
       }
-      button {
-        position: absolute;
-        right: 0px;
+      .commentBtnList {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .commentDeleteBtn,
+      .commentEditBtn {
+        width: 50px;
         color: rgb(212, 215, 218);
         border: none;
         background: none;
         font-size: 11px;
+        &:hover {
+          color: hsl(206, 85%, 57.5%);
+        }
+      }
+      .commentEditForm {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .commentEditInput {
+        float: left;
+        border: 1px solid rgb(203, 207, 210);
+        border-radius: 3px;
+        padding: 2px;
+        &:focus {
+          border: none;
+        }
+      }
+      .commentEditSubmitBtn {
+        float: right;
+        margin-right: 3px;
+        border: none;
+        background: none;
+        color: rgb(212, 215, 218);
         &:hover {
           color: hsl(206, 85%, 57.5%);
         }
@@ -212,22 +244,29 @@ function Mainbar() {
       .then((data) => setComments(data));
   }, []);
 
-  const handleWriteButton = (targetId: string) => {
-    const showInput = document.querySelector('.showInput');
+  const handleWriteButton = (event: any, targetId: string) => {
+    let idx = 0;
+    const elem = event.target.parentElement;
+    for (let i = 0; i < elem.parentNode.childNodes.length; i += 1) {
+      if (elem.parentNode.childNodes[i] === elem) {
+        idx = i;
+      }
+    }
+    const showInput = document.querySelectorAll('.showInput')[idx];
+    const form = document.createElement('form');
     const input = document.createElement('input');
     const button = document.createElement('button');
     button.textContent = 'submit';
+    button.type = 'submit';
+    input.name = 'comment';
     button.classList.add('commentBtn');
     input.classList.add('commentInput');
-    showInput?.appendChild(input);
-    showInput?.appendChild(button);
+    showInput?.appendChild(form);
+    form.appendChild(input);
+    form.appendChild(button);
 
-    let commentLi = '';
-    function commentChangeHandler(e: any): void {
-      commentLi += e.target.value;
-      console.log(e.target.parentElement.parentElement, showInput);
-    }
-    async function commentSubmitHandler() {
+    async function commentSubmitHandler(e: any) {
+      e.preventDefault();
       const number = Math.random().toString();
       try {
         await axios.post('http://localhost:4000/comments', {
@@ -235,17 +274,21 @@ function Mainbar() {
           questionId: question.questionId,
           answerId: targetId,
           commentId: number,
-          content: commentLi,
+          content: e.target.comment.value,
         });
+        window.location.reload();
       } catch (error) {
         navigate('/error');
       }
     }
-    input.addEventListener('change', commentChangeHandler);
-    button.addEventListener('click', commentSubmitHandler);
+    form.addEventListener('submit', (e) => commentSubmitHandler(e));
   };
   async function answerSubmit(e: any) {
     e.preventDefault();
+    if (e.target.answer.value === '') {
+      alert('The content is empty!');
+      window.location.reload();
+    }
     const number = Math.random().toString();
     try {
       await axios.post('http://localhost:4000/answers', {
@@ -278,6 +321,43 @@ function Mainbar() {
     } catch (error) {
       navigate('/error');
     }
+  }
+
+  async function commentEdit(event: any, id: string) {
+    console.log(event.target.parentElement);
+    const commentBtnList = event.target.parentElement;
+    commentBtnList.style = 'display: none';
+
+    const showInput = event.target.parentElement.parentElement;
+    const form = document.createElement('form');
+    const input = document.createElement('input');
+    const button = document.createElement('button');
+    button.textContent = '✔';
+    button.type = 'submit';
+    input.name = 'comment';
+    form.classList.add('commentEditForm');
+    input.classList.add('commentEditInput');
+    button.classList.add('commentEditSubmitBtn');
+    showInput?.appendChild(form);
+    form.appendChild(input);
+    form.appendChild(button);
+
+    async function commentEditHandler(e: any) {
+      e.preventDefault();
+      try {
+        await axios.patch(`http://localhost:4000/comments/${id}`, {
+          id: id,
+          questionId: '1',
+          commentId: id,
+          content: e.target.comment.value,
+          comments: [],
+        });
+        window.location.reload();
+      } catch (error) {
+        navigate('/error');
+      }
+    }
+    form.addEventListener('submit', (e) => commentEditHandler(e));
   }
 
   const answerChoose = () => {
@@ -349,24 +429,34 @@ function Mainbar() {
                 .map((comment) => (
                   <li key={comment.commentId}>
                     {comment.content}
-                    <button
-                      type="button"
-                      onClick={() => commentDelete(comment.id!)}
-                    >
-                      Delete
-                    </button>
+                    <div className="commentBtnList">
+                      <button
+                        className="commentEditBtn"
+                        type="button"
+                        onClick={(e) => commentEdit(e, comment.id!)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="commentDeleteBtn"
+                        type="button"
+                        onClick={() => commentDelete(comment.id!)}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </li>
                 ))}
             </ul>
             <div className="showInput" />
-            <Comment onClick={() => handleWriteButton(answer.id!)}>
+            <Comment onClick={(e) => handleWriteButton(e, answer.id!)}>
               Add a comment
             </Comment>
           </li>
         ))}
       </ul>
       <span className="YourAnswer">Your Answer</span>
-      <form onSubmit={(e) => answerSubmit(e)}>
+      <form className="answerForm" onSubmit={(e) => answerSubmit(e)}>
         <input
           name="answer"
           className="AnswerInput"
