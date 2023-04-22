@@ -5,7 +5,7 @@
       "questionId": "1",
       "title": "스택오버플로우 첫 질문",
       "content": "첫번째 질문",
-      "createdAt": "3 days ago",
+      "createdAt": "2 days ago",
       "modifiedAt": "today",
       "memberId": "hihijin",
       "answers": [
@@ -51,65 +51,64 @@
   ],
   "answers": [
     {
-      "id": "5",
-      "questionId": "1",
-      "answerId": "5",
-      "content": "ㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄹㄴㅇㄻㄴㄻㄴㅇㄹㄴㅇㄹㄷ",
-      "comments": []
-    },
-    {
       "id": "555",
       "questionId": "1",
       "answerId": "555",
+      "memberId": "111",
       "content": "2번째 수정입니당",
+      "createdAt": "2 days ago",
+      "choose": true,
       "comments": []
     },
     {
       "id": "0.861929164309704",
       "questionId": "1",
       "answerId": "0.861929164309704",
+      "memberId": "222",
       "content": "ㅇㅀㅇㅀ",
+      "createdAt": "2 days ago",
+      "choose": false,
+      "comments": []
+    },
+    {
+      "id": "0.0901596974897314",
+      "questionId": "1",
+      "answerId": "0.0901596974897314",
+      "memberId": "333",
+      "content": "이건 답변 수정이야",
+      "createdAt": "2 days ago",
+      "choose": false,
       "comments": []
     }
   ],
   "comments": [
     {
-      "id": "11",
-      "questionId": "1",
-      "answerId": "555",
-      "commentId": "11",
-      "content": "답변2의 첫번째 댓글"
-    },
-    {
-      "id": "0.4718914234785614",
-      "questionId": "1",
-      "answerId": "5",
-      "commentId": "0.4718914234785614",
-      "content": "안녕이건수정",
-      "comments": []
-    },
-    {
-      "id": "0.304857161216157",
-      "questionId": "1",
-      "answerId": "5",
-      "commentId": "0.304857161216157",
-      "content": "ㅌㅊㅍㅌㅊㅍㅌㅊㅍㅇㅌㄹ흉ㄹ홀ㅇ",
-      "comments": []
-    },
-    {
       "id": "0.05709156404280691",
       "questionId": "1",
       "answerId": "0.861929164309704",
       "commentId": "0.05709156404280691",
-      "content": "ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ",
-      "comments": []
+      "memberId": "333",
+      "createdAt": "2 days ago",
+      "content": "ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ"
     },
     {
       "id": "0.9013492009666104",
       "questionId": "1",
       "answerId": "555",
       "commentId": "0.9013492009666104",
-      "content": "ㄴㅇㄹㅇㄴㄹㄴ"
+      "memberId": "33d3",
+      "createdAt": "2 days ago",
+      "content": "sdfsdfsdf",
+      "comments": []
+    },
+    {
+      "id": "0.23012629894412218",
+      "questionId": "1",
+      "answerId": "0.0901596974897314",
+      "commentId": "0.23012629894412218",
+      "memberId": "6333",
+      "createdAt": "2 days ago",
+      "content": "댓글 수정이야"
     }
   ]
 }

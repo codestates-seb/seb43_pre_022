@@ -6,8 +6,6 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import answercheck from '../assets/answercheck.png';
-
 export const Main = styled.div`
   box-sizing: border-box;
   width: 90%;
@@ -27,6 +25,12 @@ export const Main = styled.div`
   @media screen and (max-width: 500px) {
     left: 0px;
     width: 100%;
+  }
+  .answerBtnUserLayout {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20px;
   }
   .QuestionContent,
   .answerli {
@@ -55,17 +59,13 @@ export const Main = styled.div`
     font-size: 20px;
     margin: 10px 0px;
   }
-  .btnList {
-    padding: 0px;
-  }
   .linkBtn {
     border: none;
     color: rgba(0, 0, 0, 0.5);
     background: none;
     font-size: 13px;
-    padding: 0px;
-    margin-top: 20px;
     margin-right: 5px;
+    padding: 0px;
   }
   .answerDeleteBtn,
   .answerEditBtn {
@@ -74,11 +74,15 @@ export const Main = styled.div`
       color: hsl(206, 85%, 57.5%);
     }
   }
-  .answerChoose {
+  .answerChoose,
+  .answerChoose > span {
     border: none;
     background: none;
-    margin-left: -70px;
+    margin-left: -30px;
     margin-right: 10px;
+    font-weight: bold;
+    font-size: 30px;
+    color: gray;
   }
   .PostBtn {
     border-radius: 3px;
@@ -166,6 +170,49 @@ export const Main = styled.div`
           color: hsl(206, 85%, 57.5%);
         }
       }
+      .userId {
+        font-size: 12px;
+        color: #3183d2;
+        &:hover {
+          cursor: pointer;
+          color: #28a4e2;
+        }
+      }
+      .createdTime {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.5);
+        margin-left: 5px;
+      }
+    }
+  }
+`;
+
+export const QuestionUser = styled.div`
+  border: none;
+  background-color: rgb(217, 234, 247);
+  padding: 8px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+  width: 190px;
+  height: 70px;
+  .memberLayout {
+    display: flex;
+    justify-content: baseline;
+    align-items: flex-start;
+    margin-top: 5px;
+  }
+  .userImage {
+    background: black;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+  .userId {
+    font-size: 12px;
+    color: #3183d2;
+    &:hover {
+      cursor: pointer;
+      color: #28a4e2;
     }
   }
 `;
@@ -193,8 +240,11 @@ interface Iquestion {
 interface Ianswer {
   id?: string;
   questionId?: string;
-  answerId?: string;
+  answerId: string;
   content?: string;
+  memberId?: string;
+  createdAt?: string;
+  choose?: boolean;
   comments?: Icomment[];
 }
 interface Icomment {
@@ -202,6 +252,8 @@ interface Icomment {
   questionId?: string;
   answerId?: string;
   commentId: string;
+  memberId?: string;
+  createdAt?: string;
   content?: string;
 }
 
@@ -360,28 +412,54 @@ function Mainbar() {
     form.addEventListener('submit', (e) => commentEditHandler(e));
   }
 
-  const answerChoose = () => {
-    const beforeAnswerChoose = document.querySelectorAll('.beforeAnswerChoose');
-    console.log(beforeAnswerChoose[0]);
+  const answerChoose = (id: string) => {
+    const newAnswers = answers.filter((answer) => answer.choose);
+    if (newAnswers.length !== 0) alert('You already chose a answer!');
+    else {
+      try {
+        axios.patch(`http://localhost:4000/answers/${id}`, {
+          id: id,
+          questionId: '1',
+          answerId: id,
+          choose: true,
+        });
+        window.location.reload();
+      } catch (error) {
+        navigate('/error');
+      }
+    }
   };
 
   return (
     <Main>
       <div className="QuestionContent">
         {question.content}
-        <div className="btnList">
-          <button className="linkBtn" type="button">
-            Share
-          </button>
-          <button className="linkBtn" type="button">
-            Edit
-          </button>
-          <button className="linkBtn" type="button">
-            Follow
-          </button>
-          <button className="linkBtn" type="button">
-            Delete
-          </button>
+        <div className="answerBtnUserLayout">
+          <div className="btnList">
+            <button className="linkBtn" type="button">
+              Share
+            </button>
+            <button className="linkBtn" type="button">
+              Edit
+            </button>
+            <button className="linkBtn" type="button">
+              Follow
+            </button>
+            <button className="linkBtn" type="button">
+              Delete
+            </button>
+          </div>
+          <QuestionUser>
+            <div>Asked</div>
+            <div className="memberLayout">
+              <img
+                alt=""
+                className="userImage"
+                src="https://bantax.co.kr/common/img/default_profile.png"
+              />
+              <span className="userId">{question.memberId}</span>
+            </div>
+          </QuestionUser>
         </div>
       </div>
       <span className="AnswerTitle">{answers.length} Answer</span>
@@ -390,45 +468,59 @@ function Mainbar() {
           <li className="answerli" key={answer.id}>
             <button
               type="button"
-              onClick={answerChoose}
+              onClick={() => answerChoose(answer.id!)}
               className="answerChoose"
             >
-              <img
-                src={answercheck}
-                alt=""
-                width="30px"
-                height="30px"
-                className="beforeAnswerChoose"
-              />
+              {answer.choose ? (
+                <span style={{ color: 'green' }}>✔</span>
+              ) : (
+                <span style={{ color: 'gray' }}>✔</span>
+              )}
             </button>
             {answer.content}
-
-            <div className="btnList">
-              <button className="linkBtn" type="button">
-                Share
-              </button>
-              <Link to={{ pathname: `/answeredit/${answer.id}` }}>
-                <button className="linkBtn answerEditBtn" type="button">
-                  Edit
+            <div className="answerBtnUserLayout">
+              <div className="btnList">
+                <button className="linkBtn" type="button">
+                  Share
                 </button>
-              </Link>
-              <button className="linkBtn" type="button">
-                Follow
-              </button>
-              <button
-                className="linkBtn answerDeleteBtn"
-                type="button"
-                onClick={() => answerDelete(answer.id!)}
-              >
-                Delete
-              </button>
+                <Link to={{ pathname: `/answeredit/${answer.id}` }}>
+                  <button className="linkBtn answerEditBtn" type="button">
+                    Edit
+                  </button>
+                </Link>
+                <button className="linkBtn" type="button">
+                  Follow
+                </button>
+                <button
+                  className="linkBtn answerDeleteBtn"
+                  type="button"
+                  onClick={() => answerDelete(answer.id!)}
+                >
+                  Delete
+                </button>
+              </div>
+              <QuestionUser style={{ background: 'white' }}>
+                <div>Answered {answer.createdAt}</div>
+                <div className="memberLayout">
+                  <img
+                    alt=""
+                    className="userImage"
+                    src="https://bantax.co.kr/common/img/default_profile.png"
+                  />
+                  <span className="userId">{answer.memberId}</span>
+                </div>
+              </QuestionUser>
             </div>
             <ul className="commentUl">
               {comments
                 .filter((comment) => comment.answerId === answer.answerId)
                 .map((comment) => (
                   <li key={comment.commentId}>
-                    {comment.content}
+                    <div>
+                      {comment.content} -{' '}
+                      <span className="userId">{comment.memberId}</span>
+                      <span className="createdTime">{comment.createdAt}</span>
+                    </div>
                     <div className="commentBtnList">
                       <button
                         className="commentEditBtn"

@@ -20,7 +20,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<QuestionList />} />
-        <Route path="/question" element={<SingleQuestion />} />
+        <Route path="/question/:id" element={<SingleQuestion />} />
         <Route
           path="/signin"
           element={token ? <Navigate to="/" /> : <SignIn />}
