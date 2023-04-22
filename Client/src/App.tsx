@@ -1,8 +1,4 @@
-import {
-  Navigate,
-  Route,
-  Routes,
-} from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import Footer from './Components/Footer';
 import Header from './Components/Header';
@@ -24,7 +20,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<QuestionList />} />
-        <Route path="/question" element={<SingleQuestion />} />
+        <Route path="/question/:id" element={<SingleQuestion />} />
         <Route
           path="/signin"
           element={token ? <Navigate to="/" /> : <SignIn />}
