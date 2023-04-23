@@ -6,6 +6,7 @@ import AnswerEdit from './Pages/AnswerEdit';
 import AskQuestion from './Pages/AskQuestion';
 import ErrorPage from './Pages/ErrorPage';
 import LogOut from './Pages/LogOut';
+import QuestionEdit from './Pages/QuestionEdit';
 import QuestionList from './Pages/QuestionList';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
@@ -40,6 +41,10 @@ function App() {
           element={token ? <AskQuestion /> : <Navigate to="/signin" />}
         />
         <Route path="/error" element={<ErrorPage />} />
+        <Route
+          path="/questionedit/"
+          element={token ? <QuestionEdit /> : <Navigate to="/signin" />}
+        />
       </Routes>
       <Footer />
     </div>

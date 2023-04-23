@@ -5,7 +5,7 @@ import '../Global.css';
 // import { Editor } from '@toast-ui/react-editor';
 import axios from 'axios';
 import { useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import 'tui-color-picker/dist/tui-color-picker.css';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -110,7 +110,7 @@ function AskQuestion() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { id } = useParams();
+
   const questions = useSelector((state: RootState) => state.crudquestion);
 
   const todayTime = () => {
@@ -124,8 +124,8 @@ function AskQuestion() {
   const handleSubmit = () => {
     axios
       .post('http://localhost:4000/questions', {
-        id,
-        questionId: id,
+        id: (questions.length + 1).toString(),
+        questionId: (questions.length + 1).toString(),
         title: titleValue,
         content: inputValue,
         createdAt: todayTime(),

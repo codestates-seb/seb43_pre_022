@@ -463,6 +463,31 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
     }
   };
 
+  async function handleQuestionDelete(id: string) {
+    if (!token) {
+      alert('You should Log in');
+      navigate('/signin');
+    } else {
+      try {
+        console.log(id);
+        await axios.delete(`http://localhost:4000/questions/${id}`);
+        window.location.reload();
+        navigate(-1);
+      } catch (error) {
+        navigate('/error');
+      }
+    }
+  }
+
+  const questionEditClick = (id: string) => {
+    if (!token) {
+      alert('You should Log in');
+      navigate('/signin');
+    } else {
+      navigate(`/questionedit`, { state: id });
+    }
+  };
+
   return (
     <Main>
       <div className="QuestionContent">
@@ -472,13 +497,21 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
             <button className="linkBtn" type="button">
               Share
             </button>
-            <button className="linkBtn" type="button">
+            <button
+              className="linkBtn"
+              type="button"
+              onClick={() => questionEditClick(question.id)}
+            >
               Edit
             </button>
             <button className="linkBtn" type="button">
               Follow
             </button>
-            <button className="linkBtn" type="button">
+            <button
+              className="linkBtn"
+              type="button"
+              onClick={() => handleQuestionDelete(question.id)}
+            >
               Delete
             </button>
           </div>

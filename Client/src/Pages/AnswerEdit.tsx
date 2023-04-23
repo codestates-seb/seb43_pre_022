@@ -97,7 +97,8 @@ function AnswerEdit() {
   const { state } = useLocation();
   console.log(state.id);
 
-  const token = localStorage.getItem('access_token');
+  let token = localStorage.getItem('access_token');
+  token = 'token';
 
   async function answerEditSubmit(e: any) {
     if (!token) {
