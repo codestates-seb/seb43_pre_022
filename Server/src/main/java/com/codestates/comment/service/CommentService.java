@@ -30,7 +30,7 @@ public class CommentService {
         Comment findComment = findVerifiedComment(comment.getCommentId());
         Long memberIdFromToken = getMemberIdFromToken();
 
-        if(comment.getMember().getMemberId() != memberIdFromToken) {
+        if(findComment.getMember().getMemberId() != memberIdFromToken) {
             throw new BusinessLogicException(ExceptionCode.CANNOT_CHANGE_COMMENT);
         }
 

@@ -34,5 +34,17 @@ public interface CommentMapper {
 
         return comment;
     }
-    CommentResponseDto commentToCommentResponseDto(Comment comment);
+
+    default CommentResponseDto commentToCommentResponseDto(Comment comment) {
+        CommentResponseDto commentResponseDto = new CommentResponseDto();
+
+        commentResponseDto.setCommentId(comment.getCommentId());
+        commentResponseDto.setAnswerId(comment.getAnswer().getAnswerId());
+        commentResponseDto.setMemberId(comment.getMember().getMemberId());
+        commentResponseDto.setContent(comment.getContent());
+        commentResponseDto.setCreatedAt(comment.getCreatedAt());
+        commentResponseDto.setModifiedAt(comment.getModifiedAt());
+
+        return commentResponseDto;
+    }
 }

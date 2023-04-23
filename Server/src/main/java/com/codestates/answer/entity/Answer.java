@@ -20,8 +20,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class
-Answer {
+public class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
