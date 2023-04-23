@@ -6,6 +6,8 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
+import { TypeAnswer, TypeComment, TypeQuestion } from '../TypeQuestion';
+
 export const Main = styled.div`
   box-sizing: border-box;
   width: 90%;
@@ -227,39 +229,16 @@ export const Comment = styled.button`
   }
 `;
 
-interface Iquestion {
-  id?: string;
-  questionId?: string;
-  title?: string;
-  content?: string;
-  createdAt?: string;
-  modifiedAt?: string;
-  memberId?: string;
-  answers?: Ianswer[];
-}
-interface Ianswer {
-  id?: string;
-  questionId?: string;
-  answerId: string;
-  content?: string;
-  memberId?: string;
-  createdAt?: string;
-  choose?: boolean;
-  comments?: Icomment[];
-}
-interface Icomment {
-  id?: string;
-  questionId?: string;
-  answerId?: string;
-  commentId: string;
-  memberId?: string;
-  createdAt?: string;
-  content?: string;
+interface Iprops {
+  chooseId: string;
 }
 
-function Mainbar() {
+function Mainbar({ chooseId }: Iprops) {
+  const displayName = 'hihijin';
+  const token = localStorage.getItem('access_token');
+
   const navigate = useNavigate();
-  const [question, setQuestion] = useState<Iquestion>({
+  const [question, setQuestion] = useState<TypeQuestion>({
     id: '',
     questionId: '',
     title: '',
@@ -267,14 +246,13 @@ function Mainbar() {
     createdAt: '',
     modifiedAt: '',
     memberId: '',
-    answers: [],
   });
-  const [answers, setAnswers] = useState<Ianswer[]>([]);
-  const [comments, setComments] = useState<Icomment[]>([]);
+  const [answers, setAnswers] = useState<TypeAnswer[]>([]);
+  const [comments, setComments] = useState<TypeComment[]>([]);
 
+  const queId = chooseId;
   useEffect(() => {
     async function getData() {
-      const queId = '1';
       const questionData: any = await axios.get(
         `http://localhost:4000/questions/?questionId=${queId}`,
       );
@@ -297,6 +275,10 @@ function Mainbar() {
   }, []);
 
   const handleWriteButton = (event: any, targetId: string) => {
+    if (!token) {
+      alert('You should Log in');
+      navigate('/signin');
+    }
     let idx = 0;
     const elem = event.target.parentElement;
     for (let i = 0; i < elem.parentNode.childNodes.length; i += 1) {
@@ -318,65 +300,98 @@ function Mainbar() {
     form.appendChild(button);
 
     async function commentSubmitHandler(e: any) {
+      if (!token) {
+        alert('You should Log in');
+        navigate('/signin');
+      } else {
+        e.preventDefault();
+        const number = Math.random().toString();
+        const date = new Date();
+        try {
+          await axios.post('http://localhost:4000/comments', {
+            id: number,
+            questionId: question.questionId,
+            answerId: targetId,
+            commentId: number,
+            content: e.target.comment.value,
+            memberId: displayName,
+            createdAt: `${
+              date.toDateString().split('2023')[0]
+            } at ${date.getHours()}:${date.getMinutes()}`,
+          });
+          window.location.reload();
+        } catch (error) {
+          navigate('/error');
+        }
+      }
+    }
+    form.addEventListener('submit', (e) => commentSubmitHandler(e));
+  };
+
+  async function answerSubmit(e: any) {
+    if (!token) {
+      alert('You should Log in');
+      navigate('/signin');
+    } else {
       e.preventDefault();
+      if (e.target.answer.value === '') {
+        alert('The content is empty!');
+        window.location.reload();
+      }
       const number = Math.random().toString();
+      const date = new Date();
       try {
-        await axios.post('http://localhost:4000/comments', {
+        await axios.post('http://localhost:4000/answers', {
           id: number,
-          questionId: question.questionId,
-          answerId: targetId,
-          commentId: number,
-          content: e.target.comment.value,
+          questionId: '1',
+          answerId: number,
+          content: e.target.answer.value,
+          choose: false,
+          memberId: displayName,
+          createdAt: `${
+            date.toDateString().split('2023')[0]
+          } at ${date.getHours()}:${date.getMinutes()}`,
         });
         window.location.reload();
       } catch (error) {
         navigate('/error');
       }
     }
-    form.addEventListener('submit', (e) => commentSubmitHandler(e));
-  };
-  async function answerSubmit(e: any) {
-    e.preventDefault();
-    if (e.target.answer.value === '') {
-      alert('The content is empty!');
-      window.location.reload();
-    }
-    const number = Math.random().toString();
-    try {
-      await axios.post('http://localhost:4000/answers', {
-        id: number,
-        questionId: '1',
-        answerId: number,
-        content: e.target.answer.value,
-        comments: [],
-      });
-      window.location.reload();
-    } catch (error) {
-      navigate('/error');
-    }
   }
 
   async function commentDelete(id: string) {
-    try {
-      await axios.delete(`http://localhost:4000/comments/${id}`);
-      window.location.reload();
-    } catch (error) {
-      navigate('/error');
+    if (!token) {
+      alert('You should Log in');
+      navigate('/signin');
+    } else {
+      try {
+        await axios.delete(`http://localhost:4000/comments/${id}`);
+        window.location.reload();
+      } catch (error) {
+        navigate('/error');
+      }
     }
   }
 
   async function answerDelete(id: string) {
-    console.log(id);
-    try {
-      await axios.delete(`http://localhost:4000/answers/${id}`);
-      window.location.reload();
-    } catch (error) {
-      navigate('/error');
+    if (!token) {
+      alert('You should Log in');
+      navigate('/signin');
+    } else {
+      try {
+        await axios.delete(`http://localhost:4000/answers/${id}`);
+        window.location.reload();
+      } catch (error) {
+        navigate('/error');
+      }
     }
   }
 
   async function commentEdit(event: any, id: string) {
-    console.log(event.target.parentElement);
+    if (!token) {
+      alert('You should Log in');
+      navigate('/signin');
+    }
     const commentBtnList = event.target.parentElement;
     commentBtnList.style = 'display: none';
 
@@ -395,37 +410,44 @@ function Mainbar() {
     form.appendChild(button);
 
     async function commentEditHandler(e: any) {
-      e.preventDefault();
-      try {
-        await axios.patch(`http://localhost:4000/comments/${id}`, {
-          id: id,
-          questionId: '1',
-          commentId: id,
-          content: e.target.comment.value,
-          comments: [],
-        });
-        window.location.reload();
-      } catch (error) {
-        navigate('/error');
+      if (!token) {
+        alert('You should Log in');
+        navigate('/signin');
+      } else {
+        e.preventDefault();
+        const date = new Date();
+        try {
+          await axios.patch(`http://localhost:4000/comments/${id}`, {
+            content: e.target.comment.value,
+            createdAt: `${
+              date.toDateString().split('2023')[0]
+            } at ${date.getHours()}:${date.getMinutes()}`,
+          });
+          window.location.reload();
+        } catch (error) {
+          navigate('/error');
+        }
       }
     }
     form.addEventListener('submit', (e) => commentEditHandler(e));
   }
 
   const answerChoose = (id: string) => {
-    const newAnswers = answers.filter((answer) => answer.choose);
-    if (newAnswers.length !== 0) alert('You already chose a answer!');
-    else {
-      try {
-        axios.patch(`http://localhost:4000/answers/${id}`, {
-          id: id,
-          questionId: '1',
-          answerId: id,
-          choose: true,
-        });
-        window.location.reload();
-      } catch (error) {
-        navigate('/error');
+    if (!token) {
+      alert('You should Log in');
+      navigate('/signin');
+    } else {
+      const newAnswers = answers.filter((answer) => answer.choose);
+      if (newAnswers.length !== 0) alert('You already chose a answer!');
+      else {
+        try {
+          axios.patch(`http://localhost:4000/answers/${id}`, {
+            choose: true,
+          });
+          window.location.reload();
+        } catch (error) {
+          navigate('/error');
+        }
       }
     }
   };

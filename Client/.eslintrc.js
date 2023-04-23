@@ -22,10 +22,6 @@ module.exports = {
         labelAttributes: ['htmlFor'],
       },
     ],
-    'react/function-component-definition': [
-      2,
-      { namedComponents: 'function-declaration' },
-    ],
     'react/destructuring-assignment': [0, 'always'],
     'object-shorthand': 0,
     'object-literal-shorthand': 0,
@@ -48,6 +44,13 @@ module.exports = {
     'react/jsx-filename-extension': [
       2,
       { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+    ],
+    'react/function-component-definition': [
+      'error',
+      {
+        namedComponents: ['function-declaration', 'arrow-function'],
+        unnamedComponents: 'arrow-function',
+      },
     ],
     'jsx-a11y/no-noninteractive-element-interactions': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,

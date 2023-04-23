@@ -1,33 +1,35 @@
 export interface TypeQuestion {
+  id: string;
   questionId: string;
   title: string;
   content: string;
   createdAt: string;
   modifiedAt: string;
   memberId: string;
-  answer?: TypeAnswer[];
 }
 export interface TypeAnswer {
+  id: string;
   questionId: string;
   answerId: string;
   content: string;
-  createdAt: string;
-  modifiedAt: string;
   memberId: string;
-  comment?: TypeComment[];
+  createdAt: string;
+  choose: boolean;
 }
 export interface TypeComment {
+  id: string;
+  questionId: string;
   answerId: string;
   commentId: string;
-  content: string;
-  createdAt: string;
   memberId: string;
+  createdAt: string;
+  content: string;
 }
 export interface UserInfo {
-  memberID: string | null; 
+  memberID: string | null;
   email: string | null;
   displayname: string | null;
-  location: string | null; 
+  location: string | null;
   title: string | null;
   aboutme: string | null;
 }

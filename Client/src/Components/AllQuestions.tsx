@@ -1,16 +1,21 @@
 import '../Global.css';
 
-import axios from 'axios';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+
+import axios from 'axios';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { READ } from '../Reducers/questionReducer';
 
-import ButtonCom from '../Styles/ButtonCom';
-
-import { Question } from '../Reducers/questionReducer';
+import {
+  Question,
+  READ,
+} from '../Reducers/questionReducer';
 import { RootState } from '../store/store';
+import ButtonCom from '../Styles/ButtonCom';
 
 export const AllQuestionContainer = styled.div`
   margin-top: 50px;
