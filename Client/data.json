@@ -1,114 +1,14 @@
 {
   "questions": [
     {
-      "id": "1",
-      "questionId": "1",
-      "title": "스택오버플로우 첫 질문",
-      "content": "첫번째 질문",
-      "createdAt": "2 days ago",
-      "modifiedAt": "today",
-      "memberId": "hihijin",
-      "answers": [
-        {
-          "id": "2",
-          "questionId": "1",
-          "answerId": "1",
-          "content": "첫번째 답변",
-          "comments": [
-            {
-              "id": "3",
-              "questionId": "1",
-              "answerId": "1",
-              "commentId": "1",
-              "content": "답변1의 첫번째 댓글"
-            },
-            {
-              "id": "4",
-              "questionId": "1",
-              "answerId": "1",
-              "commentId": "2",
-              "content": "답변1의 두번째 댓글"
-            }
-          ]
-        },
-        {
-          "id": "5",
-          "questionId": "1",
-          "answerId": "2",
-          "content": "두번째 답변",
-          "comments": [
-            {
-              "id": "6",
-              "questionId": "1",
-              "answerId": "2",
-              "commentId": "1",
-              "content": "답변2의 첫번째 댓글"
-            }
-          ]
-        }
-      ]
-    }
-  ],
-  "answers": [
-    {
-      "id": "555",
-      "questionId": "1",
-      "answerId": "555",
-      "memberId": "111",
-      "content": "2번째 수정입니당",
-      "createdAt": "2 days ago",
-      "choose": true,
-      "comments": []
-    },
-    {
-      "id": "0.861929164309704",
-      "questionId": "1",
-      "answerId": "0.861929164309704",
-      "memberId": "222",
-      "content": "ㅇㅀㅇㅀ",
-      "createdAt": "2 days ago",
-      "choose": false,
-      "comments": []
-    },
-    {
-      "id": "0.0901596974897314",
-      "questionId": "1",
-      "answerId": "0.0901596974897314",
-      "memberId": "333",
-      "content": "이건 답변 수정이야",
-      "createdAt": "2 days ago",
-      "choose": false,
-      "comments": []
-    }
-  ],
-  "comments": [
-    {
-      "id": "0.05709156404280691",
-      "questionId": "1",
-      "answerId": "0.861929164309704",
-      "commentId": "0.05709156404280691",
-      "memberId": "333",
-      "createdAt": "2 days ago",
-      "content": "ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ"
-    },
-    {
-      "id": "0.9013492009666104",
-      "questionId": "1",
-      "answerId": "555",
-      "commentId": "0.9013492009666104",
-      "memberId": "33d3",
-      "createdAt": "2 days ago",
-      "content": "sdfsdfsdf",
-      "comments": []
-    },
-    {
-      "id": "0.23012629894412218",
-      "questionId": "1",
-      "answerId": "0.0901596974897314",
-      "commentId": "0.23012629894412218",
-      "memberId": "6333",
-      "createdAt": "2 days ago",
-      "content": "댓글 수정이야"
+      "questionId": "0",
+      "title": "아이구",
+      "content": "아고아고",
+      "createdAt": "4월 23일",
+      "modifiedAt": "4월 23일",
+      "memberId": "raccoon0814",
+      "answer": [],
+      "id": 1
     }
   ]
 }
