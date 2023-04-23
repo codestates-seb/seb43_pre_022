@@ -8,7 +8,7 @@ export interface Question {
   createdAt: string;
   modifiedAt: string;
   memberId: string;
-  answer: any[];
+  answerIds: string[];
 }
 
 const initialState: Question[] = [
@@ -41,10 +41,10 @@ const initialState: Question[] = [
       JSON.parse(localStorage.getItem('memberId')!) === null
         ? ''
         : JSON.parse(localStorage.getItem('memberId')!),
-    answer:
-      JSON.parse(localStorage.getItem('answer')!) === null
+    answerIds:
+      JSON.parse(localStorage.getItem('answerIds')!) === null
         ? []
-        : JSON.parse(localStorage.getItem('answer')!),
+        : JSON.parse(localStorage.getItem('answerIds')!),
   },
 ];
 
