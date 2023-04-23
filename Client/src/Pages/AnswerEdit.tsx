@@ -95,19 +95,18 @@ function AnswerEdit() {
   const navigate = useNavigate();
 
   const { id } = useParams();
-  console.log(id);
 
   async function answerEditSubmit(e: any) {
     e.preventDefault();
+    const date = new Date();
     try {
       await axios.patch(`http://localhost:4000/answers/${id}`, {
-        id: id,
-        questionId: '1',
-        answerId: id,
         content: e.target.answer.value,
-        comments: [],
+        createdAt: `${
+          date.toDateString().split('2023')[0]
+        } at ${date.getHours()}:${date.getMinutes()}`,
       });
-      navigate('/question');
+      navigate('/question/1');
     } catch (error) {
       navigate('/error');
     }

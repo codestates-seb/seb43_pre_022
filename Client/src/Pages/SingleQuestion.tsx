@@ -3,13 +3,14 @@ import '../Global.css';
 import { useEffect, useState } from 'react';
 
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Asked from '../Components/Asked';
 import LeftBar from '../Components/LeftBar';
 import Mainbar from '../Components/Mainbar';
 import Sidebar from '../Components/Sidebar';
+import { TypeQuestion } from '../TypeQuestion';
 
 export const Content = styled.div`
   box-sizing: border-box;
@@ -66,21 +67,15 @@ export const SectionDown = styled.div`
   justify-content: baseline;
 `;
 
-interface Iquestion {
-  id?: string;
-  questionId?: string;
-  title?: string;
-  content?: string;
-  createdAt?: string;
-  modifiedAt?: string;
-  memberId?: string;
-  answers?: [];
-}
-
 function SingleQuestion() {
-  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const [question, setQuestion] = useState<Iquestion>({
+  let { id } = useParams();
+  id = id?.toString();
+
+  const token = localStorage.getItem('access_token');
+
+  const [question, setQuestion] = useState<TypeQuestion>({
     id: '',
     questionId: '',
     title: '',
@@ -88,20 +83,26 @@ function SingleQuestion() {
     createdAt: '',
     modifiedAt: '',
     memberId: '',
-    answers: [],
   });
 
   useEffect(() => {
     async function getData() {
       const questionData: any = await axios.get(
-        `http://localhost:4000/questions/?questionId=${id}`,
+        `http://localhost:4000/questions?questionId=${id}`,
       );
       setQuestion(questionData.data[0]);
-      console.log(question);
     }
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(question);
+
+  function askQuestionBtn() {
+    if (!token) {
+      alert('You should sign in');
+      navigate('/signin');
+    } else navigate('/askquestion');
+  }
 
   return (
     <Content>
@@ -110,9 +111,9 @@ function SingleQuestion() {
         <SectionUp>
           <Title>
             <div className="questionTitle">{question.title}</div>
-            <Link to="/askquestion">
-              <button type="button">Ask Question</button>
-            </Link>
+            <button onClick={askQuestionBtn} type="button">
+              Ask Question
+            </button>
           </Title>
           <Asked
             createdAt={question.createdAt!}
@@ -120,7 +121,7 @@ function SingleQuestion() {
           />
         </SectionUp>
         <SectionDown>
-          <Mainbar />
+          <Mainbar chooseId={id!} />
           <Sidebar />
         </SectionDown>
       </QuestionPage>

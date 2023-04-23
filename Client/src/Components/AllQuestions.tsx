@@ -98,7 +98,7 @@ const WriterInfo = styled.div`
 `;
 
 function AllQuestions() {
-  const question = { id: 1 };
+  const id = 1;
   return (
     <AllQuestionContainer>
       <div className="AllQuestionHeader">
@@ -116,7 +116,7 @@ function AllQuestions() {
           <div className="CounterAnswer">0answers</div>
           <div>
             <Link
-              to={{ pathname: `/question/${question.id}` }}
+              to={{ pathname: `/question/${id}` }}
               style={{ textDecoration: 'none' }}
             >
               <div className="QuestionTitle" role="presentation">
