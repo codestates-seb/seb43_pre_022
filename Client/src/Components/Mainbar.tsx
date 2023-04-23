@@ -235,7 +235,8 @@ interface Iprops {
 
 function Mainbar({ chooseId }: Iprops): JSX.Element {
   const displayName = 'hihijin';
-  const token = localStorage.getItem('access_token');
+  let token = localStorage.getItem('access_token');
+  token = 'token';
 
   const navigate = useNavigate();
   const [question, setQuestion] = useState<TypeQuestion>({

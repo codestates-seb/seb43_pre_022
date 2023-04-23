@@ -125,13 +125,13 @@ function AskQuestion() {
     axios
       .post('http://localhost:4000/questions', {
         id,
-        questionId: questions.length.toString(),
+        questionId: id,
         title: titleValue,
         content: inputValue,
         createdAt: todayTime(),
         modifiedAt: todayTime(),
         memberId: 'raccoon0814',
-        answer: [],
+        answerIds: [],
       })
       .then((response) => {
         const { data } = response;
