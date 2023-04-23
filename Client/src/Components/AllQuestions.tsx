@@ -3,7 +3,7 @@ import '../Global.css';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { READ } from '../Reducers/questionReducer';
 
@@ -116,11 +116,6 @@ const WriterInfo = styled.div`
 `;
 
 function AllQuestions() {
-  const navigate = useNavigate();
-  const singleQuestionClick = () => {
-    navigate('/question');
-  };
-
   const dispatch = useDispatch();
   const questions = useSelector((state: RootState) => state.crudquestion);
 
@@ -158,13 +153,11 @@ function AllQuestions() {
                   {item.answer.length} answers
                 </div>
                 <div className="SingleQuestionContainer">
-                  <div
-                    role="presentation"
-                    className="QuestionTitle"
-                    onClick={singleQuestionClick}
-                  >
-                    {item.title}
-                  </div>
+                  <Link to={{ pathname: `/questions/${item.questionId}` }}>
+                    <div role="presentation" className="QuestionTitle">
+                      {item.title}
+                    </div>
+                  </Link>
                   <div className="QuestionText">{item.content}</div>
                   <WriterInfo>
                     <span>{item.memberId}</span>
