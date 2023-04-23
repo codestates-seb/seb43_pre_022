@@ -1,24 +1,58 @@
 {
-  "questions": [
-    {
-      "questionId": "0",
-      "title": "띠로리",
-      "content": "띠로리로리",
-      "createdAt": "4월 23일",
-      "modifiedAt": "4월 23일",
-      "memberId": "raccoon0814",
-      "answer": [],
-      "id": 1
-    },
-    {
-      "questionId": "1",
-      "title": "omg",
-      "content": "909090",
-      "createdAt": "4월 23일",
-      "modifiedAt": "4월 23일",
-      "memberId": "raccoon0814",
-      "answer": [],
-      "id": 2
+    "questions": [
+      {"questionId":"1",
+       "title": "스택오버플로우 첫 질문",
+         "content":"I would want to code a strategy where I buy exactly when the price reaches the EMA252. The EMA changes during the day, following the price changes. So I have choosen to buy when the price reach the ta.ema(close[1], 252), to facilitate the process and the backtesting. The problem is that the order is sent at the closing of the day or at the opening of the next day (if I use the function process_orders_on_close=false). I have tried to use a buy limit order but the buy limit order is only effective starting from the day after.So when the price bounces on the EMA of the previous day, the buy order is sent way too late and way too high: at the closing. How to correct it?",
+         "createdAt":"3 days ago",
+         "modifiedAt":"today",
+         "memberId":"hihijin",
+       "answer": [
+      {"questionId":"1",
+       "answerId":"1",
+         "content":"첫번째 답변",
+         "createdAt":"2023-04-19",
+         "modifiedAt":"2023-04-19",
+         "memberId":"hihijin",
+        "comment": [
+      {"answerId":"1",
+       "commentId":"1",
+         "content":"답변1의 첫번째 댓글",
+         "createdAt":"yesterday",
+         "memberId":"hihijin"
+      },
+      {"answerId":"1",
+       "commentId":"2",
+         "content":"답변1의 두번째 댓글",
+         "createdAt":"yesterday",
+         "memberId":"hihijin"
+      }
+    ]
+      },
+      {
+        "questionId":"1",
+       "answerId":"2",
+         "content":"두번째 답변",
+         "createdAt":"2023-04-19",
+         "modifiedAt":"2023-04-19",
+         "memberId":"hihijin",
+        "comment": [
+      {"answerId":"2",
+       "commentId":"1",
+         "content":"답변2의 첫번째 댓글",
+         "createdAt":"yesterday",
+         "memberId":"hihijin"
+      }
+    ]
+      }
+    ]
+      },
+      {"questionId":"2",
+       "title": "스택오버플로우 두번째 질문",
+         "content":"두번째 질문",
+         "createdAt":"3 days ago",
+         "modifiedAt":"today",
+         "memberId":"hihijin",
+       "answer": []
     }
-  ]
-}
+    ]
+  }
