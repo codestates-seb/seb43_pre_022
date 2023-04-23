@@ -1,12 +1,17 @@
 import '../Global.css';
 
-import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
-import '@toast-ui/editor/dist/toastui-editor.css';
-import { Editor } from '@toast-ui/react-editor';
-import { Link } from 'react-router-dom';
-import 'tui-color-picker/dist/tui-color-picker.css';
-
+// import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+// import '@toast-ui/editor/dist/toastui-editor.css';
+// import { Editor } from '@toast-ui/react-editor';
+import axios from 'axios';
+import { useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+// import 'tui-color-picker/dist/tui-color-picker.css';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { CREATE } from '../Reducers/questionReducer';
+import { RootState } from '../store/store';
+
 import AskQuestionTip from '../Components/AskQuestionTip';
 import ButtonCom from '../Styles/ButtonCom';
 
@@ -40,10 +45,10 @@ const AskQuestionNotice = styled.div`
   border-radius: 5px;
   width: 50%;
   padding: 15px;
+`;
 
-  .SubHeadingStpes {
-    font-size: 15px;
-  }
+const SubHeadingStpes = styled.span`
+  font-size: 15px;
 `;
 
 const SubHeading = styled.div`
@@ -65,6 +70,10 @@ const InputTitleContainer = styled.div`
 
 const InputTitle = styled.input`
   width: 100%;
+`;
+
+const InputText = styled(InputTitle)`
+  height: 300px;
 `;
 
 const InputQuesiton = styled.div`
@@ -96,6 +105,42 @@ const SubmitCansleButton = styled(ButtonCom)`
 `;
 
 function AskQuestion() {
+  const [titleValue, setTitleValue] = useState('');
+  const [inputValue, setInputValue] = useState('');
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const questions = useSelector((state: RootState) => state.crudquestion);
+
+  const todayTime = () => {
+    const now = new Date();
+    const todataMonth = now.getMonth() + 1;
+    const todayDate = now.getDate();
+
+    return `${todataMonth}월 ${todayDate}일`;
+  };
+
+  const handleSubmit = () => {
+    axios
+      .post('http://localhost:4000/questions', {
+        id,
+        questionId: questions.length.toString(),
+        title: titleValue,
+        content: inputValue,
+        createdAt: todayTime(),
+        modifiedAt: todayTime(),
+        memberId: 'raccoon0814',
+        answer: [],
+      })
+      .then((response) => {
+        const { data } = response;
+        dispatch(CREATE(data));
+        navigate('/');
+      })
+      .catch((error) => console.error(error));
+  };
+
   return (
     <Div>
       <AskQuestionContainer>
@@ -108,7 +153,7 @@ function AskQuestion() {
             non-programming question? See the topics here to find a relevant
             site.
           </Summary>
-          <span className="SubHeadingStpes">Stpes</span>
+          <SubHeadingStpes>Stpes</SubHeadingStpes>
           <ul>
             <li>Summarize your problem in a one-line title.</li>
             <li>Describe your problem in more detail.</li>
@@ -128,17 +173,27 @@ function AskQuestion() {
           <InputTitle
             type="text"
             placeholder="e.g. Is ther R function for finding the index of an element in a vector?"
+            value={titleValue}
+            onChange={(event) => setTitleValue(event.target.value)}
           />
         </InputTitleContainer>
         <InputQuesiton>
-          <Editor
+          {/* <Editor
             height="400px"
             initialEditType="wysiwyg"
             plugins={[colorSyntax]}
+          /> */}
+          <InputText
+            type="text"
+            placeholder="내용을 입력하세요"
+            value={inputValue}
+            onChange={(evnet) => setInputValue(evnet.target.value)}
           />
         </InputQuesiton>
         <AskButtonContainer>
-          <QuestionSubmitButton>등록</QuestionSubmitButton>
+          <QuestionSubmitButton onClick={handleSubmit}>
+            등록
+          </QuestionSubmitButton>
           <Link to="/">
             <SubmitCansleButton>취소</SubmitCansleButton>
           </Link>

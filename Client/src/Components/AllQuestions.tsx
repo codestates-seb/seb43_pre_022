@@ -110,7 +110,7 @@ const WriterInfo = styled.div`
   justify-content: flex-end;
   align-items: flex-end;
   padding-bottom: 10px;
-  position: > span {
+  > span {
     margin: 5px;
   }
 `;
@@ -124,14 +124,11 @@ function AllQuestions() {
   const dispatch = useDispatch();
   const questions = useSelector((state: RootState) => state.crudquestion);
 
-  console.log(questions);
-
   useEffect(() => {
-    setTimeout(() => {
+    setTimeout(async () => {
       axios('http://localhost:4000/questions')
         .then((response) => {
           const { data } = response;
-          console.log(data);
           dispatch(READ(data));
         })
         .catch((error) => console.log(error));

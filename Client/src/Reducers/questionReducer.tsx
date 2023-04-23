@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Question {
+  id: number;
   questionId: string;
   title: string;
   content: string;
@@ -12,6 +13,10 @@ export interface Question {
 
 const initialState: Question[] = [
   {
+    id:
+      JSON.parse(localStorage.getItem('id')!) === null
+        ? ''
+        : JSON.parse(localStorage.getItem('id')!),
     questionId:
       JSON.parse(localStorage.getItem('questionId')!) === null
         ? ''
@@ -38,7 +43,7 @@ const initialState: Question[] = [
         : JSON.parse(localStorage.getItem('memberId')!),
     answer:
       JSON.parse(localStorage.getItem('answer')!) === null
-        ? ''
+        ? []
         : JSON.parse(localStorage.getItem('answer')!),
   },
 ];
@@ -51,11 +56,15 @@ const questionSlice: any = createSlice({
       state: Question[],
       action: PayloadAction<Question[]>,
     ): Question[] => {
-      console.log(action.payload);
       return action.payload;
+    },
+    CREATE: (state: Question[], action: PayloadAction<Question>) => {
+      console.log(action.payload);
+      const newQuestion = action.payload;
+      return [...state, newQuestion];
     },
   },
 });
 
-export const { READ } = questionSlice.actions;
+export const { READ, CREATE } = questionSlice.actions;
 export default questionSlice.reducer;
