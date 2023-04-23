@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @Validated
@@ -58,6 +59,14 @@ public class CommentController {
         CommentResponseDto response = commentMapper.commentToCommentResponseDto(comment);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
+    @GetMapping("/comments")
+    public ResponseEntity getComments() {
+        List<Comment> comments = commentService.findComments();
+        List<CommentResponseDto> responses = commentMapper.commentsToCommentResponseDtos(comments);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(responses), HttpStatus.OK);
     }
 
     @DeleteMapping("/comments/{comment-id}")

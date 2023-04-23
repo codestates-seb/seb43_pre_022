@@ -57,4 +57,9 @@ public interface AnswerMapper {
         return answerResponseDto;
     }
 
+    default List<AnswerResponseDto> answersToAnswerResponseDtos(List<Answer> answers) {
+        return answers.stream()
+                .map(answer -> answerToAnswerResponseDto(answer))
+                .collect(Collectors.toList());
+    }
 }

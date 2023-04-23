@@ -85,7 +85,11 @@ public class AnswerService {
     public List<Answer> findAnswers(long questionId) {
         return answerRepository.findByQuestion_QuestionId(questionId);
     }
-    
+
+    public List<Answer> findAnswers() {
+        return answerRepository.findAll();
+    }
+
     private Long getMemberIdFromToken() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         

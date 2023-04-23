@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @Validated
@@ -57,6 +58,14 @@ public class AnswerController {
         AnswerResponseDto response = answerMapper.answerToAnswerResponseDto(answer);
 
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
+    @GetMapping("/answers")
+    public ResponseEntity getAnswers() {
+        List<Answer> answers = answerService.findAnswers();
+        List<AnswerResponseDto> responses = answerMapper.answersToAnswerResponseDtos(answers);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(responses), HttpStatus.OK);
     }
 
     @DeleteMapping("/answers/{answer-id}")

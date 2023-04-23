@@ -52,8 +52,12 @@ public class CommentService {
         commentRepository.delete(findComment);
     }
 
-    public List findComments(long answerId) {
+    public List<Comment> findComments(long answerId) {
         return commentRepository.findByAnswer_AnswerId(answerId);
+    }
+
+    public List<Comment> findComments() {
+        return commentRepository.findAll();
     }
 
     public Comment findComment(long commentId) {

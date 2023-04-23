@@ -9,6 +9,8 @@ import com.codestates.member.entity.Member;
 import org.mapstruct.Mapper;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
@@ -46,5 +48,11 @@ public interface CommentMapper {
         commentResponseDto.setModifiedAt(comment.getModifiedAt());
 
         return commentResponseDto;
+    }
+
+    default List<CommentResponseDto> commentsToCommentResponseDtos(List<Comment> comments) {
+        return comments.stream()
+                .map(comment -> commentToCommentResponseDto(comment))
+                .collect(Collectors.toList());
     }
 }
