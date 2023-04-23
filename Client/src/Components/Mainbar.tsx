@@ -1,12 +1,22 @@
 import '../Global.css';
 
-import { useEffect, useState } from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import {
+  Link,
+  useNavigate,
+} from 'react-router-dom';
 import styled from 'styled-components';
 
-import { TypeAnswer, TypeComment, TypeQuestion } from '../TypeQuestion';
+import {
+  TypeAnswer,
+  TypeComment,
+  TypeQuestion,
+} from '../TypeQuestion';
 
 export const Main = styled.div`
   box-sizing: border-box;
@@ -246,6 +256,7 @@ function Mainbar({ chooseId }: Iprops) {
     createdAt: '',
     modifiedAt: '',
     memberId: '',
+    answerIds: [],
   });
   const [answers, setAnswers] = useState<TypeAnswer[]>([]);
   const [comments, setComments] = useState<TypeComment[]>([]);

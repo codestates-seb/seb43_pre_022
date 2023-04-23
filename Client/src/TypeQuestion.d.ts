@@ -6,6 +6,7 @@ export interface TypeQuestion {
   createdAt: string;
   modifiedAt: string;
   memberId: string;
+  answerIds: string[];
 }
 export interface TypeAnswer {
   id: string;

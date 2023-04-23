@@ -3,17 +3,11 @@ import '../Global.css';
 import { useEffect } from 'react';
 
 import axios from 'axios';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import {
-  Question,
-  READ,
-} from '../Reducers/questionReducer';
+import { Question, READ } from '../Reducers/questionReducer';
 import { RootState } from '../store/store';
 import ButtonCom from '../Styles/ButtonCom';
 
@@ -155,10 +149,13 @@ function AllQuestions() {
             (item: Question): JSX.Element => (
               <SingleQuestion key={item.questionId}>
                 <div className="CounterAnswer">
-                  {item.answer.length} answers
+                  {item.answerIds.length} answers
                 </div>
                 <div className="SingleQuestionContainer">
-                  <Link to={{ pathname: `/questions/${item.questionId}` }}>
+                  <Link
+                    to={{ pathname: `/question/${item.questionId}` }}
+                    style={{ textDecoration: 'none' }}
+                  >
                     <div role="presentation" className="QuestionTitle">
                       {item.title}
                     </div>

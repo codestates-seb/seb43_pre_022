@@ -83,6 +83,7 @@ function SingleQuestion() {
     createdAt: '',
     modifiedAt: '',
     memberId: '',
+    answerIds: [],
   });
 
   useEffect(() => {
