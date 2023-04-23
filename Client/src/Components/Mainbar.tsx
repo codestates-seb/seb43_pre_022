@@ -1,22 +1,12 @@
 import '../Global.css';
 
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from 'react';
 
 import axios from 'axios';
-import {
-  Link,
-  useNavigate,
-} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import {
-  TypeAnswer,
-  TypeComment,
-  TypeQuestion,
-} from '../TypeQuestion';
+import { TypeAnswer, TypeComment, TypeQuestion } from '../TypeQuestion';
 
 export const Main = styled.div`
   box-sizing: border-box;
@@ -243,7 +233,7 @@ interface Iprops {
   chooseId: string;
 }
 
-function Mainbar({ chooseId }: Iprops) {
+function Mainbar({ chooseId }: Iprops): JSX.Element {
   const displayName = 'hihijin';
   const token = localStorage.getItem('access_token');
 
@@ -463,6 +453,15 @@ function Mainbar({ chooseId }: Iprops) {
     }
   };
 
+  const answerEditClick = (id: string) => {
+    if (!token) {
+      alert('You should Log in');
+      navigate('/signin');
+    } else {
+      navigate(`/answeredit`, { state: id });
+    }
+  };
+
   return (
     <Main>
       <div className="QuestionContent">
@@ -516,11 +515,13 @@ function Mainbar({ chooseId }: Iprops) {
                 <button className="linkBtn" type="button">
                   Share
                 </button>
-                <Link to={{ pathname: `/answeredit/${answer.id}` }}>
-                  <button className="linkBtn answerEditBtn" type="button">
-                    Edit
-                  </button>
-                </Link>
+                <button
+                  className="linkBtn answerEditBtn"
+                  type="button"
+                  onClick={() => answerEditClick(answer.id)}
+                >
+                  Edit
+                </button>
                 <button className="linkBtn" type="button">
                   Follow
                 </button>

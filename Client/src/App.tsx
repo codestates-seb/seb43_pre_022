@@ -13,8 +13,7 @@ import SingleQuestion from './Pages/SingleQuestion';
 
 function App() {
   //  JWT token 보유 여부에 따라 truthy || falsy
-  let token = localStorage.getItem('access_token');
-  token = 'token';
+  const token = localStorage.getItem('access_token');
 
   return (
     <div>
