@@ -7,7 +7,8 @@
       "content": "첫번째 질문",
       "createdAt": "2 days ago",
       "modifiedAt": "today",
-      "memberId": "hihijin"
+      "memberId": "hihijin",
+      "answer": [],
     }
   ],
   "answers": [
