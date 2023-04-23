@@ -15,9 +15,24 @@ module.exports = {
     'prettier',
   ],
   rules: {
+    'no-param-reassign': 0,
+    'jsx-a11y/label-has-associated-control': [
+      2,
+      {
+        labelAttributes: ['htmlFor'],
+      },
+    ],
+    'react/function-component-definition': [
+      2,
+      { namedComponents: 'function-declaration' },
+    ],
+    'react/destructuring-assignment': [0, 'always'],
+    'object-shorthand': 0,
+    'object-literal-shorthand': 0,
     'prettier/prettier': [
       'error',
       {
+        useTabs: false,
         endOfLine: 'auto',
       },
     ],
@@ -36,6 +51,7 @@ module.exports = {
     ],
     'jsx-a11y/no-noninteractive-element-interactions': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
+    '@typescript-eslint/no-unused-vars': 'warn',
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {

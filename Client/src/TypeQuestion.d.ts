@@ -23,3 +23,11 @@ export interface TypeComment {
   createdAt: string;
   memberId: string;
 }
+export interface UserInfo {
+  memberID: string | null; 
+  email: string | null;
+  displayname: string | null;
+  location: string | null; 
+  title: string | null;
+  aboutme: string | null;
+}

@@ -13,14 +13,22 @@ export const Div = styled.div`
     }
   }
 `;
-function Asked() {
+
+interface IAsked {
+  createdAt: string;
+  modifiedAt: string;
+}
+
+function Asked(props: IAsked) {
   return (
     <Div>
       <span className="section">
-        <span>Asked</span>today
+        <span>Asked</span>
+        {props.createdAt}
       </span>
       <span className="section">
-        <span>Modified</span>today
+        <span>Modified</span>
+        {props.modifiedAt}
       </span>
       <span className="section">
         <span>Viewed</span>6 times
