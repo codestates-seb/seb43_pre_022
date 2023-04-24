@@ -10,6 +10,7 @@ import QuestionList from './Pages/QuestionList';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import SingleQuestion from './Pages/SingleQuestion';
+import MyPage from './Pages/MyPage';
 
 function App() {
   //  JWT token 보유 여부에 따라 truthy || falsy
@@ -20,15 +21,17 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<QuestionList />} />
+        <Route path="/questions" element={<QuestionList />} />
         <Route path="/question/:id" element={<SingleQuestion />} />
-        <Route
-          path="/signin"
-          element={token ? <Navigate to="/" /> : <SignIn />}
-        />
         <Route
           path="/signup"
           element={token ? <Navigate to="/" /> : <SignUp />}
         />
+        <Route
+          path="/signin"
+          element={token ? <Navigate to="/" /> : <SignIn />}
+        />
+        <Route path="/mypage" element=<MyPage /> />
         <Route path="/logout" element={<LogOut />} />
         <Route
           path="/answeredit/:id"
