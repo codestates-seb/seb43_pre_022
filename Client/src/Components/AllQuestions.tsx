@@ -118,7 +118,7 @@ function AllQuestions() {
 
   useEffect(() => {
     setTimeout(async () => {
-      axios('http://localhost:4000/questions')
+      axios('https://54b6-116-123-109-9.ngrok-free.app/questions')
         .then((response) => {
           const { data } = response;
           dispatch(READ(data));
