@@ -10,16 +10,13 @@ import { TypeAnswer, TypeComment, TypeQuestion } from '../TypeQuestion';
 
 export const Main = styled.div`
   box-sizing: border-box;
-  width: 90%;
+  width: 100%;
   padding-bottom: 260px;
-  height: 170vh;
   word-break: break-all;
   display: flex;
   justify-content: baseline;
   align-items: baseline;
   flex-direction: column;
-  float: left;
-  margin-left: 20px;
   @media screen and (max-width: 1000px) {
     margin-left: 0px;
     width: 100%;
@@ -34,16 +31,26 @@ export const Main = styled.div`
     align-items: flex-start;
     margin-top: 20px;
   }
+  .answerUl {
+    list-style: none;
+    width: 100%;
+  }
+  .QuestionContent {
+    margin-left: 20px;
+  }
   .QuestionContent,
   .answerli {
     max-height: 1000px;
     width: 96%;
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     padding: 15px 25px;
+    padding-right: 0px;
   }
-  .answerUl {
-    list-style: none;
-    width: 100%;
+  .answerli {
+    max-height: 1000px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    width: 99%;
+    margin-left: -20px;
   }
   .answerForm,
   .AnswerInput {
@@ -80,11 +87,16 @@ export const Main = styled.div`
   .answerChoose > span {
     border: none;
     background: none;
-    margin-left: -30px;
-    margin-right: 10px;
+  }
+  .answerChoosegray,
+  .answerChoosegreen {
     font-weight: bold;
     font-size: 30px;
-    color: gray;
+    color: rgba(0, 0, 0, 0.1);
+    margin-left: -50px;
+    &:hover {
+      color: green;
+    }
   }
   .PostBtn {
     border-radius: 3px;
@@ -473,7 +485,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
             </button>
           </div>
           <QuestionUser>
-            <div>Asked</div>
+            <div>Asked {question.createdAt}</div>
             <div className="memberLayout">
               <img
                 alt=""
@@ -495,9 +507,16 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
               className="answerChoose"
             >
               {answer.choose ? (
-                <span style={{ color: 'green' }}>✔</span>
+                <span className="answerChoosegreen" style={{ color: 'green' }}>
+                  ✔
+                </span>
               ) : (
-                <span style={{ color: 'gray' }}>✔</span>
+                <span
+                  className="answerChoosegray"
+                  style={{ color: 'rgba(0,0,0,0.1)' }}
+                >
+                  ✔
+                </span>
               )}
             </button>
             {answer.content}

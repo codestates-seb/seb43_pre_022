@@ -1,5 +1,8 @@
-import styled from 'styled-components';
 import '../Global.css';
+
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
 import logo from '../assets/stacklogo.png';
 
 const FooterContainer = styled.div`
@@ -7,25 +10,27 @@ const FooterContainer = styled.div`
   height: 260px;
   background-color: var(--black-800);
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: flex-start;
   padding-top: 30px;
   position: relative;
   bottom: 0;
+  padding: 30px 250px;
 `;
 
 const FooterInfoContainer = styled.div`
-  margin: 10px;
+  margin: 0px;
   display: column;
   justify-content: center;
   align-items: flex-start;
 `;
 
 const FooterName = styled.div`
+  display: flex;
+  align-items: flex-start;
   color: var(--black-200);
   font-weight: 700;
-  font-size: 18px;
-  text-align: center;
+  font-size: 14px;
   &:hover {
     color: var(--white);
   }
@@ -33,25 +38,27 @@ const FooterName = styled.div`
 
 const FooterText = styled.div`
   color: var(--black-350);
-  font-size: 16px;
-  text-align: center;
+  font-size: 13px;
+  margin-top: 20px;
 `;
 
 const FooterLink = styled.span`
   color: var(--black-350);
   text-align: center;
-  font-size: 14px;
-  margin: 10px;
+  font-size: 12px;
   &:hover {
     color: var(--white);
+    cursor: pointer;
   }
 `;
 
 const Logo = styled.div`
-  width: 70px;
-  height: 70px;
+  width: 20px;
+  height: 20px;
   background: url(${logo}) center no-repeat;
   background-size: cover;
+  margin-left: -25px;
+  margin-right: 5px;
 `;
 
 function Footer() {
@@ -63,7 +70,22 @@ function Footer() {
 
   return (
     <FooterContainer>
-      <Logo />
+      <FooterInfoContainer>
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          <FooterName>
+            <Logo />
+            STACK OVERFLOW
+          </FooterName>
+        </Link>
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          <FooterText>
+            Question
+            <br />
+            <br />
+            Help
+          </FooterText>
+        </Link>
+      </FooterInfoContainer>
       <FooterInfoContainer>
         <FooterName
           onClick={() => window.open('https://github.com/UseonJ', '_blank')}
@@ -72,6 +94,7 @@ function Footer() {
         </FooterName>
         <FooterText>
           GitHub
+          <br />
           <br />
           @UseonJ
         </FooterText>
@@ -84,6 +107,7 @@ function Footer() {
         </FooterName>
         <FooterText>
           GitHub
+          <br />
           <br />
           @hihijin
         </FooterText>
@@ -99,6 +123,7 @@ function Footer() {
         <FooterText>
           GitHub
           <br />
+          <br />
           @raccoon0814
         </FooterText>
       </FooterInfoContainer>
@@ -110,6 +135,7 @@ function Footer() {
         </FooterName>
         <FooterText>
           GitHub
+          <br />
           <br />
           @Seohabin6078
         </FooterText>
@@ -123,6 +149,7 @@ function Footer() {
         <FooterText>
           GitHub
           <br />
+          <br />
           @kkihoon2
         </FooterText>
       </FooterInfoContainer>
@@ -134,6 +161,7 @@ function Footer() {
         </FooterName>
         <FooterText>
           GitHub
+          <br />
           <br />
           @ingeon2
         </FooterText>
