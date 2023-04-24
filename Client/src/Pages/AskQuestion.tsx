@@ -1,14 +1,13 @@
 import '../Global.css';
 
-import { useState } from 'react';
-
 // import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 // import '@toast-ui/editor/dist/toastui-editor.css';
 // import { Editor } from '@toast-ui/react-editor';
 import axios from 'axios';
+import { useState } from 'react';
 // import 'tui-color-picker/dist/tui-color-picker.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import AskQuestionTip from '../Components/AskQuestionTip';
@@ -22,7 +21,7 @@ const Div = styled.div`
 
 const AskQuestionContainer = styled.div`
   width: 100vw;
-  padding-top: 100px;
+  padding-top: 70px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -34,8 +33,9 @@ const AskQuestionContainer = styled.div`
 const AskQuestionTitle = styled.div`
   font-size: 27px;
   font-weight: bold;
-  width: 50%;
+  width: 460.6px;
   margin-bottom: 10px;
+  text-align: center;
 `;
 
 const AskQuestionNotice = styled.div`
@@ -44,7 +44,7 @@ const AskQuestionNotice = styled.div`
   background-color: var(--blue-100);
   border: 1px solid var(--blue-200);
   border-radius: 5px;
-  width: 50%;
+  width: 460.6px;
   padding: 15px;
 `;
 
@@ -64,7 +64,7 @@ const Summary = styled.div`
 
 const InputTitleContainer = styled.div`
   border: 1px solid var(--black);
-  width: 50%;
+  width: 100%;
   padding: 15px;
   margin: 20px 0px;
 `;
@@ -74,11 +74,12 @@ const InputTitle = styled.input`
 `;
 
 const InputText = styled(InputTitle)`
+  width: 100%;
   height: 300px;
 `;
 
 const InputQuesiton = styled.div`
-  width: 50%;
+  width: 100%;
 `;
 
 const AskButtonContainer = styled.div`
@@ -111,33 +112,31 @@ function AskQuestion() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { id } = useParams();
+
   const questions = useSelector((state: RootState) => state.crudquestion);
 
-  const todayTime = () => {
-    const now = new Date();
-    const todataMonth = now.getMonth() + 1;
-    const todayDate = now.getDate();
-
-    return `${todataMonth}월 ${todayDate}일`;
-  };
-
-  const handleSubmit = () => {
+  const handleSubmit = (e: any) => {
+    const date = new Date();
+    e.preventDefault();
     axios
-      .post('http://localhost:4000/questions', {
-        id,
-        questionId: questions.length.toString(),
+      .post('https://54b6-116-123-109-9.ngrok-free.app/api/questions', {
+        id: (questions.length + 1).toString(),
+        questionId: (questions.length + 1).toString(),
         title: titleValue,
         content: inputValue,
-        createdAt: todayTime(),
-        modifiedAt: todayTime(),
+        createdAt: `${
+          date.toDateString().split('2023')[0]
+        } at ${date.getHours()}:${date.getMinutes()}`,
+        modifiedAt: `${
+          date.toDateString().split('2023')[0]
+        } at ${date.getHours()}:${date.getMinutes()}`,
         memberId: 'raccoon0814',
         answerIds: [],
       })
       .then((response) => {
         const { data } = response;
         dispatch(CREATE(data));
-        navigate('/');
+        navigate('/questions');
       })
       .catch((error) => console.error(error));
   };
@@ -166,39 +165,40 @@ function AskQuestion() {
             <li>Review your question and post it to the site.</li>
           </ul>
         </AskQuestionNotice>
-        <InputTitleContainer>
-          <SubHeading>Title</SubHeading>
-          <Summary>
-            Be specific and imagine you are asking a question to another person
-          </Summary>
-          <InputTitle
-            type="text"
-            placeholder="e.g. Is ther R function for finding the index of an element in a vector?"
-            value={titleValue}
-            onChange={(event) => setTitleValue(event.target.value)}
-          />
-        </InputTitleContainer>
-        <InputQuesiton>
-          {/* <Editor
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <InputTitleContainer>
+            <SubHeading>Title</SubHeading>
+            <Summary>
+              Be specific and imagine you are asking a question to another
+              person
+            </Summary>
+            <InputTitle
+              type="text"
+              placeholder="e.g. Is ther R function for finding the index of an element in a vector?"
+              value={titleValue}
+              onChange={(event) => setTitleValue(event.target.value)}
+            />
+          </InputTitleContainer>
+          <InputQuesiton>
+            {/* <Editor
             height="400px"
             initialEditType="wysiwyg"
             plugins={[colorSyntax]}
           /> */}
-          <InputText
-            type="text"
-            placeholder="내용을 입력하세요"
-            value={inputValue}
-            onChange={(evnet) => setInputValue(evnet.target.value)}
-          />
-        </InputQuesiton>
-        <AskButtonContainer>
-          <QuestionSubmitButton onClick={handleSubmit}>
-            등록
-          </QuestionSubmitButton>
-          <Link to="/">
-            <SubmitCansleButton>취소</SubmitCansleButton>
-          </Link>
-        </AskButtonContainer>
+            <InputText
+              type="text"
+              placeholder="내용을 입력하세요"
+              value={inputValue}
+              onChange={(evnet) => setInputValue(evnet.target.value)}
+            />
+          </InputQuesiton>
+          <AskButtonContainer>
+            <QuestionSubmitButton type="submit">등록</QuestionSubmitButton>
+            <Link to="/questions">
+              <SubmitCansleButton>취소</SubmitCansleButton>
+            </Link>
+          </AskButtonContainer>
+        </form>
       </AskQuestionContainer>
       <AskQuestionTip />
     </Div>
