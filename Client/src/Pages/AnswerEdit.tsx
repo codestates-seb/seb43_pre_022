@@ -1,11 +1,7 @@
 import '../Global.css';
 
 import axios from 'axios';
-import {
-  Link,
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import LeftBar from '../Components/LeftBar';
@@ -105,7 +101,7 @@ function AnswerEdit() {
     const date = new Date();
     try {
       await axios.patch(
-        `https://54b6-116-123-109-9.ngrok-free.app/answers?answerId=${id}`,
+        `https://54b6-116-123-109-9.ngrok-free.app/api/answers?answerId=${id}`,
         {
           content: e.target.answer.value,
           createdAt: `${

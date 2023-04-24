@@ -1,22 +1,12 @@
 import '../Global.css';
 
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from 'react';
 
 import axios from 'axios';
-import {
-  Link,
-  useNavigate,
-} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import {
-  TypeAnswer,
-  TypeComment,
-  TypeQuestion,
-} from '../TypeQuestion';
+import { TypeAnswer, TypeComment, TypeQuestion } from '../TypeQuestion';
 
 export const Main = styled.div`
   box-sizing: border-box;
@@ -276,10 +266,10 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
   useEffect(() => {
     async function getData() {
       const questionData: any = await axios.get(
-        `https://54b6-116-123-109-9.ngrok-free.app/questions/?questionId=${queId}`,
+        `https://54b6-116-123-109-9.ngrok-free.app/api/questions/?questionId=${queId}`,
       );
       const answerData: any = await axios.get(
-        'https://54b6-116-123-109-9.ngrok-free.app/answers',
+        'https://54b6-116-123-109-9.ngrok-free.app/api/answers',
       );
       setQuestion(questionData.data[0]);
       setAnswers(
@@ -293,7 +283,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
   }, []);
 
   useEffect(() => {
-    fetch('https://54b6-116-123-109-9.ngrok-free.app/comments')
+    fetch('https://54b6-116-123-109-9.ngrok-free.app/api/comments')
       .then((response) => response.json())
       .then((data) => setComments(data));
   }, []);
@@ -333,7 +323,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
         const date = new Date();
         try {
           await axios.post(
-            'https://54b6-116-123-109-9.ngrok-free.app/comments',
+            'https://54b6-116-123-109-9.ngrok-free.app/api/comments',
             {
               questionId: question.questionId,
               answerId: targetId,
@@ -367,16 +357,19 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       const number = Math.random().toString();
       const date = new Date();
       try {
-        await axios.post('https://54b6-116-123-109-9.ngrok-free.app/answers', {
-          questionId: queId,
-          answerId: number,
-          content: e.target.answer.value,
-          choose: false,
-          memberId: displayName,
-          createdAt: `${
-            date.toDateString().split('2023')[0]
-          } at ${date.getHours()}:${date.getMinutes()}`,
-        });
+        await axios.post(
+          'https://54b6-116-123-109-9.ngrok-free.app/api/answers',
+          {
+            questionId: queId,
+            answerId: number,
+            content: e.target.answer.value,
+            choose: false,
+            memberId: displayName,
+            createdAt: `${
+              date.toDateString().split('2023')[0]
+            } at ${date.getHours()}:${date.getMinutes()}`,
+          },
+        );
         window.location.reload();
       } catch (error) {
         navigate('/error');
@@ -391,7 +384,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
     } else {
       try {
         await axios.delete(
-          `https://54b6-116-123-109-9.ngrok-free.app/comments?commentId=${id}`,
+          `https://54b6-116-123-109-9.ngrok-free.app/api/comments?commentId=${id}`,
         );
         window.location.reload();
       } catch (error) {
@@ -407,7 +400,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
     } else {
       try {
         await axios.delete(
-          `https://54b6-116-123-109-9.ngrok-free.app/answers?answerId=${id}`,
+          `https://54b6-116-123-109-9.ngrok-free.app/api/answers?answerId=${id}`,
         );
         window.location.reload();
       } catch (error) {
@@ -447,7 +440,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
         const date = new Date();
         try {
           await axios.patch(
-            `https://54b6-116-123-109-9.ngrok-free.app/comments?commentId=${id}`,
+            `https://54b6-116-123-109-9.ngrok-free.app/api/comments?commentId=${id}`,
             {
               content: e.target.comment.value,
               createdAt: `${
@@ -474,7 +467,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       else {
         try {
           axios.patch(
-            `https://54b6-116-123-109-9.ngrok-free.app/answers?answerId=${id}`,
+            `https://54b6-116-123-109-9.ngrok-free.app/api/answers?answerId=${id}`,
             {
               choose: true,
             },
