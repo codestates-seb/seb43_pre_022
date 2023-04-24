@@ -7,9 +7,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Asked from '../Components/Asked';
-import LeftBar from '../Components/LeftBar';
+import LeftBar2 from '../Components/LeftBar2';
 import Mainbar from '../Components/Mainbar';
-import Sidebar from '../Components/Sidebar';
+import RightBar2 from '../Components/RightBar2';
 import { TypeQuestion } from '../TypeQuestion';
 
 export const Content = styled.div`
@@ -23,10 +23,8 @@ export const Content = styled.div`
 `;
 
 export const QuestionPage = styled.div`
-  width: 65%;
-  height: 100%;
-  margin-top: 50px;
-  float: right;
+  width: 47%;
+  margin-top: 60px;
   border-left: 1px solid rgba(0, 0, 0, 0.15);
   @media screen and (max-width: 1300px) {
     width: 90%;
@@ -36,7 +34,7 @@ export const QuestionPage = styled.div`
   }
 `;
 export const SectionUp = styled.div`
-  width: 100%;
+  width: 137%;
   margin: 15px 20px 0px 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
@@ -44,9 +42,7 @@ export const Title = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  width: 100%;
   .questionTitle {
-    width: 80%;
     color: var(--black-700);
     font-size: 30px;
     font-family: bold;
@@ -59,7 +55,6 @@ export const Title = styled.div`
     color: white;
     padding: 11px;
     font-size: 12px;
-    margin-right: 10px;
   }
 `;
 export const SectionDown = styled.div`
@@ -108,7 +103,7 @@ function SingleQuestion() {
 
   return (
     <Content>
-      <LeftBar />
+      <LeftBar2 />
       <QuestionPage>
         <SectionUp>
           <Title>
@@ -124,9 +119,9 @@ function SingleQuestion() {
         </SectionUp>
         <SectionDown>
           <Mainbar chooseId={id!} />
-          <Sidebar />
         </SectionDown>
       </QuestionPage>
+      <RightBar2 />
     </Content>
   );
 }
