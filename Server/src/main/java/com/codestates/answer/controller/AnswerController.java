@@ -10,6 +10,7 @@ import com.codestates.dto.SingleResponseDto;
 import com.codestates.utils.UriCreator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ import java.util.List;
 @RestController
 @Validated
 @RequestMapping("/api/answers")
+@Transactional
 public class AnswerController {
     private final static String ANSWER_DEFAULT_URL = "/api/answers";
     private final AnswerService answerService;

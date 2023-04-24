@@ -77,26 +77,26 @@ public class AnswerControllerTest {
                 .andExpect(header().string("location", is(startsWith("/api/answers/"))));
     }
     
-//    @Test
-//    void patchAnswerTest() throws Exception{
-//        //given (답변 등록하기, 등록된 답변의 내용 변경)
-//
-//        ResultActions beforePostActions =
-//                mockMvc.perform(
-//                        post("/api/answers")
-//                                .accept(MediaType.APPLICATION_JSON)
-//                                .contentType(MediaType.APPLICATION_JSON)
-//                                .content(beforeAnswerContent)
-//                );
-//
-//        long answerId;
-//        String location = beforePostActions.andReturn().getResponse().getHeader("location"); // "/api/answers/1"
-//        answerId = Long.parseLong(location.substring(location.lastIndexOf("/") + 1)); // /api/answers/1 에서 1만 떼옴
-//        //가져온 answerId로 patch객체 생성
-//        AnswerPatchDto patch = new AnswerPatchDto(answerId, "내용 바꿨다!");
-//        String patchContent = gson.toJson(patch);
-//
-//
+    @Test
+    void patchAnswerTest() throws Exception{
+        //given (답변 등록하기, 등록된 답변의 내용 변경)
+
+        ResultActions beforePostActions =
+                mockMvc.perform(
+                        post("/api/answers")
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(beforeAnswerContent)
+                );
+
+        long answerId;
+        String location = beforePostActions.andReturn().getResponse().getHeader("location"); // "/api/answers/1"
+        answerId = Long.parseLong(location.substring(location.lastIndexOf("/") + 1)); // /api/answers/1 에서 1만 떼옴
+        //가져온 answerId로 patch객체 생성
+        AnswerPatchDto patch = new AnswerPatchDto(answerId, "내용 바꿨다!");
+        String patchContent = gson.toJson(patch);
+
+
 //        //when (변경된 해당 patchContent로 patchAnswer 실행)
 //        mockMvc.perform(
 //                patch(location)
@@ -104,9 +104,9 @@ public class AnswerControllerTest {
 //                        .contentType(MediaType.APPLICATION_JSON)
 //                        .conten
 //        )
-//
-//        //then
-//    }
+
+        //then
+    }
 
 
 }

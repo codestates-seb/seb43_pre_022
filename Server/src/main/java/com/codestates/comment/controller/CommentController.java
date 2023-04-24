@@ -11,6 +11,7 @@ import com.codestates.dto.SingleResponseDto;
 import com.codestates.utils.UriCreator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ import java.util.List;
 @RestController
 @Validated
 @RequestMapping("/api/comments") //어차피 개별 질문 조회에 들어가있으니 여기가 디폴트 될것같은데..
+@Transactional
 public class CommentController {
     private final static String COMMENT_DEFAULT_URL = "/api/comments";
     private final CommentService commentService;
