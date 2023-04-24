@@ -1,9 +1,15 @@
 import '../Global.css';
 
-import { useEffect, useState } from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import {
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import styled from 'styled-components';
 
 import Asked from '../Components/Asked';
@@ -71,7 +77,6 @@ function SingleQuestion() {
   const token = localStorage.getItem('access_token');
 
   const [question, setQuestion] = useState<TypeQuestion>({
-    id: '',
     questionId: '',
     title: '',
     content: '',
@@ -84,7 +89,7 @@ function SingleQuestion() {
   useEffect(() => {
     async function getData() {
       const questionData: any = await axios.get(
-        `http://localhost:4000/questions?questionId=${id}`,
+        `https://54b6-116-123-109-9.ngrok-free.app/questions?questionId=${id}`,
       );
       setQuestion(questionData.data[0]);
     }

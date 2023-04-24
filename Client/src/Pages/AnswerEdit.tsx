@@ -1,7 +1,11 @@
 import '../Global.css';
 
 import axios from 'axios';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import {
+  Link,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import styled from 'styled-components';
 
 import LeftBar from '../Components/LeftBar';
@@ -100,12 +104,15 @@ function AnswerEdit() {
     e.preventDefault();
     const date = new Date();
     try {
-      await axios.patch(`http://localhost:4000/answers/${id}`, {
-        content: e.target.answer.value,
-        createdAt: `${
-          date.toDateString().split('2023')[0]
-        } at ${date.getHours()}:${date.getMinutes()}`,
-      });
+      await axios.patch(
+        `https://54b6-116-123-109-9.ngrok-free.app/answers?answerId=${id}`,
+        {
+          content: e.target.answer.value,
+          createdAt: `${
+            date.toDateString().split('2023')[0]
+          } at ${date.getHours()}:${date.getMinutes()}`,
+        },
+      );
       navigate(-1);
     } catch (error) {
       navigate('/error');
@@ -138,7 +145,7 @@ function AnswerEdit() {
             <QuestionSubmitButton type="submit">
               Save edits
             </QuestionSubmitButton>
-            <Link to="/question">
+            <Link to="/questions">
               <SubmitCancleButton>Cancle</SubmitCancleButton>
             </Link>
           </AskButtonContainer>

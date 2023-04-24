@@ -1,12 +1,22 @@
 import '../Global.css';
 
-import { useEffect, useState } from 'react';
+import {
+  useEffect,
+  useState,
+} from 'react';
 
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import {
+  Link,
+  useNavigate,
+} from 'react-router-dom';
 import styled from 'styled-components';
 
-import { TypeAnswer, TypeComment, TypeQuestion } from '../TypeQuestion';
+import {
+  TypeAnswer,
+  TypeComment,
+  TypeQuestion,
+} from '../TypeQuestion';
 
 export const Main = styled.div`
   box-sizing: border-box;
@@ -251,7 +261,6 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
 
   const navigate = useNavigate();
   const [question, setQuestion] = useState<TypeQuestion>({
-    id: '',
     questionId: '',
     title: '',
     content: '',
@@ -267,9 +276,11 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
   useEffect(() => {
     async function getData() {
       const questionData: any = await axios.get(
-        `http://localhost:4000/questions/?questionId=${queId}`,
+        `https://54b6-116-123-109-9.ngrok-free.app/questions/?questionId=${queId}`,
       );
-      const answerData: any = await axios.get('http://localhost:4000/answers');
+      const answerData: any = await axios.get(
+        'https://54b6-116-123-109-9.ngrok-free.app/answers',
+      );
       setQuestion(questionData.data[0]);
       setAnswers(
         answerData.data.filter(
@@ -282,7 +293,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:4000/comments')
+    fetch('https://54b6-116-123-109-9.ngrok-free.app/comments')
       .then((response) => response.json())
       .then((data) => setComments(data));
   }, []);
@@ -321,17 +332,19 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
         const number = Math.random().toString();
         const date = new Date();
         try {
-          await axios.post('http://localhost:4000/comments', {
-            id: number,
-            questionId: question.questionId,
-            answerId: targetId,
-            commentId: number,
-            content: e.target.comment.value,
-            memberId: displayName,
-            createdAt: `${
-              date.toDateString().split('2023')[0]
-            } at ${date.getHours()}:${date.getMinutes()}`,
-          });
+          await axios.post(
+            'https://54b6-116-123-109-9.ngrok-free.app/comments',
+            {
+              questionId: question.questionId,
+              answerId: targetId,
+              commentId: number,
+              content: e.target.comment.value,
+              memberId: displayName,
+              createdAt: `${
+                date.toDateString().split('2023')[0]
+              } at ${date.getHours()}:${date.getMinutes()}`,
+            },
+          );
           window.location.reload();
         } catch (error) {
           navigate('/error');
@@ -354,8 +367,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       const number = Math.random().toString();
       const date = new Date();
       try {
-        await axios.post('http://localhost:4000/answers', {
-          id: number,
+        await axios.post('https://54b6-116-123-109-9.ngrok-free.app/answers', {
           questionId: queId,
           answerId: number,
           content: e.target.answer.value,
@@ -378,7 +390,9 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       navigate('/signin');
     } else {
       try {
-        await axios.delete(`http://localhost:4000/comments/${id}`);
+        await axios.delete(
+          `https://54b6-116-123-109-9.ngrok-free.app/comments?commentId=${id}`,
+        );
         window.location.reload();
       } catch (error) {
         navigate('/error');
@@ -392,7 +406,9 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       navigate('/signin');
     } else {
       try {
-        await axios.delete(`http://localhost:4000/answers/${id}`);
+        await axios.delete(
+          `https://54b6-116-123-109-9.ngrok-free.app/answers?answerId=${id}`,
+        );
         window.location.reload();
       } catch (error) {
         navigate('/error');
@@ -430,12 +446,15 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
         e.preventDefault();
         const date = new Date();
         try {
-          await axios.patch(`http://localhost:4000/comments/${id}`, {
-            content: e.target.comment.value,
-            createdAt: `${
-              date.toDateString().split('2023')[0]
-            } at ${date.getHours()}:${date.getMinutes()}`,
-          });
+          await axios.patch(
+            `https://54b6-116-123-109-9.ngrok-free.app/comments?commentId=${id}`,
+            {
+              content: e.target.comment.value,
+              createdAt: `${
+                date.toDateString().split('2023')[0]
+              } at ${date.getHours()}:${date.getMinutes()}`,
+            },
+          );
           window.location.reload();
         } catch (error) {
           navigate('/error');
@@ -454,9 +473,12 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       if (newAnswers.length !== 0) alert('You already chose a answer!');
       else {
         try {
-          axios.patch(`http://localhost:4000/answers/${id}`, {
-            choose: true,
-          });
+          axios.patch(
+            `https://54b6-116-123-109-9.ngrok-free.app/answers?answerId=${id}`,
+            {
+              choose: true,
+            },
+          );
           window.location.reload();
         } catch (error) {
           navigate('/error');
@@ -500,10 +522,10 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       <span className="AnswerTitle">{answers.length} Answer</span>
       <ul className="answerUl">
         {answers.map((answer) => (
-          <li className="answerli" key={answer.id}>
+          <li className="answerli" key={answer.answerId}>
             <button
               type="button"
-              onClick={() => answerChoose(answer.id!)}
+              onClick={() => answerChoose(answer.answerId!)}
               className="answerChoose"
             >
               {answer.choose ? (
@@ -526,7 +548,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
                   Share
                 </button>
                 {token ? (
-                  <Link to={{ pathname: `/answeredit/${answer.id}` }}>
+                  <Link to={{ pathname: `/answeredit/${answer.answerId}` }}>
                     <button className="linkBtn answerEditBtn" type="button">
                       Edit
                     </button>
@@ -544,7 +566,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
                 <button
                   className="linkBtn answerDeleteBtn"
                   type="button"
-                  onClick={() => answerDelete(answer.id!)}
+                  onClick={() => answerDelete(answer.answerId!)}
                 >
                   Delete
                 </button>
@@ -575,14 +597,14 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
                       <button
                         className="commentEditBtn"
                         type="button"
-                        onClick={(e) => commentEdit(e, comment.id!)}
+                        onClick={(e) => commentEdit(e, comment.commentId!)}
                       >
                         Edit
                       </button>
                       <button
                         className="commentDeleteBtn"
                         type="button"
-                        onClick={() => commentDelete(comment.id!)}
+                        onClick={() => commentDelete(comment.commentId!)}
                       >
                         Delete
                       </button>
@@ -591,7 +613,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
                 ))}
             </ul>
             <div className="showInput" />
-            <Comment onClick={(e) => handleWriteButton(e, answer.id!)}>
+            <Comment onClick={(e) => handleWriteButton(e, answer.answerId!)}>
               Add a comment
             </Comment>
           </li>
