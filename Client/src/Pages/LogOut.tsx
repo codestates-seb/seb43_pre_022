@@ -1,11 +1,10 @@
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
-import DivCom from '../Styles/DivCom';
-import InputCom from '../Styles/InputCom';
-import ListCom from '../Styles/ListCom';
-import FormCom from '../Styles/FormCom';
 import ButtonCom from '../Styles/ButtonCom';
+import DivCom from '../Styles/DivCom';
+import FormCom from '../Styles/FormCom';
+import ListCom from '../Styles/ListCom';
 
 const LogOutwrapper = styled(DivCom)`
   padding-top: 100px;
@@ -94,7 +93,7 @@ function LogOut() {
 
   /** logout 성공 시 토큰 삭제 */
   const logoutsuccess = () => {
-    localStorage.removeItem('access_token');
+    localStorage.removeItem('accessToken');
   };
 
   /** logout 취소 시 경로 이동 */

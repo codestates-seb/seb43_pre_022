@@ -257,8 +257,7 @@ interface Iprops {
 
 function Mainbar({ chooseId }: Iprops): JSX.Element {
   const displayName = 'hihijin';
-  let token = localStorage.getItem('access_token');
-  token = 'token';
+  const token = localStorage.getItem('accessToken');
 
   const navigate = useNavigate();
   const [question, setQuestion] = useState<TypeQuestion>({
@@ -504,7 +503,9 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
     } else {
       try {
         console.log(id);
-        await axios.delete(`http://localhost:4000/questions/${id}`);
+        await axios.delete(
+          `https://54b6-116-123-109-9.ngrok-free.app/api/questions/${id}`,
+        );
         window.location.reload();
         navigate(-1);
       } catch (error) {
@@ -512,15 +513,6 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       }
     }
   }
-
-  const questionEditClick = (id: string) => {
-    if (!token) {
-      alert('You should Log in');
-      navigate('/signin');
-    } else {
-      navigate(`/questionedit`, { state: id });
-    }
-  };
 
   return (
     <Main>

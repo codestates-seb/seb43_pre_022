@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -160,33 +159,37 @@ function SignIn() {
   /** 로그인 버튼 누를 시 작동하는 함수 */
   const handleSignIn = () => {
     /** axios 보내기 전에 유효성 검사 */
-    if (!idValid || !passwordValid) {
-      setSignInMSG('invalid email address or password');
-      console.log(signInMSG);
-      localStorage.setItem('invalidMSG', signInMSG);
-      return console.log('Invalid');
-    }
+    // if (!idValid || !passwordValid) {
+    //   setSignInMSG('invalid email address or password');
+    //   console.log(signInMSG);
+    //   localStorage.setItem('invalidMSG', 'invalid email address or password');
+    //   return console.log('Invalid');
+    // }
     /** 통과시 post 요청 */
-    axios
-      .post(`http://localhost:8000/`, signInInfo)
-      .then((response) => {
-        const data = response;
+
+    try {
+      fetch(`https://54b6-116-123-109-9.ngrok-free.app/api/auths/login`, {
+        method: 'POST',
+        body: JSON.stringify(signInInfo),
+      }).then((response) => {
+        const accessToken = response.headers.get('Authorization');
+        console.log(response.headers.get('Authorization'));
         //  axios response type 때문에 변수에 저장하는 것에 어려움이 있음. 해결 요망.
         alert(`Welcome back!`);
-        //  signin 성공시 토큰 로컬에 저장.
-        console.log(data);
-        localStorage.setItem('access_token', JSON.stringify(data));
-        localStorage.removeItem('invalidMSG');
+        //  signin 성공시 memberId,displayname,토큰 로컬에 저장.
+        localStorage.setItem('access_token', JSON.stringify(accessToken));
+        // localStorage.setItem('memberId', JSON.stringify(memberId));
+        // localStorage.setItem('displayname', JSON.stringify(displayname));
+        // localStorage.removeItem('invalidMSG');
+        console.log(accessToken);
         navigation('/');
-      })
-      .catch((error) => {
-        console.log(error);
-        /** signinMSG 유효하지 않다고 설정 */
-        setSignInMSG('invalid email address or password');
       });
+    } catch (error) {
+      /** signinMSG 유효하지 않다고 설정 */
+      setSignInMSG('invalid email address or password');
+    }
     return console.log('never');
   };
-  console.log(localStorage.getItem('invalidMSG'));
   return (
     <BackContainer>
       {/* Signin Container 4개의 section으로 구분 */}

@@ -119,7 +119,7 @@ function AskQuestion() {
     const date = new Date();
     e.preventDefault();
     axios
-      .post('https://54b6-116-123-109-9.ngrok-free.app/questions', {
+      .post('https://54b6-116-123-109-9.ngrok-free.app/api/questions', {
         id: (questions.length + 1).toString(),
         questionId: (questions.length + 1).toString(),
         title: titleValue,

@@ -101,8 +101,7 @@ function QuestionEdit() {
 
   const { id } = useParams();
 
-  let token = localStorage.getItem('access_token');
-  token = 'token';
+  const token = localStorage.getItem('accessToken');
 
   const [editTitleValue, setEditTitleValue] = useState('');
   const [editContentValue, setEditContenteValue] = useState('');

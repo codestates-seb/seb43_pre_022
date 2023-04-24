@@ -8,47 +8,42 @@ import AskQuestion from './Pages/AskQuestion';
 import ErrorPage from './Pages/ErrorPage';
 import LogOut from './Pages/LogOut';
 import QuestionEdit from './Pages/QuestionEdit';
+import QuestionList from './Pages/QuestionList';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import SingleQuestion from './Pages/SingleQuestion';
 
 function App() {
   //  JWT token 보유 여부에 따라 truthy || falsy
-  const token = localStorage.getItem('access_token');
+  const token = localStorage.getItem('accessToken');
 
   return (
     <div>
       <Header />
       <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="api/questions" element={<QuestionList />} />
+        <Route path="api/question/:id" element={<SingleQuestion />} />
         <Route
-          path="/"
-          element={token ? <Navigate to="/quesitons" /> : <MainPage />}
-        />
-        <Route
-          path="/questions"
-          element={token ? <Navigate to="/questions" /> : <SignIn />}
-        />
-        <Route path="/question/:id" element={<SingleQuestion />} />
-        <Route
-          path="/signin"
+          path="api/signin"
           element={token ? <Navigate to="/" /> : <SignIn />}
         />
         <Route
-          path="/signup"
+          path="api/signup"
           element={token ? <Navigate to="/" /> : <SignUp />}
         />
-        <Route path="/logout" element={<LogOut />} />
+        <Route path="api/logout" element={<LogOut />} />
         <Route
-          path="/answeredit/:id"
+          path="api/answeredit/:id"
           element={token ? <AnswerEdit /> : <Navigate to="/signin" />}
         />
         <Route
-          path="/askquestion"
+          path="api/askquestion"
           element={token ? <AskQuestion /> : <Navigate to="/signin" />}
         />
         <Route path="/error" element={<ErrorPage />} />
         <Route
-          path="/questionedit/:id"
+          path="api/questionedit/:id"
           element={token ? <QuestionEdit /> : <Navigate to="/signin" />}
         />
       </Routes>
