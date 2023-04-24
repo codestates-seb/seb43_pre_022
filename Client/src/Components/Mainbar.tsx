@@ -3,23 +3,20 @@ import '../Global.css';
 import { useEffect, useState } from 'react';
 
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { TypeAnswer, TypeComment, TypeQuestion } from '../TypeQuestion';
 
 export const Main = styled.div`
   box-sizing: border-box;
-  width: 90%;
+  width: 100%;
   padding-bottom: 260px;
-  height: 170vh;
   word-break: break-all;
   display: flex;
   justify-content: baseline;
   align-items: baseline;
   flex-direction: column;
-  float: left;
-  margin-left: 20px;
   @media screen and (max-width: 1000px) {
     margin-left: 0px;
     width: 100%;
@@ -34,16 +31,26 @@ export const Main = styled.div`
     align-items: flex-start;
     margin-top: 20px;
   }
+  .answerUl {
+    list-style: none;
+    width: 100%;
+  }
+  .QuestionContent {
+    margin-left: 20px;
+  }
   .QuestionContent,
   .answerli {
     max-height: 1000px;
     width: 96%;
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     padding: 15px 25px;
+    padding-right: 0px;
   }
-  .answerUl {
-    list-style: none;
-    width: 100%;
+  .answerli {
+    max-height: 1000px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    width: 99%;
+    margin-left: -20px;
   }
   .answerForm,
   .AnswerInput {
@@ -80,11 +87,16 @@ export const Main = styled.div`
   .answerChoose > span {
     border: none;
     background: none;
-    margin-left: -30px;
-    margin-right: 10px;
+  }
+  .answerChoosegray,
+  .answerChoosegreen {
     font-weight: bold;
     font-size: 30px;
-    color: gray;
+    color: rgba(0, 0, 0, 0.1);
+    margin-left: -50px;
+    &:hover {
+      color: green;
+    }
   }
   .PostBtn {
     border-radius: 3px;
@@ -235,7 +247,8 @@ interface Iprops {
 
 function Mainbar({ chooseId }: Iprops): JSX.Element {
   const displayName = 'hihijin';
-  const token = localStorage.getItem('access_token');
+  let token = localStorage.getItem('access_token');
+  token = 'token';
 
   const navigate = useNavigate();
   const [question, setQuestion] = useState<TypeQuestion>({
@@ -344,7 +357,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       try {
         await axios.post('http://localhost:4000/answers', {
           id: number,
-          questionId: '1',
+          questionId: queId,
           answerId: number,
           content: e.target.answer.value,
           choose: false,
@@ -462,6 +475,31 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
     }
   };
 
+  async function handleQuestionDelete(id: string) {
+    if (!token) {
+      alert('You should Log in');
+      navigate('/signin');
+    } else {
+      try {
+        console.log(id);
+        await axios.delete(`http://localhost:4000/questions/${id}`);
+        window.location.reload();
+        navigate(-1);
+      } catch (error) {
+        navigate('/error');
+      }
+    }
+  }
+
+  const questionEditClick = (id: string) => {
+    if (!token) {
+      alert('You should Log in');
+      navigate('/signin');
+    } else {
+      navigate(`/questionedit`, { state: id });
+    }
+  };
+
   return (
     <Main>
       <div className="QuestionContent">
@@ -471,18 +509,24 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
             <button className="linkBtn" type="button">
               Share
             </button>
-            <button className="linkBtn" type="button">
-              Edit
-            </button>
+            <Link to={{ pathname: `/questionedit/${question.id}` }}>
+              <button className="linkBtn" type="button">
+                Edit
+              </button>
+            </Link>
             <button className="linkBtn" type="button">
               Follow
             </button>
-            <button className="linkBtn" type="button">
+            <button
+              className="linkBtn"
+              type="button"
+              onClick={() => handleQuestionDelete(question.id)}
+            >
               Delete
             </button>
           </div>
           <QuestionUser>
-            <div>Asked</div>
+            <div>Asked {question.createdAt}</div>
             <div className="memberLayout">
               <img
                 alt=""
@@ -504,9 +548,16 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
               className="answerChoose"
             >
               {answer.choose ? (
-                <span style={{ color: 'green' }}>✔</span>
+                <span className="answerChoosegreen" style={{ color: 'green' }}>
+                  ✔
+                </span>
               ) : (
-                <span style={{ color: 'gray' }}>✔</span>
+                <span
+                  className="answerChoosegray"
+                  style={{ color: 'rgba(0,0,0,0.1)' }}
+                >
+                  ✔
+                </span>
               )}
             </button>
             {answer.content}
@@ -515,13 +566,19 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
                 <button className="linkBtn" type="button">
                   Share
                 </button>
-                <button
-                  className="linkBtn answerEditBtn"
-                  type="button"
-                  onClick={() => answerEditClick(answer.id)}
-                >
-                  Edit
-                </button>
+                {token ? (
+                  <Link to={{ pathname: `/answeredit/${answer.id}` }}>
+                    <button className="linkBtn answerEditBtn" type="button">
+                      Edit
+                    </button>
+                  </Link>
+                ) : (
+                  <Link to={{ pathname: `/signin` }}>
+                    <button className="linkBtn answerEditBtn" type="button">
+                      Edit
+                    </button>
+                  </Link>
+                )}
                 <button className="linkBtn" type="button">
                   Follow
                 </button>

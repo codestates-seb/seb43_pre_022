@@ -41,7 +41,7 @@ export const Div = styled.div`
   }
 `;
 
-function LeftBar() {
+function LeftBar2() {
   const navigate = useNavigate();
   const goToQuesions = (e: any) => {
     const home = document.querySelector('.home');
@@ -68,7 +68,7 @@ function LeftBar() {
   return (
     <Div>
       <div
-        className="link home focus"
+        className="link home"
         role="presentation"
         onClick={(e) => goToHome(e)}
       >
@@ -76,7 +76,7 @@ function LeftBar() {
       </div>
       <div className="link">PUBLIC</div>
       <div
-        className="link questions"
+        className="link questions focus"
         role="presentation"
         onClick={(e) => goToQuesions(e)}
       >
@@ -89,4 +89,4 @@ function LeftBar() {
   );
 }
 
-export default LeftBar;
+export default LeftBar2;

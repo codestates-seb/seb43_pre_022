@@ -235,12 +235,12 @@ function SignUp() {
   /** 회원가입 버튼 누를 시 작동하는 함수 */
   const handleSignUp = () => {
     axios
-      .post(`http://localhost:8000/`, signUpInfo)
-      .then((response) => {
+      .post(`https://54b6-116-123-109-9.ngrok-free.app/members`, signUpInfo)
+      .then(response => {
         alert('you successfully signed up!');
         navigation('/signin');
       })
-      .catch((error) => {
+      .catch(error => {
         /** 중복인 경우와 다른이유로 실패한 경우 삼항으로 구분 */
         console.log(error);
         alert('you failed to signup!');

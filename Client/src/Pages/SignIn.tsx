@@ -163,23 +163,25 @@ function SignIn() {
     if (!idValid || !passwordValid) {
       setSignInMSG('invalid email address or password');
       console.log(signInMSG);
-      localStorage.setItem('invalidMSG', signInMSG);
+      localStorage.setItem('invalidMSG', 'invalid email address or password');
       return console.log('Invalid');
     }
     /** 통과시 post 요청 */
     axios
-      .post(`http://localhost:8000/`, signInInfo)
-      .then((response) => {
-        const data = response;
+      .post(`https://54b6-116-123-109-9.ngrok-free.app/auths/login`, signInInfo)
+      .then(response => {
+        const { memberId, displayname, access_token } = response;
         //  axios response type 때문에 변수에 저장하는 것에 어려움이 있음. 해결 요망.
         alert(`Welcome back!`);
-        //  signin 성공시 토큰 로컬에 저장.
-        console.log(data);
-        localStorage.setItem('access_token', JSON.stringify(data));
+        //  signin 성공시 memberId,displayname,토큰 로컬에 저장.
+        console.log(memberId, displayname, access_token);
+        localStorage.setItem('access_token', JSON.stringify(access_token));
+        localStorage.setItem('memberId', JSON.stringify(memberId));
+        localStorage.setItem('displayname', JSON.stringify(displayname));
         localStorage.removeItem('invalidMSG');
         navigation('/');
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
         /** signinMSG 유효하지 않다고 설정 */
         setSignInMSG('invalid email address or password');
@@ -193,7 +195,7 @@ function SignIn() {
       <SignInContainer>
         {/* section #1: image container */}
         <DivCom className="imageContainer">
-          <a href="http://localhost:3000/home">
+          <a href="http://localhost:3000/">
             <img alt="" className="logo1" src={logo1} width="32" height="37" />
           </a>
         </DivCom>

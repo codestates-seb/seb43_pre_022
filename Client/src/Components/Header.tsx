@@ -77,17 +77,16 @@ const NavButtonA = styled.a<{ isBlue: boolean }>`
   border-radius: 3px;
   cursor: pointer;
   height: 33px;
-  width: ${(props) => (props.isBlue ? '66.42px' : '58.25px')};
+  width: ${props => (props.isBlue ? '66.42px' : '58.25px')};
 
   font-size: 13px;
   text-decoration: none;
-  border: ${(props) =>
+  border: ${props =>
     props.isBlue
       ? 'var(--blue-button)'
       : '0.2px solid var(--lightblue-button-text)'};
-  color: ${(props) =>
-    props.isBlue ? 'white' : 'var(--lightblue-button-text)'};
-  background-color: ${(props) =>
+  color: ${props => (props.isBlue ? 'white' : 'var(--lightblue-button-text)')};
+  background-color: ${props =>
     props.isBlue ? 'var(--blue-button)' : 'var(lightblue-button'};
 `;
 
@@ -99,6 +98,10 @@ const NavInput = styled(InputCom)`
 
 function Header() {
   const navigate = useNavigate();
+  const gotoprofile = () => {
+    getuserinfo();
+    navigate('/profile');
+  };
   const loginClick = () => {
     navigate('/signin');
   };
@@ -138,7 +141,12 @@ function Header() {
         {token ? (
           <>
             <NavDiv>
-              <img width="24px" height="24px" alt="profile" />
+              <img
+                width="24px"
+                height="24px"
+                alt="profile"
+                onClick={gotoprofile}
+              />
             </NavDiv>
             <NavDiv>
               <NavButtonA isBlue={false} onClick={logoutClick}>

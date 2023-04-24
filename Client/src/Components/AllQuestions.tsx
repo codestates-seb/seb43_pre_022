@@ -12,9 +12,7 @@ import { RootState } from '../store/store';
 import ButtonCom from '../Styles/ButtonCom';
 
 export const AllQuestionContainer = styled.div`
-  margin-top: 50px;
-  width: 50%;
-  height: 100vh;
+  width: 47%;
   border-left: 1px solid rgba(0, 0, 0, 0.15);
 
   @media screen and (max-width: 1000px) {
