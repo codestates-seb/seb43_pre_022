@@ -115,14 +115,6 @@ function AskQuestion() {
 
   const questions = useSelector((state: RootState) => state.crudquestion);
 
-  const todayTime = () => {
-    const now = new Date();
-    const todataMonth = now.getMonth() + 1;
-    const todayDate = now.getDate();
-
-    return `${todataMonth}월 ${todayDate}일`;
-  };
-
   const handleSubmit = (e: any) => {
     const date = new Date();
     e.preventDefault();
@@ -144,7 +136,7 @@ function AskQuestion() {
       .then((response) => {
         const { data } = response;
         dispatch(CREATE(data));
-        navigate('/');
+        navigate('/questions');
       })
       .catch((error) => console.error(error));
   };
@@ -202,7 +194,7 @@ function AskQuestion() {
           </InputQuesiton>
           <AskButtonContainer>
             <QuestionSubmitButton type="submit">등록</QuestionSubmitButton>
-            <Link to="/">
+            <Link to="/questions">
               <SubmitCansleButton>취소</SubmitCansleButton>
             </Link>
           </AskButtonContainer>
