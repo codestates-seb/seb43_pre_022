@@ -1,7 +1,7 @@
 import '../Global.css';
 
 import axios from 'axios';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import LeftBar from '../Components/LeftBar';
@@ -94,30 +94,21 @@ const SubmitCancleButton = styled(ButtonCom)`
 function AnswerEdit() {
   const navigate = useNavigate();
 
-  const { state } = useLocation();
-  console.log(state.id);
-
-  let token = localStorage.getItem('access_token');
-  token = 'token';
+  const { id } = useParams();
 
   async function answerEditSubmit(e: any) {
-    if (!token) {
-      alert('You should Log in');
-      navigate('/signin');
-    } else {
-      e.preventDefault();
-      const date = new Date();
-      try {
-        await axios.patch(`http://localhost:4000/answers/${state.id}`, {
-          content: e.target.answer.value,
-          createdAt: `${
-            date.toDateString().split('2023')[0]
-          } at ${date.getHours()}:${date.getMinutes()}`,
-        });
-        navigate(-1);
-      } catch (error) {
-        navigate('/error');
-      }
+    e.preventDefault();
+    const date = new Date();
+    try {
+      await axios.patch(`http://localhost:4000/answers/${id}`, {
+        content: e.target.answer.value,
+        createdAt: `${
+          date.toDateString().split('2023')[0]
+        } at ${date.getHours()}:${date.getMinutes()}`,
+      });
+      navigate(-1);
+    } catch (error) {
+      navigate('/error');
     }
   }
   return (

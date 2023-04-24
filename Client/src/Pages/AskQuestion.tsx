@@ -5,14 +5,14 @@ import '../Global.css';
 // import { Editor } from '@toast-ui/react-editor';
 import axios from 'axios';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 // import 'tui-color-picker/dist/tui-color-picker.css';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { CREATE } from '../Reducers/questionReducer';
-import { RootState } from '../store/store';
 
 import AskQuestionTip from '../Components/AskQuestionTip';
+import { CREATE } from '../Reducers/questionReducer';
+import { RootState } from '../store/store';
 import ButtonCom from '../Styles/ButtonCom';
 
 const Div = styled.div`
@@ -21,7 +21,7 @@ const Div = styled.div`
 
 const AskQuestionContainer = styled.div`
   width: 100vw;
-  padding-top: 100px;
+  padding-top: 70px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;

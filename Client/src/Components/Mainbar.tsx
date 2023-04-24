@@ -3,7 +3,7 @@ import '../Global.css';
 import { useEffect, useState } from 'react';
 
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { TypeAnswer, TypeComment, TypeQuestion } from '../TypeQuestion';
@@ -345,7 +345,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       try {
         await axios.post('http://localhost:4000/answers', {
           id: number,
-          questionId: '1',
+          questionId: queId,
           answerId: number,
           content: e.target.answer.value,
           choose: false,
@@ -497,13 +497,11 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
             <button className="linkBtn" type="button">
               Share
             </button>
-            <button
-              className="linkBtn"
-              type="button"
-              onClick={() => questionEditClick(question.id)}
-            >
-              Edit
-            </button>
+            <Link to={{ pathname: `/questionedit/${question.id}` }}>
+              <button className="linkBtn" type="button">
+                Edit
+              </button>
+            </Link>
             <button className="linkBtn" type="button">
               Follow
             </button>
@@ -549,13 +547,19 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
                 <button className="linkBtn" type="button">
                   Share
                 </button>
-                <button
-                  className="linkBtn answerEditBtn"
-                  type="button"
-                  onClick={() => answerEditClick(answer.id)}
-                >
-                  Edit
-                </button>
+                {token ? (
+                  <Link to={{ pathname: `/answeredit/${answer.id}` }}>
+                    <button className="linkBtn answerEditBtn" type="button">
+                      Edit
+                    </button>
+                  </Link>
+                ) : (
+                  <Link to={{ pathname: `/signin` }}>
+                    <button className="linkBtn answerEditBtn" type="button">
+                      Edit
+                    </button>
+                  </Link>
+                )}
                 <button className="linkBtn" type="button">
                   Follow
                 </button>

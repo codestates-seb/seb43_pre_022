@@ -42,7 +42,7 @@ function App() {
         />
         <Route path="/error" element={<ErrorPage />} />
         <Route
-          path="/questionedit/"
+          path="/questionedit/:id"
           element={token ? <QuestionEdit /> : <Navigate to="/signin" />}
         />
       </Routes>

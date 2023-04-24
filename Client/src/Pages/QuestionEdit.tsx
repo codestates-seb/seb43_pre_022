@@ -1,7 +1,7 @@
 import '../Global.css';
 
 import axios from 'axios';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useState } from 'react';
@@ -99,8 +99,7 @@ const EditTitle = styled(TempInput)`
 function QuestionEdit() {
   const navigate = useNavigate();
 
-  const { state } = useLocation();
-  console.log(state.id);
+  const { id } = useParams();
 
   let token = localStorage.getItem('access_token');
   token = 'token';
@@ -116,7 +115,7 @@ function QuestionEdit() {
       e.preventDefault();
       const date = new Date();
       try {
-        await axios.patch(`http://localhost:4000/questions/4`, {
+        await axios.patch(`http://localhost:4000/questions/${id}`, {
           title: editTitleValue,
           content: editContentValue,
           createdAt: `${
