@@ -33,8 +33,9 @@ const AskQuestionContainer = styled.div`
 const AskQuestionTitle = styled.div`
   font-size: 27px;
   font-weight: bold;
-  width: 50%;
+  width: 460.6px;
   margin-bottom: 10px;
+  text-align: center;
 `;
 
 const AskQuestionNotice = styled.div`
@@ -43,7 +44,7 @@ const AskQuestionNotice = styled.div`
   background-color: var(--blue-100);
   border: 1px solid var(--blue-200);
   border-radius: 5px;
-  width: 50%;
+  width: 460.6px;
   padding: 15px;
 `;
 
@@ -63,7 +64,7 @@ const Summary = styled.div`
 
 const InputTitleContainer = styled.div`
   border: 1px solid var(--black);
-  width: 50%;
+  width: 100%;
   padding: 15px;
   margin: 20px 0px;
 `;
@@ -73,11 +74,12 @@ const InputTitle = styled.input`
 `;
 
 const InputText = styled(InputTitle)`
+  width: 100%;
   height: 300px;
 `;
 
 const InputQuesiton = styled.div`
-  width: 50%;
+  width: 100%;
 `;
 
 const AskButtonContainer = styled.div`
@@ -121,15 +123,21 @@ function AskQuestion() {
     return `${todataMonth}월 ${todayDate}일`;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: any) => {
+    const date = new Date();
+    e.preventDefault();
     axios
       .post('http://localhost:4000/questions', {
         id: (questions.length + 1).toString(),
         questionId: (questions.length + 1).toString(),
         title: titleValue,
         content: inputValue,
-        createdAt: todayTime(),
-        modifiedAt: todayTime(),
+        createdAt: `${
+          date.toDateString().split('2023')[0]
+        } at ${date.getHours()}:${date.getMinutes()}`,
+        modifiedAt: `${
+          date.toDateString().split('2023')[0]
+        } at ${date.getHours()}:${date.getMinutes()}`,
         memberId: 'raccoon0814',
         answerIds: [],
       })
@@ -165,39 +173,40 @@ function AskQuestion() {
             <li>Review your question and post it to the site.</li>
           </ul>
         </AskQuestionNotice>
-        <InputTitleContainer>
-          <SubHeading>Title</SubHeading>
-          <Summary>
-            Be specific and imagine you are asking a question to another person
-          </Summary>
-          <InputTitle
-            type="text"
-            placeholder="e.g. Is ther R function for finding the index of an element in a vector?"
-            value={titleValue}
-            onChange={(event) => setTitleValue(event.target.value)}
-          />
-        </InputTitleContainer>
-        <InputQuesiton>
-          {/* <Editor
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <InputTitleContainer>
+            <SubHeading>Title</SubHeading>
+            <Summary>
+              Be specific and imagine you are asking a question to another
+              person
+            </Summary>
+            <InputTitle
+              type="text"
+              placeholder="e.g. Is ther R function for finding the index of an element in a vector?"
+              value={titleValue}
+              onChange={(event) => setTitleValue(event.target.value)}
+            />
+          </InputTitleContainer>
+          <InputQuesiton>
+            {/* <Editor
             height="400px"
             initialEditType="wysiwyg"
             plugins={[colorSyntax]}
           /> */}
-          <InputText
-            type="text"
-            placeholder="내용을 입력하세요"
-            value={inputValue}
-            onChange={(evnet) => setInputValue(evnet.target.value)}
-          />
-        </InputQuesiton>
-        <AskButtonContainer>
-          <QuestionSubmitButton onClick={handleSubmit}>
-            등록
-          </QuestionSubmitButton>
-          <Link to="/">
-            <SubmitCansleButton>취소</SubmitCansleButton>
-          </Link>
-        </AskButtonContainer>
+            <InputText
+              type="text"
+              placeholder="내용을 입력하세요"
+              value={inputValue}
+              onChange={(evnet) => setInputValue(evnet.target.value)}
+            />
+          </InputQuesiton>
+          <AskButtonContainer>
+            <QuestionSubmitButton type="submit">등록</QuestionSubmitButton>
+            <Link to="/">
+              <SubmitCansleButton>취소</SubmitCansleButton>
+            </Link>
+          </AskButtonContainer>
+        </form>
       </AskQuestionContainer>
       <AskQuestionTip />
     </Div>

@@ -9,6 +9,9 @@ const Div = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 450px;
+  @media screen and (max-width: 1000px) {
+    display: none;
+  }
 `;
 
 export const TipContainer = styled.div`
