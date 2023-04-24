@@ -100,16 +100,16 @@ const NavInput = styled(InputCom)`
 function Header() {
   const navigate = useNavigate();
   const loginClick = () => {
-    navigate('/signin');
+    navigate('signin');
   };
   const signupClick = () => {
-    navigate('/signup');
+    navigate('signup');
   };
   const logoutClick = () => {
     navigate('/logout');
   };
 
-  const token = localStorage.getItem('access_token');
+  const token = localStorage.getItem('accessToken');
 
   return (
     <NavWrapper>
