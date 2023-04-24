@@ -22,6 +22,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+@Transactional
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;//securityConfig에서 Bean 등록해준다.

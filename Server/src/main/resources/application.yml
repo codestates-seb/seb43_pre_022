@@ -1,17 +1,23 @@
+#spring:
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2
+#  datasource:
+#    url: jdbc:h2:mem:test
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2
   datasource:
-    url: jdbc:h2:mem:test
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/preproject?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: habin9706136078
   jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    show-sql: true
     hibernate:
-      ddl-auto: create  # (1) ??? ?? ??
-    show-sql: true      # (2) SQL ?? ??
-  sql:
-    init:
-      data-locations: classpath*:db/h2/data.sql
+      format_sql: true
+      ddl-auto: validate
 logging:
   level:
     org:

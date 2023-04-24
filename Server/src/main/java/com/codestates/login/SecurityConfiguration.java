@@ -39,7 +39,8 @@ public class SecurityConfiguration {
         http.headers().frameOptions().sameOrigin()
                 .and()
                 .csrf().disable()
-                .cors(withDefaults())
+                .cors().configurationSource(corsConfigurationSource())
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)  //세션을 생성하지 않도록 설정합니다.
                 .and()
                 .formLogin().disable()
@@ -62,8 +63,19 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource(){ //CorsConfigurationSource Bean 생성을 통해 구체적인 CORS 정책을 설정합니다.
         CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOriginPattern("*");
+        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin("http://localhost:8080");
+        configuration.addAllowedOrigin("https://54b6-116-123-109-9.ngrok-free.app");
         configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","PATCH","DELETE"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+//        configuration.setAllowCredentials(true);
+        configuration.addAllowedHeader("*");
+        configuration.addExposedHeader("*");
+
+//        configuration.validateAllowCredentials();
+
         //setAllowedMethods()를 통해 파라미터로 지정한 HTTP Method에 대한 HTTP 통신을 허용합니다.
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
