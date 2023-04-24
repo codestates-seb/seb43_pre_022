@@ -1,18 +1,19 @@
 import '../Global.css';
 
+import { useState } from 'react';
+
 // import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 // import '@toast-ui/editor/dist/toastui-editor.css';
 // import { Editor } from '@toast-ui/react-editor';
 import axios from 'axios';
-import { useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
 // import 'tui-color-picker/dist/tui-color-picker.css';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { CREATE } from '../Reducers/questionReducer';
-import { RootState } from '../store/store';
 
 import AskQuestionTip from '../Components/AskQuestionTip';
+import { CREATE } from '../Reducers/questionReducer';
+import { RootState } from '../store/store';
 import ButtonCom from '../Styles/ButtonCom';
 
 const Div = styled.div`
@@ -131,7 +132,7 @@ function AskQuestion() {
         createdAt: todayTime(),
         modifiedAt: todayTime(),
         memberId: 'raccoon0814',
-        answer: [],
+        answerIds: [],
       })
       .then((response) => {
         const { data } = response;
