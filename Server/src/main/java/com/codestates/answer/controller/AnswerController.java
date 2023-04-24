@@ -20,9 +20,9 @@ import java.util.List;
 
 @RestController
 @Validated
-@RequestMapping("/api")
+@RequestMapping("/api/answers")
 public class AnswerController {
-    private final static String ANSWER_DEFAULT_URL = "/api";
+    private final static String ANSWER_DEFAULT_URL = "/api/answers";
     private final AnswerService answerService;
     private final AnswerMapper answerMapper;
 
@@ -31,17 +31,18 @@ public class AnswerController {
         this.answerMapper = answerMapper;
     }
 
-    @PostMapping("/questions/{question-id}/answers") // 질문 등록 페이지
-    public ResponseEntity postAnswer(@PathVariable("question-id") @Positive long questionId,
-                                     @Valid @RequestBody AnswerPostDto answerPostDto) {
-        Answer answer = answerService.createAnswer(answerMapper.answerPostDtoToAnswer(questionId, answerPostDto));
+    //@PostMapping("/questions/{question-id}/answers") // 질문 등록 페이지
+    //@PathVariable("question-id") @Positive long questionId,
+    @PostMapping
+    public ResponseEntity postAnswer(@Valid @RequestBody AnswerPostDto answerPostDto) {
+        Answer answer = answerService.createAnswer(answerMapper.answerPostDtoToAnswer(answerPostDto));
 
         URI location = UriCreator.createUri(ANSWER_DEFAULT_URL,answer.getAnswerId());
 
         return ResponseEntity.created(location).build();
     }
 
-    @PatchMapping("/answers/{answer-id}")
+    @PatchMapping("/{answer-id}")
     public ResponseEntity patchAnswer(@PathVariable("answer-id") @Positive long answerId,
                                       @Valid @RequestBody AnswerPatchDto answerPatchDto) {
         answerPatchDto.setAnswerId(answerId);
@@ -52,7 +53,7 @@ public class AnswerController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @GetMapping("/answers/{answer-id}")
+    @GetMapping("/{answer-id}")
     public ResponseEntity getAnswer(@PathVariable("answer-id") @Positive long answerId) {
         Answer answer = answerService.findAnswer(answerId);
         AnswerResponseDto response = answerMapper.answerToAnswerResponseDto(answer);
@@ -60,7 +61,7 @@ public class AnswerController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @GetMapping("/answers")
+    @GetMapping
     public ResponseEntity getAnswers() {
         List<Answer> answers = answerService.findAnswers();
         List<AnswerResponseDto> responses = answerMapper.answersToAnswerResponseDtos(answers);
@@ -68,7 +69,7 @@ public class AnswerController {
         return new ResponseEntity<>(new SingleResponseDto<>(responses), HttpStatus.OK);
     }
 
-    @DeleteMapping("/answers/{answer-id}")
+    @DeleteMapping("/{answer-id}")
     public ResponseEntity deleteAnswer(@PathVariable("answer-id") @Positive long answerId) {
         answerService.deleteAnswer(answerId);
 

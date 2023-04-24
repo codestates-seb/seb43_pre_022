@@ -3,6 +3,7 @@ package com.codestates.comment.entity;
 import com.codestates.answer.entity.Answer;
 import com.codestates.answer.service.AnswerService;
 import com.codestates.member.entity.Member;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class Comment {
     @Column(nullable = false)
     private String content;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "answerId")
     private Answer answer;

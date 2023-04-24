@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
-    default Comment commentPostDtoToComment(long answerId, CommentPostDto commentPostDto) {
+    default Comment commentPostDtoToComment(CommentPostDto commentPostDto) {
         Comment comment = new Comment();
         Answer answer = new Answer();
         Member member = new Member();
 
         answer.setMember(member);
-        answer.setAnswerId(answerId);
+        answer.setAnswerId(commentPostDto.getAnswerId());
 
         comment.setContent(commentPostDto.getContent());
         comment.setAnswer(answer);

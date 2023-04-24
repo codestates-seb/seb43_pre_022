@@ -73,7 +73,7 @@ public class AnswerService {
                 new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
 
 
-        //AnswerResponseDto의 commentIds를 채워야해서 만든 코드
+        //AnswerResponseDto의 comment를 채워야해서 만든 코드
         List<Comment> comments = commentService.findComments(findAnswer.getAnswerId());
         findAnswer.setComments(comments);
 

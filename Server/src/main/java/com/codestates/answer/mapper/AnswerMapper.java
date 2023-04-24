@@ -17,12 +17,12 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface AnswerMapper {
-    default Answer answerPostDtoToAnswer(long questionId, AnswerPostDto answerPostDto) {
+    default Answer answerPostDtoToAnswer(AnswerPostDto answerPostDto) {
         Answer answer = new Answer();
         Question question = new Question();
         Member member = new Member();
 
-        question.setQuestionId(questionId);
+        question.setQuestionId(answerPostDto.getQuestionId());
         question.setMember(member);
 
         answer.setContent(answerPostDto.getContent());
@@ -48,6 +48,7 @@ public interface AnswerMapper {
         answerResponseDto.setMemberId(answer.getMember().getMemberId());
         answerResponseDto.setCreatedAt(answer.getCreatedAt());
         answerResponseDto.setModifiedAt(answer.getModifiedAt());
+        answerResponseDto.setSelected(answer.isSelected());
 
         List<Comment> comments = answer.getComments();
         List<Long> commentIds = comments.stream()

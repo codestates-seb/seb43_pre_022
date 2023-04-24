@@ -21,9 +21,9 @@ import java.util.List;
 
 @RestController
 @Validated
-@RequestMapping("/api") //어차피 개별 질문 조회에 들어가있으니 여기가 디폴트 될것같은데..
+@RequestMapping("/api/comments") //어차피 개별 질문 조회에 들어가있으니 여기가 디폴트 될것같은데..
 public class CommentController {
-    private final static String COMMENT_DEFAULT_URL = "/api";
+    private final static String COMMENT_DEFAULT_URL = "/api/comments";
     private final CommentService commentService;
     private final CommentMapper commentMapper;
 
@@ -32,17 +32,16 @@ public class CommentController {
         this.commentMapper = commentMapper;
     }
 
-    @PostMapping("/answers/{answer-id}/comments")
-    public ResponseEntity postComment(@PathVariable("answer-id") @Positive long answerId,
-                                      @Valid @RequestBody CommentPostDto commentPostDto) {
-        Comment comment = commentService.createComment(commentMapper.commentPostDtoToComment(answerId, commentPostDto));
+    @PostMapping
+    public ResponseEntity postComment(@Valid @RequestBody CommentPostDto commentPostDto) {
+        Comment comment = commentService.createComment(commentMapper.commentPostDtoToComment(commentPostDto));
 
         URI location = UriCreator.createUri(COMMENT_DEFAULT_URL, comment.getCommentId());
 
         return ResponseEntity.created(location).build();
     }
 
-    @PatchMapping("/comments/{comment-id}")
+    @PatchMapping("/{comment-id}")
     public ResponseEntity patchComment(@PathVariable("comment-id") @Positive long commentId,
                                        @Valid @RequestBody CommentPatchDto commentPatchDto) {
         commentPatchDto.setCommentId(commentId);
@@ -53,7 +52,7 @@ public class CommentController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @GetMapping("/comments/{comment-id}")
+    @GetMapping("/{comment-id}")
     public ResponseEntity getComment(@PathVariable("comment-id") @Positive long commentId) {
         Comment comment = commentService.findComment(commentId);
         CommentResponseDto response = commentMapper.commentToCommentResponseDto(comment);
@@ -61,7 +60,7 @@ public class CommentController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @GetMapping("/comments")
+    @GetMapping
     public ResponseEntity getComments() {
         List<Comment> comments = commentService.findComments();
         List<CommentResponseDto> responses = commentMapper.commentsToCommentResponseDtos(comments);
@@ -69,7 +68,7 @@ public class CommentController {
         return new ResponseEntity<>(new SingleResponseDto<>(responses), HttpStatus.OK);
     }
 
-    @DeleteMapping("/comments/{comment-id}")
+    @DeleteMapping("/{comment-id}")
     public ResponseEntity deleteComment(@PathVariable("comment-id") @Positive long commentId) {
         commentService.deleteComment(commentId);
 

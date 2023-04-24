@@ -5,15 +5,14 @@ import com.codestates.comment.entity.Comment;
 import com.codestates.member.entity.Member;
 import com.codestates.question.entity.Question;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.aspectj.weaver.patterns.TypePatternQuestions;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -35,6 +34,9 @@ public class Answer {
     @Column
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
+    @Column
+    private boolean selected;
+
     @ManyToOne
     @JoinColumn(name = "memberId")
     private Member member;
@@ -44,6 +46,7 @@ public class Answer {
     @JoinColumn(name = "questionId")
     private Question question;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
