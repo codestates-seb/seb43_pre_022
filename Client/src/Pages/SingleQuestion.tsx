@@ -1,15 +1,9 @@
 import '../Global.css';
 
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from 'react';
 
 import axios from 'axios';
-import {
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Asked from '../Components/Asked';
@@ -74,7 +68,8 @@ function SingleQuestion() {
   let { id } = useParams();
   id = id?.toString();
 
-  const token = localStorage.getItem('access_token');
+  let token = localStorage.getItem('accessToken');
+  token = '';
 
   const [question, setQuestion] = useState<TypeQuestion>({
     questionId: '',
@@ -89,7 +84,7 @@ function SingleQuestion() {
   useEffect(() => {
     async function getData() {
       const questionData: any = await axios.get(
-        `https://54b6-116-123-109-9.ngrok-free.app/questions?questionId=${id}`,
+        `https://54b6-116-123-109-9.ngrok-free.app/api/questions?questionId=${id}`,
       );
       setQuestion(questionData.data[0]);
     }
