@@ -1,14 +1,13 @@
 import '../Global.css';
 
-import { useState } from 'react';
-
 // import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 // import '@toast-ui/editor/dist/toastui-editor.css';
 // import { Editor } from '@toast-ui/react-editor';
 import axios from 'axios';
+import { useState } from 'react';
 // import 'tui-color-picker/dist/tui-color-picker.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import AskQuestionTip from '../Components/AskQuestionTip';
@@ -22,7 +21,7 @@ const Div = styled.div`
 
 const AskQuestionContainer = styled.div`
   width: 100vw;
-  padding-top: 100px;
+  padding-top: 70px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -111,7 +110,7 @@ function AskQuestion() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { id } = useParams();
+
   const questions = useSelector((state: RootState) => state.crudquestion);
 
   const todayTime = () => {
@@ -125,8 +124,8 @@ function AskQuestion() {
   const handleSubmit = () => {
     axios
       .post('http://localhost:4000/questions', {
-        id,
-        questionId: questions.length.toString(),
+        id: (questions.length + 1).toString(),
+        questionId: (questions.length + 1).toString(),
         title: titleValue,
         content: inputValue,
         createdAt: todayTime(),

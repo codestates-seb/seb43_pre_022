@@ -73,7 +73,8 @@ function SingleQuestion() {
   let { id } = useParams();
   id = id?.toString();
 
-  const token = localStorage.getItem('access_token');
+  let token = localStorage.getItem('access_token');
+  token = 'token';
 
   const [question, setQuestion] = useState<TypeQuestion>({
     id: '',

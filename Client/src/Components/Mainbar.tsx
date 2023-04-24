@@ -235,7 +235,8 @@ interface Iprops {
 
 function Mainbar({ chooseId }: Iprops): JSX.Element {
   const displayName = 'hihijin';
-  const token = localStorage.getItem('access_token');
+  let token = localStorage.getItem('access_token');
+  token = 'token';
 
   const navigate = useNavigate();
   const [question, setQuestion] = useState<TypeQuestion>({
@@ -453,6 +454,40 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
     }
   };
 
+  const answerEditClick = (id: string) => {
+    if (!token) {
+      alert('You should Log in');
+      navigate('/signin');
+    } else {
+      navigate(`/answeredit`, { state: id });
+    }
+  };
+
+  async function handleQuestionDelete(id: string) {
+    if (!token) {
+      alert('You should Log in');
+      navigate('/signin');
+    } else {
+      try {
+        console.log(id);
+        await axios.delete(`http://localhost:4000/questions/${id}`);
+        window.location.reload();
+        navigate(-1);
+      } catch (error) {
+        navigate('/error');
+      }
+    }
+  }
+
+  const questionEditClick = (id: string) => {
+    if (!token) {
+      alert('You should Log in');
+      navigate('/signin');
+    } else {
+      navigate(`/questionedit`, { state: id });
+    }
+  };
+
   return (
     <Main>
       <div className="QuestionContent">
@@ -462,13 +497,19 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
             <button className="linkBtn" type="button">
               Share
             </button>
-            <button className="linkBtn" type="button">
-              Edit
-            </button>
+            <Link to={{ pathname: `/questionedit/${question.id}` }}>
+              <button className="linkBtn" type="button">
+                Edit
+              </button>
+            </Link>
             <button className="linkBtn" type="button">
               Follow
             </button>
-            <button className="linkBtn" type="button">
+            <button
+              className="linkBtn"
+              type="button"
+              onClick={() => handleQuestionDelete(question.id)}
+            >
               Delete
             </button>
           </div>
