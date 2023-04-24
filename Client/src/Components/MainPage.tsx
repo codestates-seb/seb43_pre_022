@@ -24,7 +24,7 @@ const ItemContainer = styled.div`
 const TwinBoxContainer = styled.div`
   width: 80%;
   height: 360px;
-  padding: 16px;
+  padding: 15px;
   display: flex;
 `;
 
