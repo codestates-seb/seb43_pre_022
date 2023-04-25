@@ -516,7 +516,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
             <button className="linkBtn" type="button">
               Share
             </button>
-            <Link to={{ pathname: `/questionedit/${question.id}` }}>
+            <Link to={{ pathname: `/questionedit/${question.questionId}` }}>
               <button className="linkBtn" type="button">
                 Edit
               </button>
@@ -527,7 +527,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
             <button
               className="linkBtn"
               type="button"
-              onClick={() => handleQuestionDelete(question.id)}
+              onClick={() => handleQuestionDelete(question.questionId)}
             >
               Delete
             </button>
