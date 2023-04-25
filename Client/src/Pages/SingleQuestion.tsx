@@ -71,6 +71,7 @@ function SingleQuestion() {
   const token = localStorage.getItem('access_token');
 
   const [question, setQuestion] = useState<TypeQuestion>({
+    id: '',
     questionId: '',
     title: '',
     content: '',
@@ -83,7 +84,7 @@ function SingleQuestion() {
   useEffect(() => {
     async function getData() {
       const questionData: any = await axios.get(
-        `https://54b6-116-123-109-9.ngrok-free.app/api/questions?questionId=${id}`,
+        `http://localhost:4000/questions/?questionId=${id}`,
       );
       setQuestion(questionData.data[0]);
     }

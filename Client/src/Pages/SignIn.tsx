@@ -168,7 +168,7 @@ function SignIn() {
     /** 통과시 post 요청 */
 
     try {
-      fetch(`https://54b6-116-123-109-9.ngrok-free.app/api/auths/login`, {
+      fetch(`http://localhost:4000/auths/login`, {
         method: 'POST',
         body: JSON.stringify(signInInfo),
       }).then((response) => {

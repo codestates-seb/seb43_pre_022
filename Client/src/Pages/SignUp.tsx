@@ -235,7 +235,7 @@ function SignUp() {
   /** 회원가입 버튼 누를 시 작동하는 함수 */
   const handleSignUp = () => {
     axios
-      .post(`https://54b6-116-123-109-9.ngrok-free.app/api/members`, signUpInfo)
+      .post(`http://localhost:4000/members`, signUpInfo)
       .then((response) => {
         alert('you successfully signed up!');
         navigation('/signin');

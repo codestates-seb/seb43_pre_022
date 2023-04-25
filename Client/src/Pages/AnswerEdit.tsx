@@ -100,15 +100,12 @@ function AnswerEdit() {
     e.preventDefault();
     const date = new Date();
     try {
-      await axios.patch(
-        `https://54b6-116-123-109-9.ngrok-free.app/api/answers?answerId=${id}`,
-        {
-          content: e.target.answer.value,
-          createdAt: `${
-            date.toDateString().split('2023')[0]
-          } at ${date.getHours()}:${date.getMinutes()}`,
-        },
-      );
+      await axios.patch(`http://localhost:4000/answers/${id}`, {
+        content: e.target.answer.value,
+        createdAt: `${
+          date.toDateString().split('2023')[0]
+        } at ${date.getHours()}:${date.getMinutes()}`,
+      });
       navigate(-1);
     } catch (error) {
       navigate('/error');
