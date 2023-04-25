@@ -154,7 +154,7 @@ function AllQuestions() {
                 </div>
                 <div className="SingleQuestionContainer">
                   <Link
-                    to={{ pathname: `/question/${item.questionId}` }}
+                    to={{ pathname: `/api/question/${item.questionId}` }}
                     style={{ textDecoration: 'none' }}
                   >
                     <div role="presentation" className="QuestionTitle">

@@ -71,13 +71,13 @@ function Footer() {
   return (
     <FooterContainer>
       <FooterInfoContainer>
-        <Link to="/" style={{ textDecoration: 'none' }}>
+        <Link to="/questions" style={{ textDecoration: 'none' }}>
           <FooterName>
             <Logo />
             STACK OVERFLOW
           </FooterName>
         </Link>
-        <Link to="/" style={{ textDecoration: 'none' }}>
+        <Link to="/questions" style={{ textDecoration: 'none' }}>
           <FooterText>
             Question
             <br />
@@ -186,4 +186,3 @@ function Footer() {
 }
 
 export default Footer;
-

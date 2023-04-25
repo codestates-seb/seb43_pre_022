@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import Footer from './Components/Footer';
 import Header from './Components/Header';
@@ -23,30 +23,30 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="api/questions" element={<QuestionList />} />
+        <Route path="/questions" element={<QuestionList />} />
         <Route path="api/question/:id" element={<SingleQuestion />} />
         <Route
           path="api/signin"
-          element={token ? <Navigate to="/" /> : <SignIn />}
+          element={token ? <QuestionList /> : <SignIn />}
         />
         <Route
           path="api/signup"
-          element={token ? <Navigate to="/" /> : <SignUp />}
+          element={token ? <QuestionList /> : <SignUp />}
         />
         <Route path="api/logout" element={<LogOut />} />
         <Route
-          path="api/answeredit/:id"
-          element={token ? <AnswerEdit /> : <Navigate to="/signin" />}
-        />
-        <Route
           path="api/askquestion"
-          element={token ? <AskQuestion /> : <Navigate to="/signin" />}
+          element={token ? <AskQuestion /> : <SignIn />}
         />
-        <Route path="/error" element={<ErrorPage />} />
         <Route
           path="api/questionedit/:id"
-          element={token ? <QuestionEdit /> : <Navigate to="/signin" />}
+          element={token ? <QuestionEdit /> : <SignIn />}
         />
+        <Route
+          path="api/answeredit/:id"
+          element={token ? <AnswerEdit /> : <SignIn />}
+        />
+        <Route path="/error" element={<ErrorPage />} />
       </Routes>
       <Footer />
     </div>
