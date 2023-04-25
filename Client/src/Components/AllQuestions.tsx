@@ -116,13 +116,12 @@ function AllQuestions() {
   const dispatch = useDispatch();
   const questions = useSelector((state: RootState) => state.crudquestion);
 
-  const token = localStorage.getItem('accessToken');
+  let token = localStorage.getItem('accessToken');
+  token = 'token';
 
   useEffect(() => {
     setTimeout(() => {
-      axios(
-        'https://54b6-116-123-109-9.ngrok-free.app/api/questions?page=1&size=10',
-      )
+      axios('http://localhost:4000/questions?page=1&size=10')
         .then((response) => {
           const { data } = response;
           dispatch(READ(data));
@@ -136,7 +135,7 @@ function AllQuestions() {
       <div className="AllQuestionHeader">
         <div className="AllQuestionTitle">All Questions</div>
         <AllQuestionButtonContainer>
-          <Link to="api/askquestion">
+          <Link to="/api/askquestion">
             <AskQuestionButton>Ask Question</AskQuestionButton>
           </Link>
           <SortButtonContainer>
