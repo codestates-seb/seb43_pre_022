@@ -1,6 +1,12 @@
+import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import '@toast-ui/editor/dist/i18n/ko-kr';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Editor } from '@toast-ui/react-editor';
+import 'tui-color-picker/dist/tui-color-picker.css';
 import '../Global.css';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -108,10 +114,17 @@ function QuestionEdit() {
   const [editTitleValue, setEditTitleValue] = useState('');
   const [editContentValue, setEditContenteValue] = useState('');
 
+  const editorRef: any = useRef();
+
+  const onChange = () => {
+    const data = editorRef.current.getInstance().getHTML();
+    setEditContenteValue(data);
+  };
+
   async function questionEditSubmit(e: any) {
     if (!token) {
       alert('You should Log in');
-      navigate('/signin');
+      navigate('/api/signin');
     } else {
       e.preventDefault();
       const date = new Date();
@@ -153,17 +166,25 @@ function QuestionEdit() {
             placeholder="Edit your Question's Title!"
             onChange={(event) => setEditTitleValue(event.target.value)}
           />
-          <TempInput
+          <Editor
+            height="400px"
+            initialEditType="wysiwyg"
+            plugins={[colorSyntax]}
+            language="ko-KR"
+            ref={editorRef}
+            onChange={onChange}
+          />
+          {/* <TempInput
             name="questionText"
             type="text"
             placeholder="Edit your Question's Content!"
             onChange={(event) => setEditContenteValue(event.target.value)}
-          />
+          /> */}
           <AskButtonContainer>
             <QuestionSubmitButton type="submit">
               Save edits
             </QuestionSubmitButton>
-            <Link to="/questions">
+            <Link to="/api/questions">
               <SubmitCancleButton>Cancle</SubmitCancleButton>
             </Link>
           </AskButtonContainer>
