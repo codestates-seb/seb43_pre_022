@@ -1,4 +1,5 @@
 export interface TypeQuestion {
+  id: string;
   questionId: string;
   title: string;
   content: string;
@@ -8,6 +9,7 @@ export interface TypeQuestion {
   answerIds: string[];
 }
 export interface TypeAnswer {
+  id: string;
   questionId: string;
   answerId: string;
   content: string;
@@ -16,6 +18,7 @@ export interface TypeAnswer {
   choose: boolean;
 }
 export interface TypeComment {
+  id: string;
   questionId: string;
   answerId: string;
   commentId: string;

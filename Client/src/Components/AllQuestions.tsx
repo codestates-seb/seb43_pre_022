@@ -120,9 +120,7 @@ function AllQuestions() {
 
   useEffect(() => {
     setTimeout(() => {
-      axios(
-        'https://54b6-116-123-109-9.ngrok-free.app/api/questions?page=1&size=10',
-      )
+      axios('http://localhost:4000/questions')
         .then((response) => {
           const { data } = response;
           dispatch(READ(data));
@@ -136,7 +134,7 @@ function AllQuestions() {
       <div className="AllQuestionHeader">
         <div className="AllQuestionTitle">All Questions</div>
         <AllQuestionButtonContainer>
-          <Link to="api/askquestion">
+          <Link to="/api/askquestion">
             <AskQuestionButton>Ask Question</AskQuestionButton>
           </Link>
           <SortButtonContainer>
@@ -155,7 +153,7 @@ function AllQuestions() {
                 </div>
                 <div className="SingleQuestionContainer">
                   <Link
-                    to={{ pathname: `/question/${item.questionId}` }}
+                    to={{ pathname: `/api/question/${item.questionId}` }}
                     style={{ textDecoration: 'none' }}
                   >
                     <div role="presentation" className="QuestionTitle">

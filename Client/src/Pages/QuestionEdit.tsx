@@ -1,10 +1,11 @@
 import '../Global.css';
 
+import { useState } from 'react';
+
 import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { useState } from 'react';
 import LeftBar from '../Components/LeftBar';
 import ButtonCom from '../Styles/ButtonCom';
 
@@ -101,7 +102,8 @@ function QuestionEdit() {
 
   const { id } = useParams();
 
-  const token = localStorage.getItem('accessToken');
+  let token = localStorage.getItem('accessToken');
+  token = 'dd';
 
   const [editTitleValue, setEditTitleValue] = useState('');
   const [editContentValue, setEditContenteValue] = useState('');
@@ -114,16 +116,13 @@ function QuestionEdit() {
       e.preventDefault();
       const date = new Date();
       try {
-        await axios.patch(
-          `https://54b6-116-123-109-9.ngrok-free.app/questions/${id}`,
-          {
-            title: editTitleValue,
-            content: editContentValue,
-            createdAt: `${
-              date.toDateString().split('2023')[0]
-            } at ${date.getHours()}:${date.getMinutes()}`,
-          },
-        );
+        await axios.patch(`http://localhost:4000/questions/${id}`, {
+          title: editTitleValue,
+          content: editContentValue,
+          createdAt: `${
+            date.toDateString().split('2023')[0]
+          } at ${date.getHours()}:${date.getMinutes()}`,
+        });
         navigate(-1);
       } catch (error) {
         navigate('/error');

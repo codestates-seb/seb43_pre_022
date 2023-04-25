@@ -1,10 +1,18 @@
 import '../Global.css';
+import 'codemirror/lib/codemirror.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import 'prismjs/themes/prism.css';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import axios from 'axios';
+import Prism from 'prismjs';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
+import { Editor, Viewer } from '@toast-ui/react-editor';
 
 import { TypeAnswer, TypeComment, TypeQuestion } from '../TypeQuestion';
 
@@ -52,8 +60,7 @@ export const Main = styled.div`
     width: 99%;
     margin-left: -20px;
   }
-  .answerForm,
-  .AnswerInput {
+  .answerForm {
     height: 200px;
     width: 98%;
   }
@@ -245,12 +252,15 @@ interface Iprops {
   chooseId: string;
 }
 
-function Mainbar({ chooseId }: Iprops): JSX.Element {
-  const displayName = 'hihijin';
-  const token = localStorage.getItem('accessToken');
+function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
+  let token = localStorage.getItem('accessToken');
+  let displayName = localStorage.getItem('displayName');
+  displayName = 'hihijin';
+  token = 'd';
 
   const navigate = useNavigate();
   const [question, setQuestion] = useState<TypeQuestion>({
+    id: '',
     questionId: '',
     title: '',
     content: '',
@@ -266,11 +276,9 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
   useEffect(() => {
     async function getData() {
       const questionData: any = await axios.get(
-        `https://54b6-116-123-109-9.ngrok-free.app/api/questions/?questionId=${queId}`,
+        `http://localhost:4000/questions/?questionId=${queId}`,
       );
-      const answerData: any = await axios.get(
-        'https://54b6-116-123-109-9.ngrok-free.app/api/answers',
-      );
+      const answerData: any = await axios.get('http://localhost:4000/answers');
       setQuestion(questionData.data[0]);
       setAnswers(
         answerData.data.filter(
@@ -283,7 +291,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
   }, []);
 
   useEffect(() => {
-    fetch('https://54b6-116-123-109-9.ngrok-free.app/api/comments')
+    fetch('http://localhost:4000/comments')
       .then((response) => response.json())
       .then((data) => setComments(data));
   }, []);
@@ -322,19 +330,17 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
         const number = Math.random().toString();
         const date = new Date();
         try {
-          await axios.post(
-            'https://54b6-116-123-109-9.ngrok-free.app/api/comments',
-            {
-              questionId: question.questionId,
-              answerId: targetId,
-              commentId: number,
-              content: e.target.comment.value,
-              memberId: displayName,
-              createdAt: `${
-                date.toDateString().split('2023')[0]
-              } at ${date.getHours()}:${date.getMinutes()}`,
-            },
-          );
+          await axios.post('http://localhost:4000/comments', {
+            id: number,
+            questionId: question.questionId,
+            answerId: targetId,
+            commentId: number,
+            content: e.target.comment.value,
+            memberId: displayName,
+            createdAt: `${
+              date.toDateString().split('2023')[0]
+            } at ${date.getHours()}:${date.getMinutes()}`,
+          });
           window.location.reload();
         } catch (error) {
           navigate('/error');
@@ -344,32 +350,32 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
     form.addEventListener('submit', (e) => commentSubmitHandler(e));
   };
 
+  const editorRef = useRef<Editor>(null);
   async function answerSubmit(e: any) {
+    const getContentMd = editorRef.current?.getInstance().getMarkdown() || '';
     if (!token) {
       alert('You should Log in');
       navigate('/signin');
     } else {
       e.preventDefault();
-      if (e.target.answer.value === '') {
+      if (getContentMd === '') {
         alert('The content is empty!');
         window.location.reload();
       }
       const number = Math.random().toString();
       const date = new Date();
       try {
-        await axios.post(
-          'https://54b6-116-123-109-9.ngrok-free.app/api/answers',
-          {
-            questionId: queId,
-            answerId: number,
-            content: e.target.answer.value,
-            choose: false,
-            memberId: displayName,
-            createdAt: `${
-              date.toDateString().split('2023')[0]
-            } at ${date.getHours()}:${date.getMinutes()}`,
-          },
-        );
+        await axios.post('http://localhost:4000/answers', {
+          id: number,
+          questionId: queId,
+          answerId: number,
+          content: getContentMd,
+          choose: false,
+          memberId: displayName,
+          createdAt: `${
+            date.toDateString().split('2023')[0]
+          } at ${date.getHours()}:${date.getMinutes()}`,
+        });
         window.location.reload();
       } catch (error) {
         navigate('/error');
@@ -383,9 +389,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       navigate('/signin');
     } else {
       try {
-        await axios.delete(
-          `https://54b6-116-123-109-9.ngrok-free.app/api/comments?commentId=${id}`,
-        );
+        await axios.delete(`http://localhost:4000/comments?commentId=${id}`);
         window.location.reload();
       } catch (error) {
         navigate('/error');
@@ -399,9 +403,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       navigate('/signin');
     } else {
       try {
-        await axios.delete(
-          `https://54b6-116-123-109-9.ngrok-free.app/api/answers?answerId=${id}`,
-        );
+        await axios.delete(`http://localhost:4000/answers?answerId=${id}`);
         window.location.reload();
       } catch (error) {
         navigate('/error');
@@ -439,15 +441,12 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
         e.preventDefault();
         const date = new Date();
         try {
-          await axios.patch(
-            `https://54b6-116-123-109-9.ngrok-free.app/api/comments?commentId=${id}`,
-            {
-              content: e.target.comment.value,
-              createdAt: `${
-                date.toDateString().split('2023')[0]
-              } at ${date.getHours()}:${date.getMinutes()}`,
-            },
-          );
+          await axios.patch(`http://localhost:4000/comments/?commentId=${id}`, {
+            content: e.target.comment.value,
+            createdAt: `${
+              date.toDateString().split('2023')[0]
+            } at ${date.getHours()}:${date.getMinutes()}`,
+          });
           window.location.reload();
         } catch (error) {
           navigate('/error');
@@ -466,26 +465,14 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       if (newAnswers.length !== 0) alert('You already chose a answer!');
       else {
         try {
-          axios.patch(
-            `https://54b6-116-123-109-9.ngrok-free.app/api/answers?answerId=${id}`,
-            {
-              choose: true,
-            },
-          );
+          axios.patch(`http://localhost:4000/answers?answerId=${id}`, {
+            choose: true,
+          });
           window.location.reload();
         } catch (error) {
           navigate('/error');
         }
       }
-    }
-  };
-
-  const answerEditClick = (id: string) => {
-    if (!token) {
-      alert('You should Log in');
-      navigate('/signin');
-    } else {
-      navigate(`/answeredit`, { state: id });
     }
   };
 
@@ -496,9 +483,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
     } else {
       try {
         console.log(id);
-        await axios.delete(
-          `https://54b6-116-123-109-9.ngrok-free.app/api/questions/${id}`,
-        );
+        await axios.delete(`http://localhost:4000/questions?questionId=${id}`);
         window.location.reload();
         navigate(-1);
       } catch (error) {
@@ -516,7 +501,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
             <button className="linkBtn" type="button">
               Share
             </button>
-            <Link to={{ pathname: `/questionedit/${question.id}` }}>
+            <Link to={{ pathname: `/api/questionedit/${question.questionId}` }}>
               <button className="linkBtn" type="button">
                 Edit
               </button>
@@ -527,7 +512,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
             <button
               className="linkBtn"
               type="button"
-              onClick={() => handleQuestionDelete(question.id)}
+              onClick={() => handleQuestionDelete(question.questionId)}
             >
               Delete
             </button>
@@ -567,14 +552,17 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
                 </span>
               )}
             </button>
-            {answer.content}
+            <Viewer
+              initialValue={answer.content}
+              plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+            />
             <div className="answerBtnUserLayout">
               <div className="btnList">
                 <button className="linkBtn" type="button">
                   Share
                 </button>
                 {token ? (
-                  <Link to={{ pathname: `/answeredit/${answer.answerId}` }}>
+                  <Link to={{ pathname: `/api/answeredit/${answer.answerId}` }}>
                     <button className="linkBtn answerEditBtn" type="button">
                       Edit
                     </button>
@@ -647,10 +635,15 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       </ul>
       <span className="YourAnswer">Your Answer</span>
       <form className="answerForm" onSubmit={(e) => answerSubmit(e)}>
-        <input
-          name="answer"
-          className="AnswerInput"
+        <Editor
           placeholder="Write Answer..."
+          previewStyle="tab"
+          height="300px"
+          initialEditType="markdown"
+          useCommandShortcut
+          ref={editorRef}
+          plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+          hideModeSwitch
         />
         <button className="PostBtn" type="submit">
           Post Your Answer

@@ -1,10 +1,11 @@
 import '../Global.css';
 
+import { useState } from 'react';
+
 // import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 // import '@toast-ui/editor/dist/toastui-editor.css';
 // import { Editor } from '@toast-ui/react-editor';
 import axios from 'axios';
-import { useState } from 'react';
 // import 'tui-color-picker/dist/tui-color-picker.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -119,7 +120,7 @@ function AskQuestion() {
     const date = new Date();
     e.preventDefault();
     axios
-      .post('https://54b6-116-123-109-9.ngrok-free.app/api/questions', {
+      .post('http://localhost:4000/questions', {
         id: (questions.length + 1).toString(),
         questionId: (questions.length + 1).toString(),
         title: titleValue,
