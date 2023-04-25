@@ -47,14 +47,14 @@ function LeftBar2() {
     const home = document.querySelector('.home');
     home!.classList.remove('focus');
     e.target.classList.add('focus');
-    navigate('/qustions');
+    navigate('/api/questions');
   };
 
   const goToHome = (e: any) => {
     const questions = document.querySelector('.questions');
     questions!.classList.remove('focus');
     e.target.classList.add('focus');
-    navigate('/questions');
+    navigate('/api/questions');
   };
 
   const goToTeams = () => {

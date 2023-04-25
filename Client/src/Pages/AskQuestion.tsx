@@ -1,8 +1,8 @@
-import '../Global.css';
-import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
-import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import 'tui-color-picker/dist/tui-color-picker.css';
+import '../Global.css';
 
 import { useRef, useState } from 'react';
 
@@ -146,7 +146,7 @@ function AskQuestion() {
       .then((response) => {
         const { data } = response;
         dispatch(CREATE(data));
-        navigate('/questions');
+        navigate('/api/questions');
       })
       .catch((error) => console.error(error));
   };
@@ -207,7 +207,7 @@ function AskQuestion() {
           </InputQuesiton>
           <AskButtonContainer>
             <QuestionSubmitButton type="submit">등록</QuestionSubmitButton>
-            <Link to="/questions">
+            <Link to="/api/questions">
               <SubmitCansleButton>취소</SubmitCansleButton>
             </Link>
           </AskButtonContainer>

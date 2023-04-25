@@ -1,10 +1,10 @@
-import '../Global.css';
-import 'codemirror/lib/codemirror.css';
-import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import 'codemirror/lib/codemirror.css';
 import 'prismjs/themes/prism.css';
+import '../Global.css';
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import axios from 'axios';
 import Prism from 'prismjs';
@@ -12,6 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Editor, Viewer } from '@toast-ui/react-editor';
 
 import { TypeAnswer, TypeComment, TypeQuestion } from '../TypeQuestion';
@@ -479,11 +480,11 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
   async function handleQuestionDelete(id: string) {
     if (!token) {
       alert('You should Log in');
-      navigate('/signin');
+      navigate('/api/signin');
     } else {
       try {
         console.log(id);
-        await axios.delete(`http://localhost:4000/questions?questionId=${id}`);
+        await axios.delete(`http://localhost:4000/questions/${id}`);
         window.location.reload();
         navigate(-1);
       } catch (error) {
@@ -495,7 +496,10 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
   return (
     <Main>
       <div className="QuestionContent">
-        {question.content}
+        <Viewer
+          initialValue={question.content}
+          plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+        />
         <div className="answerBtnUserLayout">
           <div className="btnList">
             <button className="linkBtn" type="button">
