@@ -8,9 +8,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/preproject?serverTimezone=UTC&characterEncoding=UTF-8
-    username: root
-    password: habin9706136078
+    url: jdbc:mysql://seb43-pre-022-db.co8sqtpbvhgl.ap-northeast-2.rds.amazonaws.com:13306/test?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: admin
+    password: 12341234
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     open-in-view: false
