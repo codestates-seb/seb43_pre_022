@@ -1,15 +1,18 @@
 import '../Global.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
+import 'tui-color-picker/dist/tui-color-picker.css';
+import '@toast-ui/editor/dist/i18n/ko-kr';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
-// import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
-// import '@toast-ui/editor/dist/toastui-editor.css';
-// import { Editor } from '@toast-ui/react-editor';
 import axios from 'axios';
-// import 'tui-color-picker/dist/tui-color-picker.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
+import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+import { Editor } from '@toast-ui/react-editor';
 
 import AskQuestionTip from '../Components/AskQuestionTip';
 import { CREATE } from '../Reducers/questionReducer';
@@ -74,10 +77,10 @@ const InputTitle = styled.input`
   width: 100%;
 `;
 
-const InputText = styled(InputTitle)`
-  width: 100%;
-  height: 300px;
-`;
+// const InputText = styled(InputTitle)`
+//   width: 100%;
+//   height: 300px;
+// `;
 
 const InputQuesiton = styled.div`
   width: 100%;
@@ -115,6 +118,12 @@ function AskQuestion() {
   const dispatch = useDispatch();
 
   const questions = useSelector((state: RootState) => state.crudquestion);
+  const editorRef: any = useRef();
+
+  const onChange = () => {
+    const data = editorRef.current.getInstance().getHTML();
+    setInputValue(data);
+  };
 
   const handleSubmit = (e: any) => {
     const date = new Date();
@@ -181,17 +190,20 @@ function AskQuestion() {
             />
           </InputTitleContainer>
           <InputQuesiton>
-            {/* <Editor
-            height="400px"
-            initialEditType="wysiwyg"
-            plugins={[colorSyntax]}
-          /> */}
-            <InputText
+            <Editor
+              height="400px"
+              initialEditType="wysiwyg"
+              plugins={[colorSyntax]}
+              language="ko-KR"
+              ref={editorRef}
+              onChange={onChange}
+            />
+            {/* <InputText
               type="text"
               placeholder="내용을 입력하세요"
               value={inputValue}
               onChange={(evnet) => setInputValue(evnet.target.value)}
-            />
+            /> */}
           </InputQuesiton>
           <AskButtonContainer>
             <QuestionSubmitButton type="submit">등록</QuestionSubmitButton>

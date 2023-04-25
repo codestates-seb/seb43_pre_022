@@ -116,11 +116,12 @@ function AllQuestions() {
   const dispatch = useDispatch();
   const questions = useSelector((state: RootState) => state.crudquestion);
 
-  const token = localStorage.getItem('accessToken');
+  let token = localStorage.getItem('accessToken');
+  token = 'token';
 
   useEffect(() => {
     setTimeout(() => {
-      axios('http://localhost:4000/questions')
+      axios('http://localhost:4000/questions?page=1&size=10')
         .then((response) => {
           const { data } = response;
           dispatch(READ(data));

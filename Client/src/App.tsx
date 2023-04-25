@@ -16,7 +16,7 @@ import SingleQuestion from './Pages/SingleQuestion';
 function App() {
   //  JWT token 보유 여부에 따라 truthy || falsy
   let token = localStorage.getItem('accessToken');
-  token = 'd';
+  token = 'token';
 
   return (
     <div>
@@ -38,7 +38,6 @@ function App() {
           path="api/askquestion"
           element={token ? <AskQuestion /> : <SignIn />}
         />
-        <Route path="/error" element={<ErrorPage />} />
         <Route
           path="api/questionedit/:id"
           element={token ? <QuestionEdit /> : <SignIn />}
@@ -47,6 +46,7 @@ function App() {
           path="api/answeredit/:id"
           element={token ? <AnswerEdit /> : <SignIn />}
         />
+        <Route path="/error" element={<ErrorPage />} />
       </Routes>
       <Footer />
     </div>
