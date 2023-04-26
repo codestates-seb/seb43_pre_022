@@ -184,7 +184,7 @@ function SignIn() {
             'content-type': 'application/json',
           },
         },
-      ).then(response => {
+      ).then((response) => {
         // 구조분해할당으로 하나로 합칠 수 있는지 확인 필요
         const accessToken = response.headers.get('Authorization');
         const memberId = response.headers.get('memberId');

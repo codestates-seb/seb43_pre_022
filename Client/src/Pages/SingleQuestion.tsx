@@ -67,8 +67,9 @@ function SingleQuestion() {
 
   let { id } = useParams();
   id = id?.toString();
+  console.log(id);
 
-  const token = localStorage.getItem('access_token');
+  const token = localStorage.getItem('accessToken');
 
   const [question, setQuestion] = useState<TypeQuestion>({
     id: '',
@@ -84,9 +85,9 @@ function SingleQuestion() {
   useEffect(() => {
     async function getData() {
       const questionData: any = await axios.get(
-        `http://localhost:4000/questions/?questionId=${id}`,
+        `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions/1`,
       );
-      setQuestion(questionData.data[0]);
+      setQuestion(questionData.data.data);
     }
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -96,8 +97,8 @@ function SingleQuestion() {
   function askQuestionBtn() {
     if (!token) {
       alert('You should sign in');
-      navigate('/signin');
-    } else navigate('/askquestion');
+      navigate('/api/signin');
+    } else navigate('/api/askquestion');
   }
 
   return (
