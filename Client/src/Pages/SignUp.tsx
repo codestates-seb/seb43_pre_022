@@ -266,7 +266,7 @@ function SignUp() {
         },
       ).then((response) => {
         alert('you successfully signed up!');
-        navigation('/signin');
+        navigation('/api/signin');
       });
     } catch (error) {
       /** 중복인 경우와 다른이유로 실패한 경우 삼항으로 구분 */

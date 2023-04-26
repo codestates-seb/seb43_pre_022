@@ -72,7 +72,6 @@ function SingleQuestion() {
   const token = localStorage.getItem('accessToken');
 
   const [question, setQuestion] = useState<TypeQuestion>({
-    id: '',
     questionId: '',
     title: '',
     content: '',
@@ -85,7 +84,7 @@ function SingleQuestion() {
   useEffect(() => {
     async function getData() {
       const questionData: any = await axios.get(
-        `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions/1`,
+        `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions/${id}`,
       );
       setQuestion(questionData.data.data);
     }

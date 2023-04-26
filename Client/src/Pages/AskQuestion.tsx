@@ -111,6 +111,10 @@ const SubmitCansleButton = styled(ButtonCom)`
 `;
 
 function AskQuestion() {
+  let token = localStorage.getItem('accessToken')!;
+  token = token.slice(1, -1);
+  console.log(token);
+
   const [titleValue, setTitleValue] = useState('');
   const [inputValue, setInputValue] = useState('');
 
@@ -132,7 +136,6 @@ function AskQuestion() {
       .post(
         'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions',
         {
-          id: (questions.length + 1).toString(),
           questionId: (questions.length + 1).toString(),
           title: titleValue,
           content: inputValue,
@@ -144,6 +147,12 @@ function AskQuestion() {
           } at ${date.getHours()}:${date.getMinutes()}`,
           memberId: 'raccoon0814',
           answerIds: [],
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${token}`,
+          },
         },
       )
       .then((response) => {

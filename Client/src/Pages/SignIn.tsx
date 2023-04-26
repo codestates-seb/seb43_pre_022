@@ -160,18 +160,6 @@ function SignIn() {
   const handleSignIn: React.MouseEventHandler = async (
     event: React.MouseEvent,
   ) => {
-    /** axios 보내기 전에 유효성 검사 */
-    // if (!idValid || !passwordValid) {
-    //   setSignInMSG('invalid email address or password');
-    //   console.log(signInMSG);
-    //   localStorage.setItem('invalidMSG', 'invalid email address or password');
-    //   return console.log('Invalid');
-    // }
-    /** 통과시 post 요청 */
-    // await new Promise(() => {
-    //   localStorage.setItem('accessToken', '12345');
-    //   console.log('is it work?');
-    // });
     event.preventDefault();
 
     try {
@@ -198,14 +186,14 @@ function SignIn() {
         localStorage.setItem('displayName', JSON.stringify(displayName));
         // localStorage.removeItem('invalidMSG');
         console.log(accessToken);
-        navigation('/questions');
+        window.location.reload();
+        navigation('/api/questions');
       });
     } catch (error) {
       /** signinMSG 유효하지 않다고 설정 */
       setSignInMSG('invalid email address or password');
       navigation('/error');
     }
-    return console.log('never');
   };
 
   return (

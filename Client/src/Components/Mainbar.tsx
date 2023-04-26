@@ -254,13 +254,12 @@ interface Iprops {
 
 function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
   const token = localStorage.getItem('accessToken');
-  let displayName = localStorage.getItem('displayName');
-  displayName = 'hihijin';
+  console.log(token);
+  const displayName = localStorage.getItem('displayName');
   console.log(chooseId);
 
   const navigate = useNavigate();
   const [question, setQuestion] = useState<TypeQuestion>({
-    id: '',
     questionId: '',
     title: '',
     content: '',
@@ -283,7 +282,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
       );
       setQuestion(questionData.data.data);
       setAnswers(
-        answerData.data.filter(
+        answerData.data.data.filter(
           (a: { questionId: string }) => a.questionId === queId,
         ),
       );
@@ -375,16 +374,14 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
         await axios.post(
           'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers',
           {
-            data: {
-              questionId: queId,
-              answerId: number,
-              content: getContentMd,
-              choose: false,
-              memberId: displayName,
-              createdAt: `${
-                date.toDateString().split('2023')[0]
-              } at ${date.getHours()}:${date.getMinutes()}`,
-            },
+            questionId: queId,
+            answerId: number,
+            content: getContentMd,
+            choose: false,
+            memberId: displayName,
+            createdAt: `${
+              date.toDateString().split('2023')[0]
+            } at ${date.getHours()}:${date.getMinutes()}`,
           },
         );
         window.location.reload();

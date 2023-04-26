@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 
 const GetUserInfo = async (id: string) => {
@@ -10,7 +11,7 @@ const GetUserInfo = async (id: string) => {
   try {
     await fetch(`${baseURL}${id}`, {
       method: 'GET',
-    }).then(response => {
+    }).then((response) => {
       //  JSON data 변환해주어야하는지
       response.json();
       const userinfo = response.body;
