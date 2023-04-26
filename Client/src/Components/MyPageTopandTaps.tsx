@@ -1,14 +1,9 @@
-import styled from 'styled-components';
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 import logo from '../assets/stacklogo.png';
 
-import DivCom from '../Styles/DivCom';
-import InputCom from '../Styles/InputCom';
-import ListCom from '../Styles/ListCom';
-import FormCom from '../Styles/FormCom';
 import ButtonCom from '../Styles/ButtonCom';
 
 import { RootState } from '../store/store';
@@ -197,13 +192,16 @@ function MyPageTopandTaps() {
               <ul>
                 <ProfileButton onClick={profileTap}>
                   <div />
+                  <div />
                   <div>Member for 3 days</div>
                 </ProfileButton>
                 <ProfileButton>
                   <div />
+                  <div />
                   <div>Last seen this week</div>
                 </ProfileButton>
                 <ProfileButton>
+                  <div />
                   <div />
                   <div>Visited 3 days, 3 consecutive</div>
                 </ProfileButton>
@@ -212,7 +210,8 @@ function MyPageTopandTaps() {
           </DivCom>
           <DivCom className="top-right">
             <EditButton href="http://localhost:3000/mypage/editprofile">
-              <svg width={'14px'} height={'14px'}></svg>Edit profile
+              <svg width="14px" height="14px" />
+              Edit profile
             </EditButton>
           </DivCom>
         </DivCom>
@@ -232,7 +231,7 @@ function MyPageTopandTaps() {
             Settings
           </TapButton>
         </div>
-        <DivCom className="auto"></DivCom>
+        <DivCom className="auto" />
       </MypageTaps>
     </TopTapWrapper>
   );

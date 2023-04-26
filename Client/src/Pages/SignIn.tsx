@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import axios from 'axios';
+import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -187,11 +187,10 @@ function SignIn() {
 
           alert(`Welcome back!`);
           //  signin 성공시 memberId,displayname,토큰 로컬에 저장.
-          localStorage.setItem('accessToken', JSON.stringify(accessToken));
+          localStorage.setItem('accessToken', accessToken);
           localStorage.setItem('memberId', JSON.stringify(memberId));
           localStorage.setItem('displayName', JSON.stringify(displayName));
           // localStorage.removeItem('invalidMSG');
-          console.log(accessToken);
           window.location.reload();
           navigation('/api/questions');
         });

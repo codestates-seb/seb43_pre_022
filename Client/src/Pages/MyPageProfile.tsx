@@ -1,17 +1,12 @@
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
 import DivCom from '../Styles/DivCom';
-import InputCom from '../Styles/InputCom';
-import ListCom from '../Styles/ListCom';
-import FormCom from '../Styles/FormCom';
-import ButtonCom from '../Styles/ButtonCom';
 
 import { MyPageColumns } from '../Components/MyPageColumns';
 import Stats from '../Components/Stats';
-import GetUserInfo from '../util/GetUserInfo';
 import { CHANGE } from '../Reducers/userInfoReducer';
+import GetUserInfo from '../util/GetUserInfo';
 
 const ProfileContainer = styled(DivCom)`
   margin: 0;
@@ -50,7 +45,7 @@ function MyPageProfile() {
           <DivCom className="Communities">
             <DivCom className="comm-title">Communities</DivCom>
             <DivCom className="comm-box">
-              <img src="" className="comlogo" />
+              <img src="" className="comlogo" alt="LOGO" />
               <div>Stack Overflow</div>
               <div>1</div>
             </DivCom>
@@ -70,7 +65,7 @@ function MyPageProfile() {
           <DivCom className="Badges">
             <DivCom className="badges-title">Communities</DivCom>
             <DivCom className="badges-box">
-              <img src="" className="comlogo" />
+              <img src="" className="comlogo" alt="LOGO" />
               <div>Stack Overflow</div>
               <div>1</div>
             </DivCom>
@@ -78,7 +73,7 @@ function MyPageProfile() {
           <DivCom className="Communities">
             <DivCom className="comm-title">Communities</DivCom>
             <DivCom className="comm-box">
-              <img src="" className="comlogo" />
+              <img src="" className="comlogo" alt="LOGO" />
               <div>Stack Overflow</div>
               <div>1</div>
             </DivCom>
