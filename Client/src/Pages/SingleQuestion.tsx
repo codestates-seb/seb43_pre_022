@@ -72,7 +72,6 @@ function SingleQuestion() {
   const token = localStorage.getItem('accessToken');
 
   const [question, setQuestion] = useState<TypeQuestion>({
-    id: '',
     questionId: '',
     title: '',
     content: '',

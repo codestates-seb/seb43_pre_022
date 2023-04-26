@@ -4,17 +4,31 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import 'codemirror/lib/codemirror.css';
 import 'prismjs/themes/prism.css';
 
-import { useEffect, useRef, useState } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import axios from 'axios';
 import Prism from 'prismjs';
-import { Link, useNavigate } from 'react-router-dom';
+import {
+  Link,
+  useNavigate,
+} from 'react-router-dom';
 import styled from 'styled-components';
 
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
-import { Editor, Viewer } from '@toast-ui/react-editor';
+import {
+  Editor,
+  Viewer,
+} from '@toast-ui/react-editor';
 
-import { TypeAnswer, TypeComment, TypeQuestion } from '../TypeQuestion';
+import {
+  TypeAnswer,
+  TypeComment,
+  TypeQuestion,
+} from '../TypeQuestion';
 
 export const Main = styled.div`
   box-sizing: border-box;
@@ -254,13 +268,11 @@ interface Iprops {
 
 function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
   const token = localStorage.getItem('accessToken')!;
-  let displayName = localStorage.getItem('displayName');
-  displayName = 'hihijin';
-  console.log(chooseId);
+  const displayName = localStorage.getItem('displayName');
+  console.log(displayName);
 
   const navigate = useNavigate();
   const [question, setQuestion] = useState<TypeQuestion>({
-    id: '',
     questionId: '',
     title: '',
     content: '',
@@ -305,6 +317,8 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
       .then((data) => setComments(data.data));
   }, []);
 
+  console.log(answers, comments);
+
   const handleWriteButton = (event: any, targetId: string) => {
     if (!token) {
       alert('You should Log in');
@@ -342,15 +356,9 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
           await axios.post(
             'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/comments',
             {
-              id: number,
-              questionId: question.questionId,
               answerId: targetId,
               commentId: number,
               content: e.target.comment.value,
-              memberId: displayName,
-              createdAt: `${
-                date.toDateString().split('2023')[0]
-              } at ${date.getHours()}:${date.getMinutes()}`,
             },
             {
               headers: {
@@ -380,20 +388,12 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
         alert('The content is empty!');
         window.location.reload();
       }
-      const number = Math.random().toString();
-      const date = new Date();
       try {
         await axios.post(
           'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers',
           {
             questionId: queId,
-            answerId: number,
             content: getContentMd,
-            choose: false,
-            memberId: displayName,
-            createdAt: `${
-              date.toDateString().split('2023')[0]
-            } at ${date.getHours()}:${date.getMinutes()}`,
           },
           {
             headers: {
@@ -453,7 +453,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
     }
   }
 
-  async function commentEdit(event: any, id: string) {
+  async function commentEditHandler(event: any, commentId: string) {
     if (!token) {
       alert('You should Log in');
       navigate('/api/signin');
@@ -475,7 +475,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
     form.appendChild(input);
     form.appendChild(button);
 
-    async function commentEditHandler(e: any) {
+    async function commentEdit(e: any) {
       if (!token) {
         alert('You should Log in');
         navigate('/signin');
@@ -484,12 +484,9 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
         const date = new Date();
         try {
           await axios.patch(
-            `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/comments/${id}`,
+            `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/comments/${commentId}`,
             {
               content: e.target.comment.value,
-              createdAt: `${
-                date.toDateString().split('2023')[0]
-              } at ${date.getHours()}:${date.getMinutes()}`,
             },
             {
               headers: {
@@ -504,22 +501,23 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
         }
       }
     }
-    form.addEventListener('submit', (e) => commentEditHandler(e));
+    form.addEventListener('submit', (e) => commentEdit(e));
   }
 
-  const answerChoose = (id: string) => {
+  const answerChoose = (answerId: string, content: string) => {
     if (!token) {
       alert('You should Log in');
       navigate('/api/signin');
     } else {
-      const newAnswers = answers.filter((answer) => answer.choose);
+      const newAnswers = answers.filter((answer) => answer.selected);
       if (newAnswers.length !== 0) alert('You already chose a answer!');
       else {
         try {
           axios.patch(
-            `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers/${id}`,
+            `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers/${answerId}`,
             {
-              choose: true,
+              content: content,
+              selected: true,
             },
             {
               headers: {
@@ -543,7 +541,6 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
     } else {
       try {
         console.log(id);
-        console.log(token);
         await axios.delete(
           `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions/${id}`,
           {
@@ -606,15 +603,14 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
           const answerCreatedDate = `${
             date.toDateString().split('2023')[0]
           } at ${date.getHours()}:${date.getMinutes()}`;
-
           return (
             <li className="answerli" key={answer.answerId}>
               <button
                 type="button"
-                onClick={() => answerChoose(answer.answerId!)}
+                onClick={() => answerChoose(answer.answerId, answer.content)}
                 className="answerChoose"
               >
-                {answer.choose ? (
+                {answer.selected ? (
                   <span
                     className="answerChoosegreen"
                     style={{ color: 'green' }}
@@ -641,7 +637,9 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
                   </button>
                   {token ? (
                     <Link
-                      to={{ pathname: `/api/answeredit/${answer.answerId}` }}
+                      to={{
+                        pathname: `/api/answeredit/${answer.answerId}`,
+                      }}
                     >
                       <button className="linkBtn answerEditBtn" type="button">
                         Edit
@@ -673,7 +671,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
                       className="userImage"
                       src="https://bantax.co.kr/common/img/default_profile.png"
                     />
-                    <span className="userId">{answer.memberId}</span>
+                    <span className="userId">{displayName}</span>
                   </div>
                 </QuestionUser>
               </div>
@@ -690,7 +688,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
                       <li key={comment.commentId}>
                         <div>
                           {comment.content} -{' '}
-                          <span className="userId">{comment.memberId}</span>
+                          <span className="userId">{displayName}</span>
                           <span className="createdTime">
                             {commentCreatedAt}
                           </span>
@@ -699,7 +697,9 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
                           <button
                             className="commentEditBtn"
                             type="button"
-                            onClick={(e) => commentEdit(e, comment.commentId!)}
+                            onClick={(e) =>
+                              commentEditHandler(e, comment.commentId!)
+                            }
                           >
                             Edit
                           </button>

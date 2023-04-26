@@ -22,6 +22,7 @@ function App() {
       console.log('null');
       return false;
     }
+    console.log('true');
     return true;
   };
 

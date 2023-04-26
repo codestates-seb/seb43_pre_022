@@ -1,11 +1,10 @@
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
-import DivCom from '../Styles/DivCom';
-
 import { MyPageColumns } from '../Components/MyPageColumns';
 import Stats from '../Components/Stats';
 import { CHANGE } from '../Reducers/userInfoReducer';
+import DivCom from '../Styles/DivCom';
 import GetUserInfo from '../util/GetUserInfo';
 
 const ProfileContainer = styled(DivCom)`
@@ -28,12 +27,12 @@ function MyPageProfile() {
   const dispatch = useDispatch();
 
   /** Userinfo GET test buttonEventhandler */
-  const testhandler = () => {
+  const testhandler = async () => {
     const memberid = localStorage.getItem('memberId');
     console.log(memberid);
     if (memberid !== null) {
       const user = GetUserInfo(memberid);
-      dispatch(CHANGE(user));
+      dispatch(CHANGE(await user));
     }
   };
 
@@ -45,7 +44,7 @@ function MyPageProfile() {
           <DivCom className="Communities">
             <DivCom className="comm-title">Communities</DivCom>
             <DivCom className="comm-box">
-              <img src="" className="comlogo" alt="LOGO" />
+              <img alt="" src="" className="comlogo" />
               <div>Stack Overflow</div>
               <div>1</div>
             </DivCom>
@@ -65,7 +64,7 @@ function MyPageProfile() {
           <DivCom className="Badges">
             <DivCom className="badges-title">Communities</DivCom>
             <DivCom className="badges-box">
-              <img src="" className="comlogo" alt="LOGO" />
+              <img alt="" src="" className="comlogo" />
               <div>Stack Overflow</div>
               <div>1</div>
             </DivCom>
@@ -73,7 +72,7 @@ function MyPageProfile() {
           <DivCom className="Communities">
             <DivCom className="comm-title">Communities</DivCom>
             <DivCom className="comm-box">
-              <img src="" className="comlogo" alt="LOGO" />
+              <img alt="" src="" className="comlogo" />
               <div>Stack Overflow</div>
               <div>1</div>
             </DivCom>

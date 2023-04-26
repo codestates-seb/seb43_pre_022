@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logo from '../assets/stacklogo.png';
-
-import ButtonCom from '../Styles/ButtonCom';
-
 import { RootState } from '../store/store';
+import ButtonCom from '../Styles/ButtonCom';
+import DivCom from '../Styles/DivCom';
 
 const TopTapWrapper = styled.div`
   position: relative;
@@ -218,16 +217,24 @@ function MyPageTopandTaps() {
       </MypageTopWrapper>
       <MypageTaps>
         <div className="navigations">
-          <TapButton className="tap profile" onClick={profileTap}>
+          <TapButton
+            className="tap profile"
+            role="presentation"
+            onClick={profileTap}
+          >
             Profile
           </TapButton>
-          <TapButton className="tap activity" onClick={activityTap}>
+          <TapButton
+            className="tap activity"
+            role="presentation"
+            onClick={activityTap}
+          >
             Activity
           </TapButton>
-          <TapButton className="tap" onClick={savesTap}>
+          <TapButton className="tap" role="presentation" onClick={savesTap}>
             Saves
           </TapButton>
-          <TapButton className="tap" onClick={settingsTap}>
+          <TapButton className="tap" role="presentation" onClick={settingsTap}>
             Settings
           </TapButton>
         </div>

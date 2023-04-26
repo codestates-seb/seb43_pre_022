@@ -4,10 +4,17 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '../Global.css';
 
-import { useRef, useState } from 'react';
+import {
+  useRef,
+  useState,
+} from 'react';
 
 import axios from 'axios';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import {
+  Link,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import styled from 'styled-components';
 
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
@@ -141,7 +148,7 @@ function QuestionEdit() {
           {
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
+              Authorization: `${token}`,
             },
           },
         );
