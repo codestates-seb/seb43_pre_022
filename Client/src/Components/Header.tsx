@@ -57,6 +57,9 @@ const NavDiv = styled.div`
   padding-right: 10px;
   color: var(--header-color);
   height: 100%;
+  img {
+    border-radius: 3px;
+  }
 
   #Navol {
     display: flex;
@@ -95,16 +98,17 @@ const NavButtonA = styled.a<{ isBlue: boolean }>`
   border-radius: 3px;
   cursor: pointer;
   height: 33px;
-  width: ${props => (props.isBlue ? '66.42px' : '58.25px')};
+  width: ${(props) => (props.isBlue ? '66.42px' : '58.25px')};
 
   font-size: 13px;
   text-decoration: none;
-  border: ${props =>
+  border: ${(props) =>
     props.isBlue
       ? 'var(--blue-button)'
       : '0.2px solid var(--lightblue-button-text)'};
-  color: ${props => (props.isBlue ? 'white' : 'var(--lightblue-button-text)')};
-  background-color: ${props =>
+  color: ${(props) =>
+    props.isBlue ? 'white' : 'var(--lightblue-button-text)'};
+  background-color: ${(props) =>
     props.isBlue ? 'var(--blue-button)' : 'var(lightblue-button'};
 `;
 
@@ -121,13 +125,13 @@ function Header() {
     navigate('/mypage/profile');
   };
   const loginClick = () => {
-    navigate('signin');
+    navigate('/api/signin');
   };
   const signupClick = () => {
-    navigate('signup');
+    navigate('/api/signup');
   };
   const logoutClick = () => {
-    navigate('/logout');
+    navigate('/api/logout');
   };
 
   const token = localStorage.getItem('accessToken');
@@ -138,9 +142,15 @@ function Header() {
         <div />
 
         <DivCom>
-          <Link to="/">
-            <img src={logo} alt="" width="140px" height="40px" />
-          </Link>
+          {token ? (
+            <Link to="/api/questions">
+              <img src={logo} alt="" width="140px" height="40px" />
+            </Link>
+          ) : (
+            <Link to="/">
+              <img src={logo} alt="" width="140px" height="40px" />
+            </Link>
+          )}
         </DivCom>
         <NavDiv>
           {/* token 유무에 따라 다른 항목 렌더링 */}
@@ -171,10 +181,11 @@ function Header() {
           <DivCom>
             <NavDiv>
               <img
+                onClick={gotoprofile}
                 width="24px"
                 height="24px"
                 alt="profile"
-                onClick={gotoprofile}
+                src="https://bantax.co.kr/common/img/default_profile.png"
               />
             </NavDiv>
             <NavDiv>

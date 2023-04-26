@@ -1,10 +1,10 @@
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
-import DivCom from '../Styles/DivCom';
-import ListCom from '../Styles/ListCom';
-import FormCom from '../Styles/FormCom';
 import ButtonCom from '../Styles/ButtonCom';
+import DivCom from '../Styles/DivCom';
+import FormCom from '../Styles/FormCom';
+import ListCom from '../Styles/ListCom';
 
 const LogOutwrapper = styled(DivCom)`
   padding-top: 100px;
@@ -32,25 +32,30 @@ const LogOutList = styled(ListCom)`
 const LogOutDiv = styled(DivCom)`
   display: flex;
   flex-direction: column;
+
   .Message {
     flex-wrap: wrap;
     font-size: 21px;
     margin: 0 0 24px;
     width: 526px;
   }
+
   .input-container {
     display: flex;
     flex-direction: column;
   }
+
   .LOsection2 {
     height: 20px;
     width: 268px;
     margin: 0 0 16px;
   }
+
   .LOsection3 {
     height: 42px;
     width: 268px;
   }
+
   .LOsectionbottom {
     font-size: 12px;
     color: hsl(210, 8%, 45%);
@@ -71,9 +76,11 @@ const LOButton = styled(ButtonCom)`
   margin: 2px;
   color: white;
   background-color: var(--blue-600);
+
   &:hover {
     background-color: var(--blue-700);
   }
+
   #LOCancel {
     background-color: none;
     color: var(--blue-600);

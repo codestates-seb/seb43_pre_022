@@ -45,14 +45,14 @@ function LeftBar3() {
     const home = document.querySelector('.home');
     home!.classList.remove('focus');
     e.target.classList.add('focus');
-    navigate('/');
+    navigate('/api/qustions');
   };
 
   const goToHome = (e: any) => {
     const questions = document.querySelector('.questions');
     questions!.classList.remove('focus');
     e.target.classList.add('focus');
-    navigate('/');
+    navigate('/api/questions');
   };
 
   const goToUsers = (e: any) => {
@@ -72,21 +72,25 @@ function LeftBar3() {
 
   return (
     <Div>
-      <div className="link home" role="presentation" onClick={e => goToHome(e)}>
+      <div
+        className="link home"
+        role="presentation"
+        onClick={(e) => goToHome(e)}
+      >
         Home
       </div>
       <div className="link">PUBLIC</div>
       <div
         className="link questions"
         role="presentation"
-        onClick={e => goToQuesions(e)}
+        onClick={(e) => goToQuesions(e)}
       >
         Questions
       </div>
       <div
         className="link users focus"
         role="presentation"
-        onClick={e => goToUsers(e)}
+        onClick={(e) => goToUsers(e)}
       >
         Users
       </div>
