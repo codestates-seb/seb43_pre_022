@@ -250,11 +250,21 @@ function SignUp() {
     }
   };
 
+  /* 네트워크에 get 요청이 기본작동되는 것 같아 e.preventDefault 추가함 */
   /** 회원가입 버튼 누를 시 작동하는 함수 */
-  const handleSignUp = () => {
-    axios
-      .post(`http://localhost:4000/members`, signUpInfo)
-      .then((response) => {
+  const handleSignUp: React.MouseEventHandler = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    try {
+      await fetch(
+        ` http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/members`,
+        {
+          method: 'POST',
+          body: JSON.stringify(signUpInfo),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      ).then((response) => {
         alert('you successfully signed up!');
         navigation('/signin');
       });
