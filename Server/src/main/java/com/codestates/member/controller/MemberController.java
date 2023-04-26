@@ -12,6 +12,7 @@ import com.codestates.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ import java.net.URI;
 @RequestMapping("/api/members")
 @Validated
 @Slf4j
+@Transactional
 public class MemberController {
     private final static String MEMBER_DEFAULT_URL="/api/members";
     private final MemberService memberService;
