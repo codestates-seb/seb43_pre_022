@@ -54,6 +54,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         //delegateRefreshToken(member) 메서드를 이용해 Refresh Token을 생성합니다.
 
         response.setHeader("Authorization","Bearer "+accessToken);
+        response.setHeader("memberId", String.valueOf(member.getMemberId()));
+        response.setHeader("displayName",member.getEmail());
         // response header(Authorization)에 Access Token을 추가합니다.
         // Access Token은 클라이언트 측에서 백엔드 애플리케이션 측에 요청을 보낼 때마다 request header에 추가해서 클라이언트 측의 자격을 증명하는 데 사용됩니다.
         response.setHeader("Refresh",refreshToken);
