@@ -22,7 +22,6 @@ function App() {
       console.log('null');
       return false;
     }
-    console.log('ture');
     return true;
   };
 

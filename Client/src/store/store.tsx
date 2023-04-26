@@ -1,16 +1,18 @@
 import { configureStore, Store } from '@reduxjs/toolkit';
 
-import loginInfoReducer from '../Reducers/loginInfoReducer';
+import userInfoReducer from '../Reducers/userInfoReducer';
 import questionReducer from '../Reducers/questionReducer';
 
+import { UserInfo } from '../TypeQuestion';
+
 export type RootState = {
-  loginInfoReducer: any;
+  userInfos: UserInfo;
   crudquestion: any;
 };
 
 const store: Store<RootState> = configureStore({
   reducer: {
-    loginInfoReducer,
+    userInfos: userInfoReducer,
     crudquestion: questionReducer,
   },
 });
