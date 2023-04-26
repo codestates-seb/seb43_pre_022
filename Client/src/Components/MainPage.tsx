@@ -3,7 +3,7 @@ import '../Global.css';
 
 const MainContainer = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 960px;
   background-color: var(--black-100);
   display: flex;
   align-items: center;
@@ -23,8 +23,7 @@ const ItemContainer = styled.div`
 
 const TwinBoxContainer = styled.div`
   width: 80%;
-  height: 360px;
-  padding: 15px;
+  padding: 15px 15px 0px 15px;
   display: flex;
 `;
 
@@ -32,17 +31,25 @@ const TwinBoxOrange = styled.div`
   width: 100%;
   height: 300px;
   border-radius: 10px;
-  margin: 16px;
+  margin: 0px 16px 0px 0px;
   background-color: var(--orange-100);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 24px;
+  @media screen and (min-width: 600px) {
+    border-bottom-right-radius: 0px;
+  }
 `;
 
 const TwinBoxBlue = styled(TwinBoxOrange)`
   background-color: var(--blue-100);
+  border-radius: 10px;
+  margin: 0px 0px 0px 16px;
+  @media screen and (min-width: 600px) {
+    border-bottom-left-radius: 0px;
+  }
 `;
 
 const MainText = styled.div`
@@ -72,10 +79,56 @@ const TwinButtonOrange = styled.a`
   justify-content: center;
   align-items: center;
   background-color: var(--orange-500);
+  &:hover {
+    background-color: var(--orange-600);
+  }
 `;
 
 const TwinButtonBlue = styled(TwinButtonOrange)`
   background-color: var(--blue-500);
+  &:hover {
+    background-color: var(--blue-600);
+  }
+`;
+
+const AdditionalTextContainer = styled.div`
+  width: 80%;
+  display: flex;
+  margin: 10px;
+`;
+
+const AdditionalText = styled.div`
+  width: 25%;
+  height: 100px;
+  margin: 10px 0px 10px 10px;
+  text-align: center;
+  color: var(--white);
+  > span {
+    font-size: 24px;
+    font-weight: 700;
+  }
+`;
+
+const Triangles = styled.div`
+  display: flex;
+`;
+
+const OrangeTriangle = styled.div`
+  width: 32px;
+  height: 32px;
+  margin: 0px 16px 16px 0px;
+  clip-path: polygon(18px 0, 32px 0, -8px 40px, 0 38px, 0 0, 18px 0);
+  background-color: var(--orange-100);
+  transform: scaleX(-1);
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+`;
+
+const BlueTriangle = styled(OrangeTriangle)`
+  background-color: var(--blue-100);
+  margin: 0px 0px 16px 16px;
+  transform: scaleX(1);
 `;
 
 function MainPage() {
@@ -97,10 +150,32 @@ function MainPage() {
             <TwinButtonBlue>Discover Teams</TwinButtonBlue>
           </TwinBoxBlue>
         </TwinBoxContainer>
+        <Triangles>
+          <OrangeTriangle />
+          <BlueTriangle />
+        </Triangles>
         <MainText>
           Every <span>developer</span> has a <br />
           tab open to stack Overflow
         </MainText>
+        <AdditionalTextContainer>
+          <AdditionalText>
+            <span>100+ million</span>
+            <br /> monthly visitors to Stack Overflow & Stack Exchange
+          </AdditionalText>
+          <AdditionalText>
+            <span>45.1 billion</span>
+            <br /> Times a developer got help since 2008
+          </AdditionalText>
+          <AdditionalText>
+            <span>191% ROI</span>
+            <br /> from companies using Stack Overflow for Teams
+          </AdditionalText>
+          <AdditionalText>
+            <span>5,000+</span>
+            <br /> Stack Overflow for Teams instances active every day
+          </AdditionalText>
+        </AdditionalTextContainer>
       </ItemContainer>
     </MainContainer>
   );

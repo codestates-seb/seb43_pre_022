@@ -138,7 +138,7 @@ function AnswerEdit() {
             <QuestionSubmitButton type="submit">
               Save edits
             </QuestionSubmitButton>
-            <Link to="/question">
+            <Link to="/questions">
               <SubmitCancleButton>Cancle</SubmitCancleButton>
             </Link>
           </AskButtonContainer>

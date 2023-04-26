@@ -8,6 +8,7 @@ import AskQuestion from './Pages/AskQuestion';
 import ErrorPage from './Pages/ErrorPage';
 import LogOut from './Pages/LogOut';
 import QuestionEdit from './Pages/QuestionEdit';
+import QuestionList from './Pages/QuestionList';
 import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import SingleQuestion from './Pages/SingleQuestion';
@@ -30,6 +31,9 @@ function App() {
     <div>
       <Header />
       <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="api/questions" element={<QuestionList />} />
+        <Route path="api/question/:id" element={<SingleQuestion />} />
         <Route
           path="/"
           element={

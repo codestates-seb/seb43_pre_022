@@ -68,8 +68,7 @@ function SingleQuestion() {
   let { id } = useParams();
   id = id?.toString();
 
-  let token = localStorage.getItem('access_token');
-  token = 'token';
+  const token = localStorage.getItem('access_token');
 
   const [question, setQuestion] = useState<TypeQuestion>({
     id: '',
@@ -85,7 +84,7 @@ function SingleQuestion() {
   useEffect(() => {
     async function getData() {
       const questionData: any = await axios.get(
-        `http://localhost:4000/questions?questionId=${id}`,
+        `http://localhost:4000/questions/?questionId=${id}`,
       );
       setQuestion(questionData.data[0]);
     }

@@ -1,10 +1,19 @@
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import 'codemirror/lib/codemirror.css';
+import 'prismjs/themes/prism.css';
 import '../Global.css';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import axios from 'axios';
+import Prism from 'prismjs';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
+import { Editor, Viewer } from '@toast-ui/react-editor';
 
 import { TypeAnswer, TypeComment, TypeQuestion } from '../TypeQuestion';
 
@@ -52,8 +61,7 @@ export const Main = styled.div`
     width: 99%;
     margin-left: -20px;
   }
-  .answerForm,
-  .AnswerInput {
+  .answerForm {
     height: 200px;
     width: 98%;
   }
@@ -245,10 +253,11 @@ interface Iprops {
   chooseId: string;
 }
 
-function Mainbar({ chooseId }: Iprops): JSX.Element {
-  const displayName = 'hihijin';
-  let token = localStorage.getItem('access_token');
-  token = 'token';
+function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
+  let token = localStorage.getItem('accessToken');
+  let displayName = localStorage.getItem('displayName');
+  displayName = 'hihijin';
+  token = 'd';
 
   const navigate = useNavigate();
   const [question, setQuestion] = useState<TypeQuestion>({
@@ -342,13 +351,15 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
     form.addEventListener('submit', (e) => commentSubmitHandler(e));
   };
 
+  const editorRef = useRef<Editor>(null);
   async function answerSubmit(e: any) {
+    const getContentMd = editorRef.current?.getInstance().getMarkdown() || '';
     if (!token) {
       alert('You should Log in');
       navigate('/signin');
     } else {
       e.preventDefault();
-      if (e.target.answer.value === '') {
+      if (getContentMd === '') {
         alert('The content is empty!');
         window.location.reload();
       }
@@ -359,7 +370,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
           id: number,
           questionId: queId,
           answerId: number,
-          content: e.target.answer.value,
+          content: getContentMd,
           choose: false,
           memberId: displayName,
           createdAt: `${
@@ -379,7 +390,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       navigate('/signin');
     } else {
       try {
-        await axios.delete(`http://localhost:4000/comments/${id}`);
+        await axios.delete(`http://localhost:4000/comments?commentId=${id}`);
         window.location.reload();
       } catch (error) {
         navigate('/error');
@@ -393,7 +404,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       navigate('/signin');
     } else {
       try {
-        await axios.delete(`http://localhost:4000/answers/${id}`);
+        await axios.delete(`http://localhost:4000/answers?answerId=${id}`);
         window.location.reload();
       } catch (error) {
         navigate('/error');
@@ -431,7 +442,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
         e.preventDefault();
         const date = new Date();
         try {
-          await axios.patch(`http://localhost:4000/comments/${id}`, {
+          await axios.patch(`http://localhost:4000/comments/?commentId=${id}`, {
             content: e.target.comment.value,
             createdAt: `${
               date.toDateString().split('2023')[0]
@@ -455,7 +466,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       if (newAnswers.length !== 0) alert('You already chose a answer!');
       else {
         try {
-          axios.patch(`http://localhost:4000/answers/${id}`, {
+          axios.patch(`http://localhost:4000/answers?answerId=${id}`, {
             choose: true,
           });
           window.location.reload();
@@ -466,19 +477,10 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
     }
   };
 
-  const answerEditClick = (id: string) => {
-    if (!token) {
-      alert('You should Log in');
-      navigate('/signin');
-    } else {
-      navigate(`/answeredit`, { state: id });
-    }
-  };
-
   async function handleQuestionDelete(id: string) {
     if (!token) {
       alert('You should Log in');
-      navigate('/signin');
+      navigate('/api/signin');
     } else {
       try {
         console.log(id);
@@ -491,25 +493,19 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
     }
   }
 
-  const questionEditClick = (id: string) => {
-    if (!token) {
-      alert('You should Log in');
-      navigate('/signin');
-    } else {
-      navigate(`/questionedit`, { state: id });
-    }
-  };
-
   return (
     <Main>
       <div className="QuestionContent">
-        {question.content}
+        <Viewer
+          initialValue={question.content}
+          plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+        />
         <div className="answerBtnUserLayout">
           <div className="btnList">
             <button className="linkBtn" type="button">
               Share
             </button>
-            <Link to={{ pathname: `/questionedit/${question.id}` }}>
+            <Link to={{ pathname: `/api/questionedit/${question.questionId}` }}>
               <button className="linkBtn" type="button">
                 Edit
               </button>
@@ -520,7 +516,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
             <button
               className="linkBtn"
               type="button"
-              onClick={() => handleQuestionDelete(question.id)}
+              onClick={() => handleQuestionDelete(question.questionId)}
             >
               Delete
             </button>
@@ -541,10 +537,10 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       <span className="AnswerTitle">{answers.length} Answer</span>
       <ul className="answerUl">
         {answers.map((answer) => (
-          <li className="answerli" key={answer.id}>
+          <li className="answerli" key={answer.answerId}>
             <button
               type="button"
-              onClick={() => answerChoose(answer.id!)}
+              onClick={() => answerChoose(answer.answerId!)}
               className="answerChoose"
             >
               {answer.choose ? (
@@ -560,14 +556,17 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
                 </span>
               )}
             </button>
-            {answer.content}
+            <Viewer
+              initialValue={answer.content}
+              plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+            />
             <div className="answerBtnUserLayout">
               <div className="btnList">
                 <button className="linkBtn" type="button">
                   Share
                 </button>
                 {token ? (
-                  <Link to={{ pathname: `/answeredit/${answer.id}` }}>
+                  <Link to={{ pathname: `/api/answeredit/${answer.answerId}` }}>
                     <button className="linkBtn answerEditBtn" type="button">
                       Edit
                     </button>
@@ -585,7 +584,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
                 <button
                   className="linkBtn answerDeleteBtn"
                   type="button"
-                  onClick={() => answerDelete(answer.id!)}
+                  onClick={() => answerDelete(answer.answerId!)}
                 >
                   Delete
                 </button>
@@ -616,14 +615,14 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
                       <button
                         className="commentEditBtn"
                         type="button"
-                        onClick={(e) => commentEdit(e, comment.id!)}
+                        onClick={(e) => commentEdit(e, comment.commentId!)}
                       >
                         Edit
                       </button>
                       <button
                         className="commentDeleteBtn"
                         type="button"
-                        onClick={() => commentDelete(comment.id!)}
+                        onClick={() => commentDelete(comment.commentId!)}
                       >
                         Delete
                       </button>
@@ -632,7 +631,7 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
                 ))}
             </ul>
             <div className="showInput" />
-            <Comment onClick={(e) => handleWriteButton(e, answer.id!)}>
+            <Comment onClick={(e) => handleWriteButton(e, answer.answerId!)}>
               Add a comment
             </Comment>
           </li>
@@ -640,10 +639,15 @@ function Mainbar({ chooseId }: Iprops): JSX.Element {
       </ul>
       <span className="YourAnswer">Your Answer</span>
       <form className="answerForm" onSubmit={(e) => answerSubmit(e)}>
-        <input
-          name="answer"
-          className="AnswerInput"
+        <Editor
           placeholder="Write Answer..."
+          previewStyle="tab"
+          height="300px"
+          initialEditType="markdown"
+          useCommandShortcut
+          ref={editorRef}
+          plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+          hideModeSwitch
         />
         <button className="PostBtn" type="submit">
           Post Your Answer

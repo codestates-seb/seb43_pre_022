@@ -116,15 +116,18 @@ function AllQuestions() {
   const dispatch = useDispatch();
   const questions = useSelector((state: RootState) => state.crudquestion);
 
+  let token = localStorage.getItem('accessToken');
+  token = 'token';
+
   useEffect(() => {
-    setTimeout(async () => {
-      axios('http://localhost:4000/questions')
+    setTimeout(() => {
+      axios('http://localhost:4000/questions?page=1&size=10')
         .then((response) => {
           const { data } = response;
           dispatch(READ(data));
         })
         .catch((error) => console.log(error));
-    }, 500);
+    }, 1000);
   }, [dispatch]);
 
   return (
@@ -132,7 +135,7 @@ function AllQuestions() {
       <div className="AllQuestionHeader">
         <div className="AllQuestionTitle">All Questions</div>
         <AllQuestionButtonContainer>
-          <Link to="/askquestion">
+          <Link to="/api/askquestion">
             <AskQuestionButton>Ask Question</AskQuestionButton>
           </Link>
           <SortButtonContainer>
@@ -151,7 +154,7 @@ function AllQuestions() {
                 </div>
                 <div className="SingleQuestionContainer">
                   <Link
-                    to={{ pathname: `/question/${item.questionId}` }}
+                    to={{ pathname: `/api/question/${item.questionId}` }}
                     style={{ textDecoration: 'none' }}
                   >
                     <div role="presentation" className="QuestionTitle">

@@ -121,10 +121,10 @@ function Header() {
     navigate('/mypage/profile');
   };
   const loginClick = () => {
-    navigate('/signin');
+    navigate('signin');
   };
   const signupClick = () => {
-    navigate('/signup');
+    navigate('signup');
   };
   const logoutClick = () => {
     navigate('/logout');
