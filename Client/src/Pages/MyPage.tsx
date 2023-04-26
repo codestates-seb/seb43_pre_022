@@ -9,10 +9,12 @@ import EditProfile from './EditProfile';
 import LeftBar from '../Components/LeftBar3';
 
 const MyPageContainer = styled(DivCom)`
-  flex-direction: column;
-
   .barwrapper {
     display: flex;
+  }
+  .centerwrapper {
+    display: flex;
+    flex-direction: column;
   }
 `;
 
@@ -30,9 +32,11 @@ function MyPage() {
     <MyPageContainer>
       <div className="barwrapper">
         <LeftBar />
-        <MyPageTopandTaps />
       </div>
-      <MyPageProfile />
+      <div className="centerwrapper">
+        <MyPageTopandTaps />
+        <EditProfile />
+      </div>
       {/* <Routes>
         <Route path="/mypage" element={<MyPageProfile />} />
         <Route path="/mypage/profile" element={<MyPageProfile />} />
