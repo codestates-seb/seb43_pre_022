@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import DivCom from '../Styles/DivCom';
 import InputCom from '../Styles/InputCom';
@@ -9,6 +10,8 @@ import ButtonCom from '../Styles/ButtonCom';
 
 import { MyPageColumns } from '../Components/MyPageColumns';
 import Stats from '../Components/Stats';
+import GetUserInfo from '../util/GetUserInfo';
+import { CHANGE } from '../Reducers/userInfoReducer';
 
 const ProfileContainer = styled(DivCom)`
   margin: 0;
@@ -27,6 +30,18 @@ const ProfileContainer = styled(DivCom)`
 `;
 
 function MyPageProfile() {
+  const dispatch = useDispatch();
+
+  /** Userinfo GET test buttonEventhandler */
+  const testhandler = () => {
+    const memberid = localStorage.getItem('memberId');
+    console.log(memberid);
+    if (memberid !== null) {
+      const user = GetUserInfo(memberid);
+      dispatch(CHANGE(user));
+    }
+  };
+
   return (
     <ProfileContainer>
       <MyPageColumns>

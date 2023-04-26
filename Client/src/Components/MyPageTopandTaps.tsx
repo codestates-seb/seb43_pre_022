@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import logo from '../assets/stacklogo.png';
@@ -9,6 +10,8 @@ import InputCom from '../Styles/InputCom';
 import ListCom from '../Styles/ListCom';
 import FormCom from '../Styles/FormCom';
 import ButtonCom from '../Styles/ButtonCom';
+
+import { RootState } from '../store/store';
 
 const TopTapWrapper = styled.div`
   position: relative;
@@ -145,7 +148,10 @@ const TapButton = styled(ButtonCom)`
 function MyPageTopandTaps() {
   /** useNavigate */
   const navigation = useNavigate();
-  // const [userinfo, setuserinfo] = useEffect({});
+
+  /** store에서 상태가져울준비 */
+  const userinfo = useSelector((state: RootState) => state.userInfos);
+  console.log(userinfo);
   /** Tap 전환하는 함수들 */
   /** Profile 클릭 시 탭 전환 */
   const profileTap = (e: any) => {
@@ -187,7 +193,7 @@ function MyPageTopandTaps() {
               </div>
             </a>
             <DivCom className="top-left-Username">
-              <DivCom className="username">Aron</DivCom>
+              <DivCom className="username">{userinfo.displayName}</DivCom>
               <ul>
                 <ProfileButton onClick={profileTap}>
                   <div />

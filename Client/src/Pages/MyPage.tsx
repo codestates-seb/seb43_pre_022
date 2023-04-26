@@ -1,4 +1,5 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import MyPageTopandTaps from '../Components/MyPageTopandTaps';
@@ -16,7 +17,15 @@ const MyPageContainer = styled(DivCom)`
 `;
 
 function MyPage() {
-  const memberId = localStorage.getItem('memberId');
+  const dispatch = useDispatch();
+
+  const id = localStorage.getItem('memberId');
+
+  // useEffect(() => {
+  //   const CUIF: any = GetUserInfo(id!);
+  //   dispatch(changeUserInfo(CUIF));
+  // }, []);
+
   return (
     <MyPageContainer>
       <div className="barwrapper">
@@ -24,11 +33,11 @@ function MyPage() {
         <MyPageTopandTaps />
       </div>
       <MyPageProfile />
-      <Routes>
+      {/* <Routes>
         <Route path="/mypage" element={<MyPageProfile />} />
         <Route path="/mypage/profile" element={<MyPageProfile />} />
         <Route path="/mypage/editprofile" element={<EditProfile />} />
-      </Routes>
+      </Routes> */}
     </MyPageContainer>
   );
 }

@@ -199,9 +199,7 @@ function SignUp() {
   //  redux toolkit - pending
   //  state 하나씩 console.log 찍어보면 구조 확인 가능
   //  아까 선언한 RootState로 type 에러를 잡아줌.
-  const isLogin = useSelector(
-    (state: RootState) => state.loginInfoReducer.login,
-  );
+  const isLogin = useSelector((state: RootState) => state.userInfos.login);
 
   const dispatch = useDispatch();
 

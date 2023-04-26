@@ -180,8 +180,10 @@ function SignIn() {
         )
         .then((response) => {
           // 구조분해할당으로 하나로 합칠 수 있는지 확인 필요
-          const { memberId, displayName } = response.headers;
-          const accessToken = response.headers.Authorization;
+          console.log(response.headers);
+          const memberId = response.headers.memberid;
+          const displayName = response.headers.displayname;
+          const accessToken = response.headers.authorization;
 
           alert(`Welcome back!`);
           //  signin 성공시 memberId,displayname,토큰 로컬에 저장.
