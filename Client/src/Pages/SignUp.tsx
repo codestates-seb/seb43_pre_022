@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -255,19 +256,15 @@ function SignUp() {
   const handleSignUp: React.MouseEventHandler = async (e: React.MouseEvent) => {
     e.preventDefault();
     try {
-      await fetch(
-        ` http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/members`,
-        {
-          method: 'POST',
-          body: JSON.stringify(signUpInfo),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      ).then((response) => {
-        alert('you successfully signed up!');
-        navigation('/signin');
-      });
+      await axios
+        .post(
+          ` http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/members`,
+          signUpInfo,
+        )
+        .then((response) => {
+          alert('you successfully signed up!');
+          navigation('/signin');
+        });
     } catch (error) {
       /** 중복인 경우와 다른이유로 실패한 경우 삼항으로 구분 */
       console.log(error);
