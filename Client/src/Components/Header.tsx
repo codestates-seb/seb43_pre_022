@@ -42,6 +42,9 @@ const NavDiv = styled.div`
   padding-right: 10px;
   color: var(--header-color);
   height: 100%;
+  img {
+    border-radius: 3px;
+  }
 
   #Navol {
     display: flex;
@@ -100,16 +103,17 @@ const NavInput = styled(InputCom)`
 function Header() {
   const navigate = useNavigate();
   const loginClick = () => {
-    navigate('signin');
+    navigate('/api/signin');
   };
   const signupClick = () => {
-    navigate('signup');
+    navigate('/api/signup');
   };
   const logoutClick = () => {
-    navigate('/logout');
+    navigate('/api/logout');
   };
 
-  const token = localStorage.getItem('accessToken');
+  let token = localStorage.getItem('accessToken');
+  token = 'token';
 
   return (
     <NavWrapper>
@@ -117,9 +121,15 @@ function Header() {
         <div />
 
         <DivCom>
-          <Link to="/">
-            <img src={logo} alt="" width="140px" height="40px" />
-          </Link>
+          {token ? (
+            <Link to="/api/questions">
+              <img src={logo} alt="" width="140px" height="40px" />
+            </Link>
+          ) : (
+            <Link to="/">
+              <img src={logo} alt="" width="140px" height="40px" />
+            </Link>
+          )}
         </DivCom>
         <NavDiv>
           <ol id="Navol">
@@ -138,7 +148,12 @@ function Header() {
         {token ? (
           <>
             <NavDiv>
-              <img width="24px" height="24px" alt="profile" />
+              <img
+                width="24px"
+                height="24px"
+                alt="profile"
+                src="https://bantax.co.kr/common/img/default_profile.png"
+              />
             </NavDiv>
             <NavDiv>
               <NavButtonA isBlue={false} onClick={logoutClick}>

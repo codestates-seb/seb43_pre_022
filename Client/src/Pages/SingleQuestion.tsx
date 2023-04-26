@@ -68,7 +68,8 @@ function SingleQuestion() {
   let { id } = useParams();
   id = id?.toString();
 
-  const token = localStorage.getItem('access_token');
+  let token = localStorage.getItem('access_token');
+  token = 'token';
 
   const [question, setQuestion] = useState<TypeQuestion>({
     id: '',
@@ -96,8 +97,8 @@ function SingleQuestion() {
   function askQuestionBtn() {
     if (!token) {
       alert('You should sign in');
-      navigate('/signin');
-    } else navigate('/askquestion');
+      navigate('/api/signin');
+    } else navigate('/api/askquestion');
   }
 
   return (

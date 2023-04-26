@@ -23,7 +23,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/questions" element={<QuestionList />} />
+        <Route path="api/questions" element={<QuestionList />} />
         <Route path="api/question/:id" element={<SingleQuestion />} />
         <Route
           path="api/signin"

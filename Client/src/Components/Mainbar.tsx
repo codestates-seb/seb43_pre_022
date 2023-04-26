@@ -389,7 +389,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
       navigate('/signin');
     } else {
       try {
-        await axios.delete(`http://localhost:4000/comments?commentId=${id}`);
+        await axios.delete(`http://localhost:4000/comments/${id}`);
         window.location.reload();
       } catch (error) {
         navigate('/error');
@@ -403,7 +403,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
       navigate('/signin');
     } else {
       try {
-        await axios.delete(`http://localhost:4000/answers?answerId=${id}`);
+        await axios.delete(`http://localhost:4000/answers/${id}`);
         window.location.reload();
       } catch (error) {
         navigate('/error');
@@ -441,7 +441,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
         e.preventDefault();
         const date = new Date();
         try {
-          await axios.patch(`http://localhost:4000/comments/?commentId=${id}`, {
+          await axios.patch(`http://localhost:4000/comments/${id}`, {
             content: e.target.comment.value,
             createdAt: `${
               date.toDateString().split('2023')[0]
@@ -465,7 +465,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
       if (newAnswers.length !== 0) alert('You already chose a answer!');
       else {
         try {
-          axios.patch(`http://localhost:4000/answers?answerId=${id}`, {
+          axios.patch(`http://localhost:4000/answers/${id}`, {
             choose: true,
           });
           window.location.reload();
@@ -483,7 +483,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
     } else {
       try {
         console.log(id);
-        await axios.delete(`http://localhost:4000/questions?questionId=${id}`);
+        await axios.delete(`http://localhost:4000/questions/${id}`);
         window.location.reload();
         navigate(-1);
       } catch (error) {
@@ -496,6 +496,10 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
     <Main>
       <div className="QuestionContent">
         {question.content}
+        <Viewer
+          initialValue={question.content}
+          plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+        />
         <div className="answerBtnUserLayout">
           <div className="btnList">
             <button className="linkBtn" type="button">
@@ -568,7 +572,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
                     </button>
                   </Link>
                 ) : (
-                  <Link to={{ pathname: `/signin` }}>
+                  <Link to={{ pathname: `/api/signin` }}>
                     <button className="linkBtn answerEditBtn" type="button">
                       Edit
                     </button>
