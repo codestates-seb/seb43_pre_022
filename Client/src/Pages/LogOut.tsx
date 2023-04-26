@@ -91,9 +91,11 @@ function LogOut() {
   /** useNavigate */
   const navigation = useNavigate();
 
-  /** logout 성공 시 토큰 삭제 */
+  /** logout 성공 시 토큰 등 전부 삭제 */
   const logoutsuccess = () => {
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('memberId');
+    localStorage.removeItem('displayName');
   };
 
   /** logout 취소 시 경로 이동 */

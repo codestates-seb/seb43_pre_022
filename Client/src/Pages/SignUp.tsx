@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -11,17 +10,20 @@ import DivCom from '../Styles/DivCom';
 import FormCom from '../Styles/FormCom';
 
 const BackContainer = styled(DivCom)`
+  position: relative;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  height: calc(100vh - 31.33px);
   max-width: 100%;
+
+  padding-top: 50px;
+
   background-color: var(--black-050);
 `;
 
 const SignUpContainer = styled(DivCom)`
   width: 100%;
-  height: 100vh;
-
   max-width: 1264px;
   margin: 0;
 
@@ -75,7 +77,7 @@ const SignUpContainer = styled(DivCom)`
     margin: 0 0 24px;
     padding: 24px;
     width: 316px;
-    height: 644px;
+    height: 600px;
     background-color: white;
     box-shadow: 0 10px 24px hsla(0, 0%, 0%, 0.05),
       0 20px 48px hsla(0, 0%, 0%, 0.05), 0 1px 4px hsla(0, 0%, 0%, 0.1);
@@ -115,7 +117,7 @@ const SignUpContainer = styled(DivCom)`
   // rechapcha
   .reCAPTCHA {
     width: 268px;
-    height: 156px;
+    height: 150px;
     background-color: var(--black-050);
     margin: 6px 0;
     padding: 8px 0 2px;
@@ -130,6 +132,22 @@ const SignUpContainer = styled(DivCom)`
     font-size: 12px;
     color: hsl(210, 8%, 45%);
   }
+  // transport
+  .transportcontainer {
+    padding: 16px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    flex-direction: column;
+    .gosignin {
+    }
+    .movetosignin,
+    .movetoTsignin {
+      margin-left: 13px;
+      &:link {
+        color: blue;
+      }
+    }
+  }
 `;
 
 const LeftItems = styled(DivCom)`
@@ -142,7 +160,7 @@ const SignUpForm = styled(FormCom)`
   display: flex;
   flex-direction: column;
   margin: 0 0 24px;
-  height: 540px;
+  height: 500px;
 
   // email validation
   .emailinvalid {
@@ -183,12 +201,12 @@ function SignUp() {
   const isLogin = useSelector(
     (state: RootState) => state.loginInfoReducer.login,
   );
-  console.log(isLogin);
+
   const dispatch = useDispatch();
 
   /** ID,PW */
   const [signUpInfo, setSignUpInfo] = useState({
-    displayname: '',
+    displayName: '',
     email: '',
     password: '',
   });
@@ -201,9 +219,9 @@ function SignUp() {
   const regExid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const regExpw = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]/;
 
-  /** displayname 값 설정 */
+  /** displayName 값 설정 */
   const handleNameValue = (e: any) => {
-    setSignUpInfo({ ...signUpInfo, displayname: e.target.value });
+    setSignUpInfo({ ...signUpInfo, displayName: e.target.value });
   };
   /** email 값 설정 및 유효성검사 */
   const handleIdValue = (e: any) => {
@@ -233,18 +251,29 @@ function SignUp() {
   };
 
   /** 회원가입 버튼 누를 시 작동하는 함수 */
-  const handleSignUp = () => {
-    axios
-      .post(`http://localhost:4000/members`, signUpInfo)
-      .then((response) => {
+  /* 네트워크에 get 요청이 기본작동되는 것 같아 e.preventDefault 추가함 */
+  const handleSignUp: React.MouseEventHandler = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    try {
+      await fetch(
+        ` http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/members`,
+        {
+          method: 'POST',
+          body: JSON.stringify(signUpInfo),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      ).then((response) => {
         alert('you successfully signed up!');
         navigation('/signin');
-      })
-      .catch((error) => {
-        /** 중복인 경우와 다른이유로 실패한 경우 삼항으로 구분 */
-        console.log(error);
-        alert('you failed to signup!');
       });
+    } catch (error) {
+      /** 중복인 경우와 다른이유로 실패한 경우 삼항으로 구분 */
+      console.log(error);
+      alert('you failed to signup!');
+      navigation('/error');
+    }
   };
 
   return (
@@ -398,6 +427,23 @@ function SignUp() {
               policy and cookie policy
             </DivCom>
           </div>
+          <DivCom className="transportcontainer">
+            <DivCom className="gosignin">
+              Already have an account?
+              <a href="/signin" className="movetosignin">
+                Log in
+              </a>
+            </DivCom>
+            <DivCom className="talentedsignin">
+              Are you an employer?
+              <a
+                href="https://talent.stackoverflow.com/users/login"
+                className="movetoTsignin"
+              >
+                Sign up on Talent
+              </a>
+            </DivCom>
+          </DivCom>
         </div>
       </SignUpContainer>
     </BackContainer>

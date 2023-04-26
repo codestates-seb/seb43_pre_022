@@ -68,16 +68,19 @@ function Footer() {
   const linkedinLink = 'https://www.linkedin.com/company/stack-overflow';
   const igLink = 'https://www.instagram.com/thestackoverflow/';
 
+  if (window.location.pathname === '/signup') return null;
+  if (window.location.pathname === '/signin') return null;
+
   return (
     <FooterContainer>
       <FooterInfoContainer>
-        <Link to="/questions" style={{ textDecoration: 'none' }}>
+        <Link to="/api/questions" style={{ textDecoration: 'none' }}>
           <FooterName>
             <Logo />
             STACK OVERFLOW
           </FooterName>
         </Link>
-        <Link to="/questions" style={{ textDecoration: 'none' }}>
+        <Link to="/api/questions" style={{ textDecoration: 'none' }}>
           <FooterText>
             Question
             <br />

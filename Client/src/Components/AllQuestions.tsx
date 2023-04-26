@@ -116,9 +116,6 @@ function AllQuestions() {
   const dispatch = useDispatch();
   const questions = useSelector((state: RootState) => state.crudquestion);
 
-  let token = localStorage.getItem('accessToken');
-  token = 'token';
-
   useEffect(() => {
     setTimeout(() => {
       axios(

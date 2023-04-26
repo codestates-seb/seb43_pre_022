@@ -5,6 +5,7 @@ import logo from '../assets/stacklogo2.png';
 import DivCom from '../Styles/DivCom';
 import InputCom from '../Styles/InputCom';
 import ListCom from '../Styles/ListCom';
+import GetUserInfo from '../util/GetUserInfo';
 
 const NavWrapper = styled(DivCom)`
   background-color: var(--black-025);
@@ -30,9 +31,23 @@ const StyledNav = styled.nav`
   background-color: var(--black-025);
   padding-top: calc(8px);
   padding-bottom: calc(8px);
+  margin-left: 20vw;
+  margin-right: 20vw;
   height: 44.33px;
-  width: 75vw;
+  width: calc(100vw - 100px);
   max-width: 1300px;
+
+  @media screen and (max-width: 1000px) {
+    margin-left: 0px;
+    width: 100%;
+  }
+  @media screen and (max-width: 640px) {
+    margin-left: 0px;
+    width: 100%;
+    .hidden {
+      display: none;
+    }
+  }
 `;
 
 const NavDiv = styled.div`
@@ -42,11 +57,17 @@ const NavDiv = styled.div`
   padding-right: 10px;
   color: var(--header-color);
   height: 100%;
+  img {
+    border-radius: 3px;
+  }
 
   #Navol {
     display: flex;
     justify-content: center;
     align-items: center;
+    li {
+      white-space: nowrap;
+    }
   }
 `;
 
@@ -99,14 +120,18 @@ const NavInput = styled(InputCom)`
 
 function Header() {
   const navigate = useNavigate();
+  const gotoprofile = () => {
+    GetUserInfo('1');
+    navigate('/mypage/profile');
+  };
   const loginClick = () => {
-    navigate('signin');
+    navigate('/api/signin');
   };
   const signupClick = () => {
-    navigate('signup');
+    navigate('/api/signup');
   };
   const logoutClick = () => {
-    navigate('/logout');
+    navigate('/api/logout');
   };
 
   const token = localStorage.getItem('accessToken');
@@ -117,16 +142,33 @@ function Header() {
         <div />
 
         <DivCom>
-          <Link to="/">
-            <img src={logo} alt="" width="140px" height="40px" />
-          </Link>
+          {token ? (
+            <Link to="/api/questions">
+              <img src={logo} alt="" width="140px" height="40px" />
+            </Link>
+          ) : (
+            <Link to="/">
+              <img src={logo} alt="" width="140px" height="40px" />
+            </Link>
+          )}
         </DivCom>
         <NavDiv>
-          <ol id="Navol">
-            <StyledListCom>About</StyledListCom>
-            <StyledListCom>Products</StyledListCom>
-            <StyledListCom>For teams</StyledListCom>
-          </ol>
+          {/* token 유무에 따라 다른 항목 렌더링 */}
+          {token ? (
+            <DivCom>
+              <ol id="Navol">
+                <StyledListCom>About</StyledListCom>
+              </ol>
+            </DivCom>
+          ) : (
+            <DivCom>
+              <ol id="Navol">
+                <StyledListCom>About</StyledListCom>
+                <StyledListCom className="hidden">Products</StyledListCom>
+                <StyledListCom className="hidden">For teams</StyledListCom>
+              </ol>
+            </DivCom>
+          )}
         </NavDiv>
 
         <NavDivFlex>
@@ -136,18 +178,25 @@ function Header() {
 
         {/* 토큰 유무에 따라 다른 header 항목 렌더링 */}
         {token ? (
-          <>
+          <DivCom>
             <NavDiv>
-              <img width="24px" height="24px" alt="profile" />
+              <img
+                role="presentation"
+                onClick={gotoprofile}
+                width="24px"
+                height="24px"
+                alt="profile"
+                src="https://bantax.co.kr/common/img/default_profile.png"
+              />
             </NavDiv>
             <NavDiv>
               <NavButtonA isBlue={false} onClick={logoutClick}>
                 Logout
               </NavButtonA>
             </NavDiv>
-          </>
+          </DivCom>
         ) : (
-          <>
+          <DivCom>
             <NavDiv>
               <NavButtonA isBlue={false} onClick={loginClick}>
                 Login
@@ -158,7 +207,7 @@ function Header() {
                 Signup
               </NavButtonA>
             </NavDiv>
-          </>
+          </DivCom>
         )}
       </StyledNav>
     </NavWrapper>

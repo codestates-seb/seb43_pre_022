@@ -1,8 +1,8 @@
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import 'codemirror/lib/codemirror.css';
 import 'prismjs/themes/prism.css';
-import '../Global.css';
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -12,7 +12,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
-import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import { Editor, Viewer } from '@toast-ui/react-editor';
 
 import { TypeAnswer, TypeComment, TypeQuestion } from '../TypeQuestion';
@@ -254,10 +253,10 @@ interface Iprops {
 }
 
 function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
-  let token = localStorage.getItem('accessToken');
+  const token = localStorage.getItem('accessToken');
   let displayName = localStorage.getItem('displayName');
   displayName = 'hihijin';
-  token = 'dㅇ';
+  console.log(chooseId);
 
   const navigate = useNavigate();
   const [question, setQuestion] = useState<TypeQuestion>({
@@ -338,6 +337,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
           await axios.post(
             'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/comments',
             {
+              id: number,
               questionId: question.questionId,
               answerId: targetId,
               commentId: number,
@@ -375,14 +375,16 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
         await axios.post(
           'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers',
           {
-            questionId: queId,
-            answerId: number,
-            content: getContentMd,
-            choose: false,
-            memberId: displayName,
-            createdAt: `${
-              date.toDateString().split('2023')[0]
-            } at ${date.getHours()}:${date.getMinutes()}`,
+            data: {
+              questionId: queId,
+              answerId: number,
+              content: getContentMd,
+              choose: false,
+              memberId: displayName,
+              createdAt: `${
+                date.toDateString().split('2023')[0]
+              } at ${date.getHours()}:${date.getMinutes()}`,
+            },
           },
         );
         window.location.reload();
@@ -502,8 +504,15 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
     } else {
       try {
         console.log(id);
+        console.log(token);
         await axios.delete(
           `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions/${id}`,
+          {
+            headers: {
+              Authorization:
+                'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sInVzZXJuYW1lIjoiY29kZTEyMzRAZ21haWwuY29tIiwibWVtYmVySWQiOjksInN1YiI6ImNvZGUxMjM0QGdtYWlsLmNvbSIsImlhdCI6MTY4MjQ4Mjk0NCwiZXhwIjoxNjgyNTA4MTQ0fQ.LbvOkViyrx9BIvZeyw-rtCQ9o-67XvFPSJgrU2olChg',
+            },
+          },
         );
         window.location.reload();
         navigate(-1);
@@ -516,10 +525,6 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
   return (
     <Main>
       <div className="QuestionContent">
-        {/* <Viewer
-          initialValue={question.content}
-          plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
-        /> */}
         {question.content}
         <div className="answerBtnUserLayout">
           <div className="btnList">
@@ -593,7 +598,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
                     </button>
                   </Link>
                 ) : (
-                  <Link to={{ pathname: `/signin` }}>
+                  <Link to={{ pathname: `/api/signin` }}>
                     <button className="linkBtn answerEditBtn" type="button">
                       Edit
                     </button>

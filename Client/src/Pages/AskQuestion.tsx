@@ -120,6 +120,8 @@ function AskQuestion() {
   const questions = useSelector((state: RootState) => state.crudquestion);
   const editorRef: any = useRef();
 
+  const token: any = localStorage.getItem('accessToken')!;
+
   const onChange = () => {
     const data = editorRef.current.getInstance().getHTML();
     setInputValue(data);
@@ -127,31 +129,41 @@ function AskQuestion() {
 
   const handleSubmit = (e: any) => {
     const date = new Date();
-    e.preventDefault();
-    axios
-      .post(
-        'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions',
-        {
-          questionId: questions.length + 1,
-          title: titleValue,
-          content: inputValue,
-          createdAt: `${
-            date.toDateString().split('2023')[0]
-          } at ${date.getHours()}:${date.getMinutes()}`,
-          modifiedAt: `${
-            date.toDateString().split('2023')[0]
-          } at ${date.getHours()}:${date.getMinutes()}`,
-          memberId: 'raccoon0814',
-          answerIds: [],
-        },
-      )
-      .then((response) => {
-        const { data } = response;
-        console.log(data);
-        dispatch(CREATE(data));
-        navigate('/api/questions');
-      })
-      .catch((error) => console.error(error));
+    if (token) {
+      axios
+        .post(
+          'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions',
+          {
+            id: (questions.length + 1).toString(),
+            questionId: (questions.length + 1).toString(),
+            title: titleValue,
+            content: inputValue,
+            createdAt: `${
+              date.toDateString().split('2023')[0]
+            } at ${date.getHours()}:${date.getMinutes()}`,
+            modifiedAt: `${
+              date.toDateString().split('2023')[0]
+            } at ${date.getHours()}:${date.getMinutes()}`,
+            memberId: 'raccoon0814',
+            answerIds: [],
+          },
+          {
+            headers: {
+              Authorization: token,
+            },
+          },
+        )
+        .then((response) => {
+          const { data } = response;
+          console.log(data);
+          dispatch(CREATE(data));
+          navigate('/api/questions');
+        })
+        .catch((error) => console.error(error));
+    } else {
+      alert('You should Log in');
+      navigate('/api/signin');
+    }
   };
 
   return (

@@ -1,8 +1,18 @@
 import '../Global.css';
+import 'codemirror/lib/codemirror.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import 'prismjs/themes/prism.css';
+
+import { useRef } from 'react';
 
 import axios from 'axios';
+import Prism from 'prismjs';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
+import { Editor } from '@toast-ui/react-editor';
 
 import LeftBar from '../Components/LeftBar';
 import ButtonCom from '../Styles/ButtonCom';
@@ -50,25 +60,14 @@ const SubHeading = styled.div`
   width: 80%;
   text-align: left;
   margin-top: 30px;
-`;
-
-const TempInput = styled.input`
-  width: 100%;
-  height: 300px;
-  margin-top: 10px;
   margin-bottom: 20px;
-  padding: 15px;
-  border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  &:focus {
-    border: none;
-  }
 `;
 
 const AskButtonContainer = styled.div`
   display: flex;
   width: 80%;
   float: left;
+  margin-top: 20px;
 `;
 
 const QuestionSubmitButton = styled(ButtonCom)`
@@ -96,18 +95,23 @@ function AnswerEdit() {
 
   const { id } = useParams();
 
+  const editorRef = useRef<Editor>(null);
   async function answerEditSubmit(e: any) {
     e.preventDefault();
     const date = new Date();
+    const getContentMd = editorRef.current?.getInstance().getMarkdown() || '';
     try {
-      await axios.patch(`http://localhost:4000/answers/${id}`, {
-        content: e.target.answer.value,
-        createdAt: `${
-          date.toDateString().split('2023')[0]
-        } at ${date.getHours()}:${date.getMinutes()}`,
-      });
+      await axios.patch(
+        `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers/${id}`,
+        {
+          content: getContentMd,
+          createdAt: `${
+            date.toDateString().split('2023')[0]
+          } at ${date.getHours()}:${date.getMinutes()}`,
+        },
+      );
       navigate(-1);
-    } catch (error) {
+    } catch (error: any) {
       navigate('/error');
     }
   }
@@ -129,10 +133,15 @@ function AnswerEdit() {
         </AskQuestionNotice>
         <SubHeading>Answer</SubHeading>
         <form onSubmit={(e) => answerEditSubmit(e)}>
-          <TempInput
-            name="answer"
-            type="text"
-            placeholder="Edit your Answer..."
+          <Editor
+            placeholder="Write Answer..."
+            previewStyle="tab"
+            height="400px"
+            initialEditType="markdown"
+            useCommandShortcut
+            ref={editorRef}
+            plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+            hideModeSwitch
           />
           <AskButtonContainer>
             <QuestionSubmitButton type="submit">
