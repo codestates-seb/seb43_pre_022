@@ -38,9 +38,9 @@ const initialState: Question[] = [
         ? ''
         : JSON.parse(localStorage.getItem('modifiedAt')!),
     memberId:
-      JSON.parse(localStorage.getItem('memberId')!) === null
+      localStorage.getItem('memberId')! === null
         ? ''
-        : JSON.parse(localStorage.getItem('memberId')!),
+        : localStorage.getItem('memberId')!,
     answerIds:
       JSON.parse(localStorage.getItem('answerIds')!) === null
         ? []

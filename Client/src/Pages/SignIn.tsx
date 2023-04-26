@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
@@ -161,49 +162,39 @@ function SignIn() {
     event: React.MouseEvent,
   ) => {
     /** axios 보내기 전에 유효성 검사 */
-    // if (!idValid || !passwordValid) {
-    //   setSignInMSG('invalid email address or password');
-    //   console.log(signInMSG);
-    //   localStorage.setItem('invalidMSG', 'invalid email address or password');
-    //   return console.log('Invalid');
-    // }
-    /** 통과시 post 요청 */
-    // await new Promise(() => {
-    //   localStorage.setItem('accessToken', '12345');
-    //   console.log('is it work?');
-    // });
+    if (!idValid || !passwordValid) {
+      setSignInMSG('invalid email address or password');
+      console.log(signInMSG);
+      localStorage.setItem('invalidMSG', 'invalid email address or password');
+      return console.log('Invalid');
+    }
+
     event.preventDefault();
 
+    /** 통과시 post 요청 */
     try {
-      await fetch(
-        ` http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/auths/login`,
-        {
-          method: 'POST',
-          body: JSON.stringify(signInInfo),
-          headers: {
-            'content-type': 'application/json',
-          },
-        },
-      ).then((response) => {
-        // 구조분해할당으로 하나로 합칠 수 있는지 확인 필요
-        const accessToken = response.headers.get('Authorization');
-        const memberId = response.headers.get('memberId');
-        const displayName = response.headers.get('displayName');
-        console.log(response.headers.get('Authorization'));
-        //  axios response type 때문에 변수에 저장하는 것에 어려움이 있음. 해결 요망.
-        alert(`Welcome back!`);
-        //  signin 성공시 memberId,displayname,토큰 로컬에 저장.
-        localStorage.setItem('accessToken', JSON.stringify(accessToken));
-        localStorage.setItem('memberId', JSON.stringify(memberId));
-        localStorage.setItem('displayName', JSON.stringify(displayName));
-        // localStorage.removeItem('invalidMSG');
-        console.log(accessToken);
-        window.location.reload();
-        navigation('/api/questions');
-      });
-    } catch (error) {
-      /** signinMSG 유효하지 않다고 설정 */
-      setSignInMSG('invalid email address or password');
+      await axios
+        .post(
+          `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/auths/login`,
+          signInInfo,
+        )
+        .then((response) => {
+          // 구조분해할당으로 하나로 합칠 수 있는지 확인 필요
+          const memberId = response.headers.memberid;
+          const displayName = response.headers.displayname;
+          const accessToken = response.headers.authorization;
+
+          alert(`Welcome back!`);
+          //  signin 성공시 memberId,displayname,토큰 로컬에 저장.
+          localStorage.setItem('accessToken', accessToken);
+          localStorage.setItem('memberId', JSON.stringify(memberId));
+          localStorage.setItem('displayName', JSON.stringify(displayName));
+          // localStorage.removeItem('invalidMSG');
+          window.location.reload();
+          navigation('/api/questions');
+        });
+    } catch (error: unknown | any) {
+      console.log(error.response.data);
       navigation('/error');
     }
     return console.log('never');

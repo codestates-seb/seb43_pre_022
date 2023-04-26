@@ -82,6 +82,16 @@ function SingleQuestion() {
     answerIds: [],
   });
 
+  const createdDate = new Date(question.createdAt);
+  const createdAtDate = `${
+    createdDate.toDateString().split('2023')[0]
+  } at ${createdDate.getHours()}:${createdDate.getMinutes()}`;
+
+  const modifiedDate = new Date(question.createdAt);
+  const modifiedAtDate = `${
+    modifiedDate.toDateString().split('2023')[0]
+  } at ${modifiedDate.getHours()}:${modifiedDate.getMinutes()}`;
+
   useEffect(() => {
     async function getData() {
       const questionData: any = await axios.get(
@@ -111,10 +121,7 @@ function SingleQuestion() {
               Ask Question
             </button>
           </Title>
-          <Asked
-            createdAt={question.createdAt!}
-            modifiedAt={question.modifiedAt!}
-          />
+          <Asked createdAt={createdAtDate!} modifiedAt={modifiedAtDate!} />
         </SectionUp>
         <SectionDown>
           <Mainbar chooseId={id!} />
