@@ -74,7 +74,7 @@
 //                                .content(beforeAnswerContent)
 //                );
 //
-//        //then
+//        //then answerPost시 상태는 create고, url의 위치는 다음과 같을것
 //        actions
 //                .andExpect(status().isCreated())
 //                .andExpect(header().string("location", is(startsWith("/api/answers/"))));
@@ -124,6 +124,28 @@
 //        patchAction
 //                .andExpect(status().isOk())
 //                .andExpect(jsonPath("$.data.content").value(patch.getContent()));
+//    }
+//
+//    @Test
+//    void getAnswerTest() throws Exception {
+//        //given 먼저 답변 post
+//        given(answerService.createAnswer(Mockito.any(Answer.class)))
+//                .willReturn(answer);
+//
+//        ResultActions beforePostAction =
+//                mockMvc.perform(
+//                        post("/api/answers")
+//                                .accept(MediaType.APPLICATION_JSON)
+//                                .contentType(MediaType.APPLICATION_JSON)
+//                                .content(beforeAnswerContent)
+//                );
+//
+//        String location = beforePostAction.andReturn().getResponse().getHeader("location");// "api/answers/1"
+//
+//
+//        //when then 등록한거 꺼내와서 맞는지
+//        given(answerService.findAnswer(1L))
+//                .willReturn(answer);
 //    }
 //
 //
