@@ -1,18 +1,24 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const GetUserInfo = (id: string) => {
+const GetUserInfo = async (id: string) => {
   const [data, setData] = useState({});
-  const baseURL = 'http://localhost:8000/members/';
+  const Navigation = useNavigate();
+  const baseURL =
+    'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/members/';
 
-  axios
-    .get(`${baseURL}` + id)
-    .then(response => {
-      console.log(data);
-      setData(JSON.stringify(response));
-    })
-    .catch(error => console.log(error));
-
+  try {
+    await fetch(`${baseURL}${id}`, {
+      method: 'GET',
+    }).then(response => {
+      //  JSON data 변환해주어야하는지
+      response.json();
+      const userinfo = response.body;
+      setData(userinfo!);
+    });
+  } catch (error) {
+    Navigation('/error');
+  }
   return data;
 };
 

@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 import DivCom from '../Styles/DivCom';
-import InputCom from '../Styles/InputCom';
 import ListCom from '../Styles/ListCom';
 import FormCom from '../Styles/FormCom';
 import ButtonCom from '../Styles/ButtonCom';
@@ -92,9 +91,11 @@ function LogOut() {
   /** useNavigate */
   const navigation = useNavigate();
 
-  /** logout 성공 시 토큰 삭제 */
+  /** logout 성공 시 토큰 등 전부 삭제 */
   const logoutsuccess = () => {
-    localStorage.removeItem('access_token');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('memberId');
+    localStorage.removeItem('displayName');
   };
 
   /** logout 취소 시 경로 이동 */
