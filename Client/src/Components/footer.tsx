@@ -68,9 +68,6 @@ function Footer() {
   const linkedinLink = 'https://www.linkedin.com/company/stack-overflow';
   const igLink = 'https://www.instagram.com/thestackoverflow/';
 
-  if (window.location.pathname === '/signup') return null;
-  if (window.location.pathname === '/signin') return null;
-
   return (
     <FooterContainer>
       <FooterInfoContainer>
@@ -189,3 +186,4 @@ function Footer() {
 }
 
 export default Footer;
+
