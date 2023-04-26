@@ -3,11 +3,17 @@ import '../Global.css';
 import { useEffect } from 'react';
 
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import {
+  useDispatch,
+  useSelector,
+} from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Question, READ } from '../Reducers/questionReducer';
+import {
+  Question,
+  READ,
+} from '../Reducers/questionReducer';
 import { RootState } from '../store/store';
 import ButtonCom from '../Styles/ButtonCom';
 
@@ -145,8 +151,17 @@ function AllQuestions() {
       </div>
       <ul className="SingleQuestions">
         {questions &&
-          questions.map(
-            (item: Question): JSX.Element => (
+          questions.map((item: Question): JSX.Element => {
+            const date = new Date(item.createdAt);
+            const dayday = `${
+              date.toDateString().split('2023')[0]
+            } at ${date.getHours()}:${date.getMinutes()}`;
+            // const day = new Date(item.createdAt)
+            //   .toDateString()
+            //   .split('2023')[0];
+            // const hour = new Date(item.createdAt).getHours();
+            // const minute = new Date(item.createdAt).getMinutes();
+            return (
               <SingleQuestion key={item.questionId}>
                 <div className="CounterAnswer">1 answers</div>
                 <div className="SingleQuestionContainer">
@@ -161,12 +176,12 @@ function AllQuestions() {
                   <div className="QuestionText">{item.content}</div>
                   <WriterInfo>
                     <span>{item.memberId}</span>
-                    <span>asked {item.createdAt}</span>
+                    <span>{dayday}</span>
                   </WriterInfo>
                 </div>
               </SingleQuestion>
-            ),
-          )}
+            );
+          })}
       </ul>
     </AllQuestionContainer>
   );

@@ -1,20 +1,34 @@
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import 'codemirror/lib/codemirror.css';
 import 'prismjs/themes/prism.css';
-import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 
-import { useEffect, useRef, useState } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import axios from 'axios';
 import Prism from 'prismjs';
-import { Link, useNavigate } from 'react-router-dom';
+import {
+  Link,
+  useNavigate,
+} from 'react-router-dom';
 import styled from 'styled-components';
 
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
-import { Editor, Viewer } from '@toast-ui/react-editor';
+import {
+  Editor,
+  Viewer,
+} from '@toast-ui/react-editor';
 
-import { TypeAnswer, TypeComment, TypeQuestion } from '../TypeQuestion';
+import {
+  TypeAnswer,
+  TypeComment,
+  TypeQuestion,
+} from '../TypeQuestion';
 
 export const Main = styled.div`
   box-sizing: border-box;
@@ -270,6 +284,11 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
   const [answers, setAnswers] = useState<TypeAnswer[]>([]);
   const [comments, setComments] = useState<TypeComment[]>([]);
 
+  const createdDate = new Date(question.createdAt);
+  const createdAtDate = `${
+    createdDate.toDateString().split('2023')[0]
+  } at ${createdDate.getHours()}:${createdDate.getMinutes()}`;
+
   const queId = chooseId;
   useEffect(() => {
     async function getData() {
@@ -303,7 +322,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
   const handleWriteButton = (event: any, targetId: string) => {
     if (!token) {
       alert('You should Log in');
-      navigate('/signin');
+      navigate('/api/signin');
     }
     let idx = 0;
     const elem = event.target.parentElement;
@@ -362,7 +381,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
     const getContentMd = editorRef.current?.getInstance().getMarkdown() || '';
     if (!token) {
       alert('You should Log in');
-      navigate('/signin');
+      navigate('/api/signin');
     } else {
       e.preventDefault();
       if (getContentMd === '') {
@@ -437,7 +456,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
   async function commentEditHandler(event: any, commentId: string) {
     if (!token) {
       alert('You should Log in');
-      navigate('/signin');
+      navigate('/api/signin');
     }
     const commentBtnList = event.target.parentElement;
     commentBtnList.style = 'display: none';
@@ -488,7 +507,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
   const answerChoose = (answerId: string, content: string) => {
     if (!token) {
       alert('You should Log in');
-      navigate('/signin');
+      navigate('/api/signin');
     } else {
       const newAnswers = answers.filter((answer) => answer.selected);
       if (newAnswers.length !== 0) alert('You already chose a answer!');
@@ -522,7 +541,6 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
     } else {
       try {
         console.log(id);
-        console.log(token);
         await axios.delete(
           `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions/${id}`,
           {
@@ -566,7 +584,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
             </button>
           </div>
           <QuestionUser>
-            <div>Asked {question.createdAt}</div>
+            <div>Asked {createdAtDate}</div>
             <div className="memberLayout">
               <img
                 alt=""
@@ -580,112 +598,130 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
       </div>
       <span className="AnswerTitle">{answers.length} Answer</span>
       <ul className="answerUl">
-        {answers.map((answer) => (
-          <li className="answerli" key={answer.answerId}>
-            <button
-              type="button"
-              onClick={() => answerChoose(answer.answerId, answer.content)}
-              className="answerChoose"
-            >
-              {answer.selected ? (
-                <span className="answerChoosegreen" style={{ color: 'green' }}>
-                  ✔
-                </span>
-              ) : (
-                <span
-                  className="answerChoosegray"
-                  style={{ color: 'rgba(0,0,0,0.1)' }}
-                >
-                  ✔
-                </span>
-              )}
-            </button>
-            <Viewer
-              initialValue={answer.content}
-              plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
-            />
-            <div className="answerBtnUserLayout">
-              <div className="btnList">
-                <button className="linkBtn" type="button">
-                  Share
-                </button>
-                {token ? (
-                  <Link
-                    to={{
-                      pathname: `/api/answeredit/${answer.answerId}`,
-                    }}
+        {answers.map((answer) => {
+          const date = new Date(answer.createdAt);
+          const answerCreatedDate = `${
+            date.toDateString().split('2023')[0]
+          } at ${date.getHours()}:${date.getMinutes()}`;
+          return (
+            <li className="answerli" key={answer.answerId}>
+              <button
+                type="button"
+                onClick={() => answerChoose(answer.answerId, answer.content)}
+                className="answerChoose"
+              >
+                {answer.selected ? (
+                  <span
+                    className="answerChoosegreen"
+                    style={{ color: 'green' }}
                   >
-                    <button className="linkBtn answerEditBtn" type="button">
-                      Edit
-                    </button>
-                  </Link>
+                    ✔
+                  </span>
                 ) : (
-                  <Link to={{ pathname: `/api/signin` }}>
-                    <button className="linkBtn answerEditBtn" type="button">
-                      Edit
-                    </button>
-                  </Link>
+                  <span
+                    className="answerChoosegray"
+                    style={{ color: 'rgba(0,0,0,0.1)' }}
+                  >
+                    ✔
+                  </span>
                 )}
-                <button className="linkBtn" type="button">
-                  Follow
-                </button>
-                <button
-                  className="linkBtn answerDeleteBtn"
-                  type="button"
-                  onClick={() => answerDelete(answer.answerId!)}
-                >
-                  Delete
-                </button>
-              </div>
-              <QuestionUser style={{ background: 'white' }}>
-                <div>Answered {new Date(answer.createdAt).toString()}</div>
-                <div className="memberLayout">
-                  <img
-                    alt=""
-                    className="userImage"
-                    src="https://bantax.co.kr/common/img/default_profile.png"
-                  />
-                  <span className="userId">{displayName}</span>
-                </div>
-              </QuestionUser>
-            </div>
-            <ul className="commentUl">
-              {comments
-                .filter((comment) => comment.answerId === answer.answerId)
-                .map((comment) => (
-                  <li key={comment.commentId}>
-                    <div>
-                      {comment.content} -{' '}
-                      <span className="userId">{displayName}</span>
-                      <span className="createdTime">{comment.createdAt}</span>
-                    </div>
-                    <div className="commentBtnList">
-                      <button
-                        className="commentEditBtn"
-                        type="button"
-                        onClick={(e) =>
-                          commentEditHandler(e, comment.commentId!)
-                        }
-                      >
+              </button>
+              <Viewer
+                initialValue={answer.content}
+                plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
+              />
+              <div className="answerBtnUserLayout">
+                <div className="btnList">
+                  <button className="linkBtn" type="button">
+                    Share
+                  </button>
+                  {token ? (
+                    <Link
+                      to={{
+                        pathname: `/api/answeredit/${answer.answerId}`,
+                      }}
+                    >
+                      <button className="linkBtn answerEditBtn" type="button">
                         Edit
                       </button>
-                      <button
-                        className="commentDeleteBtn"
-                        type="button"
-                        onClick={() => commentDelete(comment.commentId!)}
-                      >
-                        Delete
+                    </Link>
+                  ) : (
+                    <Link to={{ pathname: `/api/signin` }}>
+                      <button className="linkBtn answerEditBtn" type="button">
+                        Edit
                       </button>
-                    </div>
-                  </li>
-                ))}
-            </ul>
-            <div className="showInput" />
-            <Comment onClick={(e) => handleWriteButton(e, answer.answerId!)}>
-              Add a comment
-            </Comment>
-          </li>
-        ))}
+                    </Link>
+                  )}
+                  <button className="linkBtn" type="button">
+                    Follow
+                  </button>
+                  <button
+                    className="linkBtn answerDeleteBtn"
+                    type="button"
+                    onClick={() => answerDelete(answer.answerId!)}
+                  >
+                    Delete
+                  </button>
+                </div>
+                <QuestionUser style={{ background: 'white' }}>
+                  <div>Answered {answerCreatedDate}</div>
+                  <div className="memberLayout">
+                    <img
+                      alt=""
+                      className="userImage"
+                      src="https://bantax.co.kr/common/img/default_profile.png"
+                    />
+                    <span className="userId">{displayName}</span>
+                  </div>
+                </QuestionUser>
+              </div>
+              <ul className="commentUl">
+                {comments
+                  .filter((comment) => comment.answerId === answer.answerId)
+                  .map((comment) => {
+                    const commentCreatedDate = new Date(comment.createdAt);
+                    const commentCreatedAt = `${
+                      date.toDateString().split('2023')[0]
+                    } at ${date.getHours()}:${date.getMinutes()}`;
+
+                    return (
+                      <li key={comment.commentId}>
+                        <div>
+                          {comment.content} -{' '}
+                          <span className="userId">{displayName}</span>
+                          <span className="createdTime">
+                            {commentCreatedAt}
+                          </span>
+                        </div>
+                        <div className="commentBtnList">
+                          <button
+                            className="commentEditBtn"
+                            type="button"
+                            onClick={(e) =>
+                              commentEditHandler(e, comment.commentId!)
+                            }
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="commentDeleteBtn"
+                            type="button"
+                            onClick={() => commentDelete(comment.commentId!)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </li>
+                    );
+                  })}
+              </ul>
+              <div className="showInput" />
+              <Comment onClick={(e) => handleWriteButton(e, answer.answerId!)}>
+                Add a comment
+              </Comment>
+            </li>
+          );
+        })}
       </ul>
       <span className="YourAnswer">Your Answer</span>
       <form className="answerForm" onSubmit={(e) => answerSubmit(e)}>

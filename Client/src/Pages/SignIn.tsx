@@ -191,7 +191,6 @@ function SignIn() {
           localStorage.setItem('memberId', JSON.stringify(memberId));
           localStorage.setItem('displayName', JSON.stringify(displayName));
           // localStorage.removeItem('invalidMSG');
-          console.log(accessToken);
           window.location.reload();
           navigation('/api/questions');
         });

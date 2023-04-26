@@ -191,13 +191,16 @@ function MyPageTopandTaps() {
               <ul>
                 <ProfileButton onClick={profileTap}>
                   <div />
+                  <div />
                   <div>Member for 3 days</div>
                 </ProfileButton>
                 <ProfileButton>
                   <div />
+                  <div />
                   <div>Last seen this week</div>
                 </ProfileButton>
                 <ProfileButton>
+                  <div />
                   <div />
                   <div>Visited 3 days, 3 consecutive</div>
                 </ProfileButton>

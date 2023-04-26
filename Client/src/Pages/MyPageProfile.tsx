@@ -27,12 +27,12 @@ function MyPageProfile() {
   const dispatch = useDispatch();
 
   /** Userinfo GET test buttonEventhandler */
-  const testhandler = () => {
+  const testhandler = async () => {
     const memberid = localStorage.getItem('memberId');
     console.log(memberid);
     if (memberid !== null) {
       const user = GetUserInfo(memberid);
-      dispatch(CHANGE(user));
+      dispatch(CHANGE(await user));
     }
   };
 
