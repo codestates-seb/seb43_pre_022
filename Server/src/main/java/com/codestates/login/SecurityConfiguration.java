@@ -66,7 +66,6 @@ public class SecurityConfiguration {
         configuration.addAllowedOriginPattern("*");
         configuration.addAllowedOrigin("http://localhost:3000");
         configuration.addAllowedOrigin("http://localhost:8080");
-        configuration.addAllowedOrigin("https://54b6-116-123-109-9.ngrok-free.app");
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
@@ -82,6 +81,24 @@ public class SecurityConfiguration {
         source.registerCorsConfiguration("/**",configuration);
         return source;
     }
+
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.addAllowedOriginPattern("*");
+//        configuration.addAllowedOrigin("http://localhost:3000");
+//        configuration.addAllowedOrigin("http://localhost:8080");
+//        configuration.addAllowedOrigin("https://54b6-116-123-109-9.ngrok-free.app");
+//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
+//        configuration.setAllowedHeaders(Arrays.asList("*"));
+//        configuration.addAllowedHeader("*");
+//        configuration.addExposedHeader("*");
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
+
     // JwtAuthenticationFilter를 Spring Security Filter Chain에 추가하기 위한 코드가 포함된 SecurityConfiguration의 코드 일부입니다.
     public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
         @Override
