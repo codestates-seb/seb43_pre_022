@@ -6,8 +6,7 @@
 
 </br>
 
-- **`Team name` :**  ![image](https://user-images.githubusercontent.com/117034592/234614212-b9bc2376-c76a-4585-a739-7f87599db1f5.png)
- 스물일곱 서른하나 
+- **`Team name` :**  <img alt="즐겁다" src="https://user-images.githubusercontent.com/117034592/234614212-b9bc2376-c76a-4585-a739-7f87599db1f5.png" height="25" width="25"> 스물일곱 서른하나 
 - **`Project` :** Stackoverflow : Community space for developers
 - **`Project duration` :** 2023.04.11 - 2023.04.27
 - **`Team members` :** 정우선(팀장), 윤정훈, 박희진, 서하빈(팀장), 박기훈, 이인건
@@ -27,11 +26,11 @@
 |  Name  | Github ID                                        |
 | :----: | :----------------------------------------------- |
 | 정우선 | [@UseonJ](https://github.com/UseonJ)   |
-| 윤정훈 | [@](https://github.com/) |
-| 박희진 | [@](https://github.com/)         |
+| 윤정훈 | [@raccoon0814](https://github.com/raccoon0814) |
+| 박희진 | [@hihijin](https://github.com/hihijin)         |
 | 서하빈 | [@Seohabin6078](https://github.com/Seohabin6078) |
-| 박기훈 | [@](https://github.com/)   |
-| 이인건 | [@](https://github.com/)         |
+| 박기훈 | [@kkihoon2](https://github.com/kkihoon2)   |
+| 이인건 | [@ingeon2](https://github.com/ingeon2)         |
 
 
 
