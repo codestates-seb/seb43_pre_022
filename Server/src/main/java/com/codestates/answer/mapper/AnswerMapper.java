@@ -35,6 +35,7 @@ public interface AnswerMapper {
         Answer answer = new Answer();
         answer.setAnswerId(answerPatchDto.getAnswerId());
         answer.setContent(answerPatchDto.getContent());
+        answer.setSelected(answerPatchDto.isSelected());
 
         return answer;
     }
