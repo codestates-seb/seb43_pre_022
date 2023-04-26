@@ -101,12 +101,15 @@ function AnswerEdit() {
     const date = new Date();
     const getContentMd = editorRef.current?.getInstance().getMarkdown() || '';
     try {
-      await axios.patch(`http://localhost:4000/answers/${id}`, {
-        content: getContentMd,
-        createdAt: `${
-          date.toDateString().split('2023')[0]
-        } at ${date.getHours()}:${date.getMinutes()}`,
-      });
+      await axios.patch(
+        `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers/${id}`,
+        {
+          content: getContentMd,
+          createdAt: `${
+            date.toDateString().split('2023')[0]
+          } at ${date.getHours()}:${date.getMinutes()}`,
+        },
+      );
       navigate(-1);
     } catch (error: any) {
       navigate('/error');
