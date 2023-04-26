@@ -168,10 +168,13 @@ function SignIn() {
     /** 통과시 post 요청 */
 
     try {
-      fetch(`http://localhost:4000/auths/login`, {
-        method: 'POST',
-        body: JSON.stringify(signInInfo),
-      }).then((response) => {
+      fetch(
+        `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/auths/login`,
+        {
+          method: 'POST',
+          body: JSON.stringify(signInInfo),
+        },
+      ).then((response) => {
         const accessToken = response.headers.get('Authorization');
         console.log(response.headers.get('Authorization'));
         //  axios response type 때문에 변수에 저장하는 것에 어려움이 있음. 해결 요망.

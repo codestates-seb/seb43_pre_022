@@ -257,7 +257,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
   let token = localStorage.getItem('accessToken');
   let displayName = localStorage.getItem('displayName');
   displayName = 'hihijin';
-  token = 'd';
+  token = 'dㅇ';
 
   const navigate = useNavigate();
   const [question, setQuestion] = useState<TypeQuestion>({
@@ -277,12 +277,14 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
   useEffect(() => {
     async function getData() {
       const questionData: any = await axios.get(
-        `http://localhost:4000/questions/?questionId=${queId}`,
+        `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions/${queId}`,
       );
-      const answerData: any = await axios.get('http://localhost:4000/answers');
-      setQuestion(questionData.data[0]);
+      const answerData: any = await axios.get(
+        'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers',
+      );
+      setQuestion(questionData.data.data);
       setAnswers(
-        answerData.data.filter(
+        answerData.data.data.filter(
           (a: { questionId: string }) => a.questionId === queId,
         ),
       );
@@ -292,7 +294,9 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:4000/comments')
+    fetch(
+      'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/comments',
+    )
       .then((response) => response.json())
       .then((data) => setComments(data));
   }, []);
@@ -300,7 +304,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
   const handleWriteButton = (event: any, targetId: string) => {
     if (!token) {
       alert('You should Log in');
-      navigate('/signin');
+      navigate('/api/signin');
     }
     let idx = 0;
     const elem = event.target.parentElement;
@@ -331,17 +335,19 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
         const number = Math.random().toString();
         const date = new Date();
         try {
-          await axios.post('http://localhost:4000/comments', {
-            id: number,
-            questionId: question.questionId,
-            answerId: targetId,
-            commentId: number,
-            content: e.target.comment.value,
-            memberId: displayName,
-            createdAt: `${
-              date.toDateString().split('2023')[0]
-            } at ${date.getHours()}:${date.getMinutes()}`,
-          });
+          await axios.post(
+            'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/comments',
+            {
+              questionId: question.questionId,
+              answerId: targetId,
+              commentId: number,
+              content: e.target.comment.value,
+              memberId: displayName,
+              createdAt: `${
+                date.toDateString().split('2023')[0]
+              } at ${date.getHours()}:${date.getMinutes()}`,
+            },
+          );
           window.location.reload();
         } catch (error) {
           navigate('/error');
@@ -356,7 +362,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
     const getContentMd = editorRef.current?.getInstance().getMarkdown() || '';
     if (!token) {
       alert('You should Log in');
-      navigate('/signin');
+      navigate('/api/signin');
     } else {
       e.preventDefault();
       if (getContentMd === '') {
@@ -366,17 +372,19 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
       const number = Math.random().toString();
       const date = new Date();
       try {
-        await axios.post('http://localhost:4000/answers', {
-          id: number,
-          questionId: queId,
-          answerId: number,
-          content: getContentMd,
-          choose: false,
-          memberId: displayName,
-          createdAt: `${
-            date.toDateString().split('2023')[0]
-          } at ${date.getHours()}:${date.getMinutes()}`,
-        });
+        await axios.post(
+          'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers',
+          {
+            questionId: queId,
+            answerId: number,
+            content: getContentMd,
+            choose: false,
+            memberId: displayName,
+            createdAt: `${
+              date.toDateString().split('2023')[0]
+            } at ${date.getHours()}:${date.getMinutes()}`,
+          },
+        );
         window.location.reload();
       } catch (error) {
         navigate('/error');
@@ -390,7 +398,9 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
       navigate('/signin');
     } else {
       try {
-        await axios.delete(`http://localhost:4000/comments?commentId=${id}`);
+        await axios.delete(
+          `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/comments/${id}`,
+        );
         window.location.reload();
       } catch (error) {
         navigate('/error');
@@ -404,7 +414,9 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
       navigate('/signin');
     } else {
       try {
-        await axios.delete(`http://localhost:4000/answers?answerId=${id}`);
+        await axios.delete(
+          `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers/${id}`,
+        );
         window.location.reload();
       } catch (error) {
         navigate('/error');
@@ -415,7 +427,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
   async function commentEdit(event: any, id: string) {
     if (!token) {
       alert('You should Log in');
-      navigate('/signin');
+      navigate('/api/signin');
     }
     const commentBtnList = event.target.parentElement;
     commentBtnList.style = 'display: none';
@@ -442,12 +454,15 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
         e.preventDefault();
         const date = new Date();
         try {
-          await axios.patch(`http://localhost:4000/comments/?commentId=${id}`, {
-            content: e.target.comment.value,
-            createdAt: `${
-              date.toDateString().split('2023')[0]
-            } at ${date.getHours()}:${date.getMinutes()}`,
-          });
+          await axios.patch(
+            `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/comments/${id}`,
+            {
+              content: e.target.comment.value,
+              createdAt: `${
+                date.toDateString().split('2023')[0]
+              } at ${date.getHours()}:${date.getMinutes()}`,
+            },
+          );
           window.location.reload();
         } catch (error) {
           navigate('/error');
@@ -460,15 +475,18 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
   const answerChoose = (id: string) => {
     if (!token) {
       alert('You should Log in');
-      navigate('/signin');
+      navigate('/api/signin');
     } else {
       const newAnswers = answers.filter((answer) => answer.choose);
       if (newAnswers.length !== 0) alert('You already chose a answer!');
       else {
         try {
-          axios.patch(`http://localhost:4000/answers?answerId=${id}`, {
-            choose: true,
-          });
+          axios.patch(
+            `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers/${id}`,
+            {
+              choose: true,
+            },
+          );
           window.location.reload();
         } catch (error) {
           navigate('/error');
@@ -484,7 +502,9 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
     } else {
       try {
         console.log(id);
-        await axios.delete(`http://localhost:4000/questions/${id}`);
+        await axios.delete(
+          `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions/${id}`,
+        );
         window.location.reload();
         navigate(-1);
       } catch (error) {
@@ -496,10 +516,11 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
   return (
     <Main>
       <div className="QuestionContent">
-        <Viewer
+        {/* <Viewer
           initialValue={question.content}
           plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
-        />
+        /> */}
+        {question.content}
         <div className="answerBtnUserLayout">
           <div className="btnList">
             <button className="linkBtn" type="button">

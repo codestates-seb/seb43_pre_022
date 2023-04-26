@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Question {
-  id: number;
+  id: string;
   questionId: string;
   title: string;
   content: string;

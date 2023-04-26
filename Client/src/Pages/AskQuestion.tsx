@@ -129,22 +129,25 @@ function AskQuestion() {
     const date = new Date();
     e.preventDefault();
     axios
-      .post('http://localhost:4000/questions', {
-        id: (questions.length + 1).toString(),
-        questionId: (questions.length + 1).toString(),
-        title: titleValue,
-        content: inputValue,
-        createdAt: `${
-          date.toDateString().split('2023')[0]
-        } at ${date.getHours()}:${date.getMinutes()}`,
-        modifiedAt: `${
-          date.toDateString().split('2023')[0]
-        } at ${date.getHours()}:${date.getMinutes()}`,
-        memberId: 'raccoon0814',
-        answerIds: [],
-      })
+      .post(
+        'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions',
+        {
+          questionId: questions.length + 1,
+          title: titleValue,
+          content: inputValue,
+          createdAt: `${
+            date.toDateString().split('2023')[0]
+          } at ${date.getHours()}:${date.getMinutes()}`,
+          modifiedAt: `${
+            date.toDateString().split('2023')[0]
+          } at ${date.getHours()}:${date.getMinutes()}`,
+          memberId: 'raccoon0814',
+          answerIds: [],
+        },
+      )
       .then((response) => {
         const { data } = response;
+        console.log(data);
         dispatch(CREATE(data));
         navigate('/api/questions');
       })

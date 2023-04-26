@@ -121,9 +121,11 @@ function AllQuestions() {
 
   useEffect(() => {
     setTimeout(() => {
-      axios('http://localhost:4000/questions?page=1&size=10')
+      axios(
+        'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions?page=1&size=10',
+      )
         .then((response) => {
-          const { data } = response;
+          const { data } = response.data;
           dispatch(READ(data));
         })
         .catch((error) => console.log(error));
