@@ -24,9 +24,9 @@ export interface TypeComment {
   content: string;
 }
 export interface UserInfo {
-  memberID: string | null;
+  memberId: string | null;
   email: string | null;
-  displayname: string | null;
+  displayName: string | null;
   location: string | null;
   title: string | null;
   aboutme: string | null;

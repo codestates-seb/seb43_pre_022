@@ -1,8 +1,11 @@
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { MyPageColumns } from '../Components/MyPageColumns';
 import Stats from '../Components/Stats';
+import { CHANGE } from '../Reducers/userInfoReducer';
 import DivCom from '../Styles/DivCom';
+import GetUserInfo from '../util/GetUserInfo';
 
 const ProfileContainer = styled(DivCom)`
   margin: 0;
@@ -21,6 +24,18 @@ const ProfileContainer = styled(DivCom)`
 `;
 
 function MyPageProfile() {
+  const dispatch = useDispatch();
+
+  /** Userinfo GET test buttonEventhandler */
+  const testhandler = () => {
+    const memberid = localStorage.getItem('memberId');
+    console.log(memberid);
+    if (memberid !== null) {
+      const user = GetUserInfo(memberid);
+      dispatch(CHANGE(user));
+    }
+  };
+
   return (
     <ProfileContainer>
       <MyPageColumns>

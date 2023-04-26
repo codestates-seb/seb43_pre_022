@@ -180,6 +180,7 @@ function SignIn() {
         )
         .then((response) => {
           // 구조분해할당으로 하나로 합칠 수 있는지 확인 필요
+          console.log(response.headers);
           const memberId = response.headers.memberid;
           const displayName = response.headers.displayname;
           const accessToken = response.headers.authorization;
