@@ -148,9 +148,7 @@ function AllQuestions() {
           questions.map(
             (item: Question): JSX.Element => (
               <SingleQuestion key={item.questionId}>
-                <div className="CounterAnswer">
-                  {item.answerIds.length} answers
-                </div>
+                <div className="CounterAnswer">1 answers</div>
                 <div className="SingleQuestionContainer">
                   <Link
                     to={{ pathname: `/api/question/${item.questionId}` }}

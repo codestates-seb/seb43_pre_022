@@ -78,9 +78,7 @@ const MypageTaps = styled(DivCom)`
   }
   .profile {
     color: white;
-    a {
-      background-color: hsl(27, 90%, 55%);
-    }
+    background-color: hsl(27, 90%, 55%);
   }
 `;
 
@@ -117,6 +115,26 @@ const ProfileButton = styled(ButtonCom)`
   }
 `;
 
+const TapButton = styled(ButtonCom)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+
+  cursor: pointer;
+  height: 33px;
+
+  font-size: 13px;
+  text-decoration: none;
+
+  border-radius: 1000px;
+
+  .focus {
+    background-color: hsl(27, 90%, 55%);
+    color: white;
+  }
+`;
+
 /** userinfo 받아오는 axios */
 
 function MyPageTopandTaps() {
@@ -126,28 +144,28 @@ function MyPageTopandTaps() {
   /** Tap 전환하는 함수들 */
   /** Profile 클릭 시 탭 전환 */
   const profileTap = (e: any) => {
-    const home = document.querySelector('.home');
+    const home = document.querySelector('.profile');
     home!.classList.remove('focus');
     e.target.classList.add('focus');
     navigation('/mypage/profile');
   };
   /** Activity 클릭 시 탭 전환 */
   const activityTap = (e: any) => {
-    const home = document.querySelector('.home');
+    const home = document.querySelector('.activity');
     home!.classList.remove('focus');
     e.target.classList.add('focus');
     navigation('/mypage/profile');
   };
   /** Saves 클릭 시 탭 전환 */
   const savesTap = (e: any) => {
-    const home = document.querySelector('.home');
+    const home = document.querySelector('.saves');
     home!.classList.remove('focus');
     e.target.classList.add('focus');
     navigation('/mypage/profile');
   };
   /** Settings 클릭 시 탭 전환 */
   const settingsTap = (e: any) => {
-    const home = document.querySelector('.home');
+    const home = document.querySelector('.settings');
     home!.classList.remove('focus');
     e.target.classList.add('focus');
     navigation('/mypage/profile');
@@ -191,18 +209,26 @@ function MyPageTopandTaps() {
       </MypageTopWrapper>
       <MypageTaps>
         <div className="navigations">
-          <div className="tap profile" role="presentation" onClick={profileTap}>
+          <TapButton
+            className="tap profile"
+            role="presentation"
+            onClick={profileTap}
+          >
             Profile
-          </div>
-          <div className="tap" role="presentation" onClick={activityTap}>
+          </TapButton>
+          <TapButton
+            className="tap activity"
+            role="presentation"
+            onClick={activityTap}
+          >
             Activity
-          </div>
-          <div className="tap" role="presentation" onClick={savesTap}>
+          </TapButton>
+          <TapButton className="tap" role="presentation" onClick={savesTap}>
             Saves
-          </div>
-          <div className="tap" role="presentation" onClick={settingsTap}>
+          </TapButton>
+          <TapButton className="tap" role="presentation" onClick={settingsTap}>
             Settings
-          </div>
+          </TapButton>
         </div>
         <DivCom className="auto" />
       </MypageTaps>

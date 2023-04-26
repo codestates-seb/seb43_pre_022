@@ -253,10 +253,9 @@ interface Iprops {
 }
 
 function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
-  const token = localStorage.getItem('accessToken');
-  console.log(token);
+  const token = localStorage.getItem('accessToken')!;
   const displayName = localStorage.getItem('displayName');
-  console.log(chooseId);
+  console.log(displayName);
 
   const navigate = useNavigate();
   const [question, setQuestion] = useState<TypeQuestion>({
@@ -283,7 +282,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
       setQuestion(questionData.data.data);
       setAnswers(
         answerData.data.data.filter(
-          (a: { questionId: string }) => a.questionId === queId,
+          (v: { questionId: any }) => v.questionId.toString() === queId,
         ),
       );
     }
@@ -296,8 +295,10 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
       'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/comments',
     )
       .then((response) => response.json())
-      .then((data) => setComments(data));
+      .then((data) => setComments(data.data));
   }, []);
+
+  console.log(answers, comments);
 
   const handleWriteButton = (event: any, targetId: string) => {
     if (!token) {
@@ -336,15 +337,15 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
           await axios.post(
             'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/comments',
             {
-              id: number,
-              questionId: question.questionId,
               answerId: targetId,
               commentId: number,
               content: e.target.comment.value,
-              memberId: displayName,
-              createdAt: `${
-                date.toDateString().split('2023')[0]
-              } at ${date.getHours()}:${date.getMinutes()}`,
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `${token}`,
+              },
             },
           );
           window.location.reload();
@@ -368,20 +369,18 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
         alert('The content is empty!');
         window.location.reload();
       }
-      const number = Math.random().toString();
-      const date = new Date();
       try {
         await axios.post(
           'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers',
           {
             questionId: queId,
-            answerId: number,
             content: getContentMd,
-            choose: false,
-            memberId: displayName,
-            createdAt: `${
-              date.toDateString().split('2023')[0]
-            } at ${date.getHours()}:${date.getMinutes()}`,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `${token}`,
+            },
           },
         );
         window.location.reload();
@@ -399,6 +398,12 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
       try {
         await axios.delete(
           `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/comments/${id}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `${token}`,
+            },
+          },
         );
         window.location.reload();
       } catch (error) {
@@ -415,6 +420,12 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
       try {
         await axios.delete(
           `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers/${id}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `${token}`,
+            },
+          },
         );
         window.location.reload();
       } catch (error) {
@@ -423,7 +434,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
     }
   }
 
-  async function commentEdit(event: any, id: string) {
+  async function commentEditHandler(event: any, commentId: string) {
     if (!token) {
       alert('You should Log in');
       navigate('/signin');
@@ -445,7 +456,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
     form.appendChild(input);
     form.appendChild(button);
 
-    async function commentEditHandler(e: any) {
+    async function commentEdit(e: any) {
       if (!token) {
         alert('You should Log in');
         navigate('/signin');
@@ -454,12 +465,15 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
         const date = new Date();
         try {
           await axios.patch(
-            `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/comments/${id}`,
+            `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/comments/${commentId}`,
             {
               content: e.target.comment.value,
-              createdAt: `${
-                date.toDateString().split('2023')[0]
-              } at ${date.getHours()}:${date.getMinutes()}`,
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `${token}`,
+              },
             },
           );
           window.location.reload();
@@ -468,22 +482,29 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
         }
       }
     }
-    form.addEventListener('submit', (e) => commentEditHandler(e));
+    form.addEventListener('submit', (e) => commentEdit(e));
   }
 
-  const answerChoose = (id: string) => {
+  const answerChoose = (answerId: string, content: string) => {
     if (!token) {
       alert('You should Log in');
       navigate('/signin');
     } else {
-      const newAnswers = answers.filter((answer) => answer.choose);
+      const newAnswers = answers.filter((answer) => answer.selected);
       if (newAnswers.length !== 0) alert('You already chose a answer!');
       else {
         try {
           axios.patch(
-            `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers/${id}`,
+            `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers/${answerId}`,
             {
-              choose: true,
+              content: content,
+              selected: true,
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `${token}`,
+              },
             },
           );
           window.location.reload();
@@ -501,8 +522,15 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
     } else {
       try {
         console.log(id);
+        console.log(token);
         await axios.delete(
           `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions/${id}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `${token}`,
+            },
+          },
         );
         window.location.reload();
         navigate(-1);
@@ -532,7 +560,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
             <button
               className="linkBtn"
               type="button"
-              onClick={() => handleQuestionDelete(question.questionId)}
+              onClick={() => handleQuestionDelete(queId)}
             >
               Delete
             </button>
@@ -556,10 +584,10 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
           <li className="answerli" key={answer.answerId}>
             <button
               type="button"
-              onClick={() => answerChoose(answer.answerId!)}
+              onClick={() => answerChoose(answer.answerId, answer.content)}
               className="answerChoose"
             >
-              {answer.choose ? (
+              {answer.selected ? (
                 <span className="answerChoosegreen" style={{ color: 'green' }}>
                   ✔
                 </span>
@@ -582,7 +610,11 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
                   Share
                 </button>
                 {token ? (
-                  <Link to={{ pathname: `/api/answeredit/${answer.answerId}` }}>
+                  <Link
+                    to={{
+                      pathname: `/api/answeredit/${answer.answerId}`,
+                    }}
+                  >
                     <button className="linkBtn answerEditBtn" type="button">
                       Edit
                     </button>
@@ -606,14 +638,14 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
                 </button>
               </div>
               <QuestionUser style={{ background: 'white' }}>
-                <div>Answered {answer.createdAt}</div>
+                <div>Answered {new Date(answer.createdAt).toString()}</div>
                 <div className="memberLayout">
                   <img
                     alt=""
                     className="userImage"
                     src="https://bantax.co.kr/common/img/default_profile.png"
                   />
-                  <span className="userId">{answer.memberId}</span>
+                  <span className="userId">{displayName}</span>
                 </div>
               </QuestionUser>
             </div>
@@ -624,14 +656,16 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
                   <li key={comment.commentId}>
                     <div>
                       {comment.content} -{' '}
-                      <span className="userId">{comment.memberId}</span>
+                      <span className="userId">{displayName}</span>
                       <span className="createdTime">{comment.createdAt}</span>
                     </div>
                     <div className="commentBtnList">
                       <button
                         className="commentEditBtn"
                         type="button"
-                        onClick={(e) => commentEdit(e, comment.commentId!)}
+                        onClick={(e) =>
+                          commentEditHandler(e, comment.commentId!)
+                        }
                       >
                         Edit
                       </button>

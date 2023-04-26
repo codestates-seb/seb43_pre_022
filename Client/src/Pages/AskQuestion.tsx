@@ -111,8 +111,7 @@ const SubmitCansleButton = styled(ButtonCom)`
 `;
 
 function AskQuestion() {
-  let token = localStorage.getItem('accessToken')!;
-  token = token.slice(1, -1);
+  const token = localStorage.getItem('accessToken')!;
   console.log(token);
 
   const [titleValue, setTitleValue] = useState('');

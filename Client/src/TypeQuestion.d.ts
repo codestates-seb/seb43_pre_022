@@ -13,7 +13,7 @@ export interface TypeAnswer {
   content: string;
   memberId: string;
   createdAt: string;
-  choose: boolean;
+  selected: boolean;
 }
 export interface TypeComment {
   questionId: string;

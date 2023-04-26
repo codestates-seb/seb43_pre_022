@@ -94,20 +94,26 @@ function AnswerEdit() {
   const navigate = useNavigate();
 
   const { id } = useParams();
+  console.log(id);
+
+  const token = localStorage.getItem('accessToken');
 
   const editorRef = useRef<Editor>(null);
   async function answerEditSubmit(e: any) {
     e.preventDefault();
-    const date = new Date();
     const getContentMd = editorRef.current?.getInstance().getMarkdown() || '';
     try {
       await axios.patch(
         `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers/${id}`,
         {
           content: getContentMd,
-          createdAt: `${
-            date.toDateString().split('2023')[0]
-          } at ${date.getHours()}:${date.getMinutes()}`,
+          selected: false,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${token}`,
+          },
         },
       );
       navigate(-1);
