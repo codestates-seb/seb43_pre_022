@@ -1,11 +1,10 @@
-import '../Global.css';
-import 'codemirror/lib/codemirror.css';
-import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor-plugin-code-syntax-highlight/dist/toastui-editor-plugin-code-syntax-highlight.css';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import 'codemirror/lib/codemirror.css';
 import 'prismjs/themes/prism.css';
 import '@toast-ui/editor/dist/toastui-editor-viewer.css';
 
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import axios from 'axios';
 import Prism from 'prismjs';
@@ -254,10 +253,9 @@ interface Iprops {
 }
 
 function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
-  let token = localStorage.getItem('accessToken');
+  const token = localStorage.getItem('accessToken');
   let displayName = localStorage.getItem('displayName');
   displayName = 'hihijin';
-  token = 'd';
   console.log(chooseId);
 
   const navigate = useNavigate();
@@ -458,12 +456,15 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
         e.preventDefault();
         const date = new Date();
         try {
-          await axios.patch(`http://localhost:4000/comments/${id}`, {
-            content: e.target.comment.value,
-            createdAt: `${
-              date.toDateString().split('2023')[0]
-            } at ${date.getHours()}:${date.getMinutes()}`,
-          });
+          await axios.patch(
+            `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/comments/${id}`,
+            {
+              content: e.target.comment.value,
+              createdAt: `${
+                date.toDateString().split('2023')[0]
+              } at ${date.getHours()}:${date.getMinutes()}`,
+            },
+          );
           window.location.reload();
         } catch (error) {
           navigate('/error');
@@ -482,9 +483,12 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
       if (newAnswers.length !== 0) alert('You already chose a answer!');
       else {
         try {
-          axios.patch(`http://localhost:4000/answers/${id}`, {
-            choose: true,
-          });
+          axios.patch(
+            `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers/${id}`,
+            {
+              choose: true,
+            },
+          );
           window.location.reload();
         } catch (error) {
           navigate('/error');
@@ -500,7 +504,9 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
     } else {
       try {
         console.log(id);
-        await axios.delete(`http://localhost:4000/questions/${id}`);
+        await axios.delete(
+          `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions/${id}`,
+        );
         window.location.reload();
         navigate(-1);
       } catch (error) {
@@ -513,10 +519,6 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
     <Main>
       <div className="QuestionContent">
         {question.content}
-        <Viewer
-          initialValue={question.content}
-          plugins={[[codeSyntaxHighlight, { highlighter: Prism }]]}
-        />
         <div className="answerBtnUserLayout">
           <div className="btnList">
             <button className="linkBtn" type="button">

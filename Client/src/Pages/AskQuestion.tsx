@@ -1,8 +1,8 @@
-import '../Global.css';
-import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
-import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor/dist/i18n/ko-kr';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import 'tui-color-picker/dist/tui-color-picker.css';
+import '../Global.css';
 
 import { useRef, useState } from 'react';
 
@@ -129,24 +129,27 @@ function AskQuestion() {
     const date = new Date();
     e.preventDefault();
     axios
-      .post('http://localhost:4000/questions', {
-        id: (questions.length + 1).toString(),
-        questionId: (questions.length + 1).toString(),
-        title: titleValue,
-        content: inputValue,
-        createdAt: `${
-          date.toDateString().split('2023')[0]
-        } at ${date.getHours()}:${date.getMinutes()}`,
-        modifiedAt: `${
-          date.toDateString().split('2023')[0]
-        } at ${date.getHours()}:${date.getMinutes()}`,
-        memberId: 'raccoon0814',
-        answerIds: [],
-      })
+      .post(
+        'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions',
+        {
+          id: (questions.length + 1).toString(),
+          questionId: (questions.length + 1).toString(),
+          title: titleValue,
+          content: inputValue,
+          createdAt: `${
+            date.toDateString().split('2023')[0]
+          } at ${date.getHours()}:${date.getMinutes()}`,
+          modifiedAt: `${
+            date.toDateString().split('2023')[0]
+          } at ${date.getHours()}:${date.getMinutes()}`,
+          memberId: 'raccoon0814',
+          answerIds: [],
+        },
+      )
       .then((response) => {
         const { data } = response;
         dispatch(CREATE(data));
-        navigate('/questions');
+        navigate('/api/questions');
       })
       .catch((error) => console.error(error));
   };
@@ -207,7 +210,7 @@ function AskQuestion() {
           </InputQuesiton>
           <AskButtonContainer>
             <QuestionSubmitButton type="submit">등록</QuestionSubmitButton>
-            <Link to="/questions">
+            <Link to="/api/questions">
               <SubmitCansleButton>취소</SubmitCansleButton>
             </Link>
           </AskButtonContainer>

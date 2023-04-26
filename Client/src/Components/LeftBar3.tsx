@@ -1,5 +1,3 @@
-import '../Global.css';
-
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -41,13 +39,13 @@ export const Div = styled.div`
   }
 `;
 
-function LeftBar2() {
+function LeftBar3() {
   const navigate = useNavigate();
   const goToQuesions = (e: any) => {
     const home = document.querySelector('.home');
     home!.classList.remove('focus');
     e.target.classList.add('focus');
-    navigate('/api/questions');
+    navigate('/api/qustions');
   };
 
   const goToHome = (e: any) => {
@@ -55,6 +53,13 @@ function LeftBar2() {
     questions!.classList.remove('focus');
     e.target.classList.add('focus');
     navigate('/api/questions');
+  };
+
+  const goToUsers = (e: any) => {
+    const users = document.querySelector('.users');
+    users!.classList.remove('focus');
+    e.target.classList.add('focus');
+    navigate('/mypage');
   };
 
   const goToTeams = () => {
@@ -76,11 +81,18 @@ function LeftBar2() {
       </div>
       <div className="link">PUBLIC</div>
       <div
-        className="link questions focus"
+        className="link questions"
         role="presentation"
         onClick={(e) => goToQuesions(e)}
       >
         Questions
+      </div>
+      <div
+        className="link users focus"
+        role="presentation"
+        onClick={(e) => goToUsers(e)}
+      >
+        Users
       </div>
       <div className="link" role="presentation" onClick={goToTeams}>
         Create TEAMS
@@ -89,4 +101,4 @@ function LeftBar2() {
   );
 }
 
-export default LeftBar2;
+export default LeftBar3;
