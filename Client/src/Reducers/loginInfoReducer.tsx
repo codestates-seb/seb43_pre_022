@@ -31,5 +31,3 @@ const loginInfoReducer = createSlice({
 
 export const { login, logout, changeUserInfo } = loginInfoReducer.actions;
 export default loginInfoReducer.reducer;
-console.log(login, logout, changeUserInfo);
-console.log(loginInfoReducer);

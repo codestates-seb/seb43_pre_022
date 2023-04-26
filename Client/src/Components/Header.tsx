@@ -182,6 +182,7 @@ function Header() {
             <NavDiv>
               <img
                 onClick={gotoprofile}
+                role="presentation"
                 width="24px"
                 height="24px"
                 alt="profile"
