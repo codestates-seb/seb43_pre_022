@@ -15,7 +15,7 @@ const BackContainer = styled(DivCom)`
   /* margin-top: 47.33px; */
   justify-content: center;
   box-sizing: border-box;
-  height: calc(100vh - 64.33px - 260px);
+  height: calc(100vh - 47.33px);
   padding: 300px 0;
   max-width: 100%;
   background-color: var(--black-050);
@@ -126,7 +126,7 @@ function SignIn() {
 
   /** 로그인 정보 객체 및 인풋창 상태관리 */
   const [signInInfo, setSignInInfo] = useState({
-    email: '',
+    username: '',
     password: '',
   });
   const [idValid, setidValid] = useState(false);
@@ -139,7 +139,7 @@ function SignIn() {
 
   /** email 값 설정 및 유효성검사 */
   const handleIdValue = (e: any) => {
-    setSignInInfo({ ...signInInfo, email: e.target.value });
+    setSignInInfo({ ...signInInfo, username: e.target.value });
     if (regExid.test(e.target.value) || e.target.value === '') {
       setidValid(true);
     } else {
@@ -157,7 +157,9 @@ function SignIn() {
   };
 
   /** 로그인 버튼 누를 시 작동하는 함수 */
-  const handleSignIn = () => {
+  const handleSignIn: React.MouseEventHandler = async (
+    event: React.MouseEvent,
+  ) => {
     /** axios 보내기 전에 유효성 검사 */
     // if (!idValid || !passwordValid) {
     //   setSignInMSG('invalid email address or password');
@@ -166,37 +168,53 @@ function SignIn() {
     //   return console.log('Invalid');
     // }
     /** 통과시 post 요청 */
+    // await new Promise(() => {
+    //   localStorage.setItem('accessToken', '12345');
+    //   console.log('is it work?');
+    // });
+    event.preventDefault();
 
     try {
-      fetch(`http://localhost:4000/auths/login`, {
-        method: 'POST',
-        body: JSON.stringify(signInInfo),
-      }).then((response) => {
+      await fetch(
+        ` http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/auths/login`,
+        {
+          method: 'POST',
+          body: JSON.stringify(signInInfo),
+          headers: {
+            'content-type': 'application/json',
+          },
+        },
+      ).then(response => {
+        // 구조분해할당으로 하나로 합칠 수 있는지 확인 필요
         const accessToken = response.headers.get('Authorization');
+        const memberId = response.headers.get('memberId');
+        const displayName = response.headers.get('displayName');
         console.log(response.headers.get('Authorization'));
         //  axios response type 때문에 변수에 저장하는 것에 어려움이 있음. 해결 요망.
         alert(`Welcome back!`);
         //  signin 성공시 memberId,displayname,토큰 로컬에 저장.
-        localStorage.setItem('access_token', JSON.stringify(accessToken));
-        // localStorage.setItem('memberId', JSON.stringify(memberId));
-        // localStorage.setItem('displayname', JSON.stringify(displayname));
+        localStorage.setItem('accessToken', JSON.stringify(accessToken));
+        localStorage.setItem('memberId', JSON.stringify(memberId));
+        localStorage.setItem('displayName', JSON.stringify(displayName));
         // localStorage.removeItem('invalidMSG');
         console.log(accessToken);
-        navigation('/');
+        navigation('/questions');
       });
     } catch (error) {
       /** signinMSG 유효하지 않다고 설정 */
       setSignInMSG('invalid email address or password');
+      navigation('/error');
     }
     return console.log('never');
   };
+
   return (
     <BackContainer>
       {/* Signin Container 4개의 section으로 구분 */}
       <SignInContainer>
         {/* section #1: image container */}
         <DivCom className="imageContainer">
-          <a href="http://localhost:3000/home">
+          <a href="http://localhost:3000/">
             <img alt="" className="logo1" src={logo1} width="32" height="37" />
           </a>
         </DivCom>
