@@ -122,7 +122,7 @@ function Header() {
   const navigate = useNavigate();
   const gotoprofile = () => {
     GetUserInfo('1');
-    navigate('/mypage/profile');
+    navigate('/api/mypage/profile');
   };
   const loginClick = () => {
     navigate('/api/signin');
