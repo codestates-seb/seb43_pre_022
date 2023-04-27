@@ -4,31 +4,17 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import 'codemirror/lib/codemirror.css';
 import 'prismjs/themes/prism.css';
 
-import {
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import axios from 'axios';
 import Prism from 'prismjs';
-import {
-  Link,
-  useNavigate,
-} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
-import {
-  Editor,
-  Viewer,
-} from '@toast-ui/react-editor';
+import { Editor, Viewer } from '@toast-ui/react-editor';
 
-import {
-  TypeAnswer,
-  TypeComment,
-  TypeQuestion,
-} from '../TypeQuestion';
+import { TypeAnswer, TypeComment, TypeQuestion } from '../TypeQuestion';
 
 export const Main = styled.div`
   box-sizing: border-box;

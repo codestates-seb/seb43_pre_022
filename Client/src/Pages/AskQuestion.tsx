@@ -4,20 +4,11 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '../Global.css';
 
-import {
-  useRef,
-  useState,
-} from 'react';
+import { useRef, useState } from 'react';
 
 import axios from 'axios';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
-import {
-  Link,
-  useNavigate,
-} from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
@@ -115,9 +106,6 @@ const SubmitCansleButton = styled(ButtonCom)`
 `;
 
 function AskQuestion() {
-  const token = localStorage.getItem('accessToken')!;
-  console.log(token);
-
   const [titleValue, setTitleValue] = useState('');
   const [inputValue, setInputValue] = useState('');
 
@@ -162,7 +150,7 @@ function AskQuestion() {
       .then((response) => {
         const { data } = response;
         dispatch(CREATE(data));
-        navigate('/api/questions');
+        navigate(-1);
       })
       .catch((error) => console.error(error));
   };
