@@ -4,20 +4,11 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '../Global.css';
 
-import {
-  useRef,
-  useState,
-} from 'react';
+import { useRef, useState } from 'react';
 
 import axios from 'axios';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
-import {
-  Link,
-  useNavigate,
-} from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
@@ -126,8 +117,6 @@ function AskQuestion() {
 
   const questions = useSelector((state: RootState) => state.crudquestion);
   const editorRef: any = useRef();
-
-  const token = localStorage.getItem('accessToken')!;
 
   const onChange = () => {
     const data = editorRef.current.getInstance().getHTML();

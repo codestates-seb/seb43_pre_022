@@ -3,17 +3,11 @@ import '../Global.css';
 import { useEffect } from 'react';
 
 import axios from 'axios';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import {
-  Question,
-  READ,
-} from '../Reducers/questionReducer';
+import { Question, READ } from '../Reducers/questionReducer';
 import { RootState } from '../store/store';
 import ButtonCom from '../Styles/ButtonCom';
 
