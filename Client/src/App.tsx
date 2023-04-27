@@ -40,8 +40,8 @@ function App() {
         <Route path="api/questions" element={<QuestionList />} />
         <Route path="api/question/:id" element={<SingleQuestion />} />
         <Route path="api/mypage" element={<MyPage />} />
-        <Route path="/mypage/profile" element={<MyPage />} />
-        <Route path="/mypage/editprofile" element={<MyPageEditProfile />} />
+        <Route path="api/mypage/profile" element={<MyPage />} />
+        <Route path="api/mypage/editprofile" element={<MyPageEditProfile />} />
 
         <Route
           path="api/signin"
