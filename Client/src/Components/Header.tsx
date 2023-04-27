@@ -181,8 +181,8 @@ function Header() {
           <DivCom>
             <NavDiv>
               <img
-                onClick={gotoprofile}
                 role="presentation"
+                onClick={gotoprofile}
                 width="24px"
                 height="24px"
                 alt="profile"

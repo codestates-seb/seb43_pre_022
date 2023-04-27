@@ -77,11 +77,6 @@ const InputTitle = styled.input`
   width: 100%;
 `;
 
-// const InputText = styled(InputTitle)`
-//   width: 100%;
-//   height: 300px;
-// `;
-
 const InputQuesiton = styled.div`
   width: 100%;
 `;
@@ -111,6 +106,9 @@ const SubmitCansleButton = styled(ButtonCom)`
 `;
 
 function AskQuestion() {
+  const token = localStorage.getItem('accessToken')!;
+  console.log(token);
+
   const [titleValue, setTitleValue] = useState('');
   const [inputValue, setInputValue] = useState('');
 
@@ -127,12 +125,10 @@ function AskQuestion() {
 
   const handleSubmit = (e: any) => {
     const date = new Date();
-    e.preventDefault();
     axios
       .post(
         'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions',
         {
-          id: (questions.length + 1).toString(),
           questionId: (questions.length + 1).toString(),
           title: titleValue,
           content: inputValue,
@@ -144,6 +140,12 @@ function AskQuestion() {
           } at ${date.getHours()}:${date.getMinutes()}`,
           memberId: 'raccoon0814',
           answerIds: [],
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${token}`,
+          },
         },
       )
       .then((response) => {

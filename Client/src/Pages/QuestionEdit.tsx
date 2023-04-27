@@ -109,8 +109,7 @@ function QuestionEdit() {
 
   const { id } = useParams();
 
-  let token = localStorage.getItem('accessToken');
-  token = 'dd';
+  const token = localStorage.getItem('accessToken')!;
 
   const [editTitleValue, setEditTitleValue] = useState('');
   const [editContentValue, setEditContenteValue] = useState('');
@@ -138,6 +137,12 @@ function QuestionEdit() {
             createdAt: `${
               date.toDateString().split('2023')[0]
             } at ${date.getHours()}:${date.getMinutes()}`,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `${token}`,
+            },
           },
         );
         navigate(-1);
@@ -189,7 +194,7 @@ function QuestionEdit() {
               Save edits
             </QuestionSubmitButton>
             <Link to="/api/questions">
-              <SubmitCancleButton>Cancle</SubmitCancleButton>
+              <SubmitCancleButton>Cancel</SubmitCancleButton>
             </Link>
           </AskButtonContainer>
         </form>

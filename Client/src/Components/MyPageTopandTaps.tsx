@@ -1,17 +1,11 @@
-import styled from 'styled-components';
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 import logo from '../assets/stacklogo.png';
-
-import DivCom from '../Styles/DivCom';
-import InputCom from '../Styles/InputCom';
-import ListCom from '../Styles/ListCom';
-import FormCom from '../Styles/FormCom';
-import ButtonCom from '../Styles/ButtonCom';
-
 import { RootState } from '../store/store';
+import ButtonCom from '../Styles/ButtonCom';
+import DivCom from '../Styles/DivCom';
 
 const TopTapWrapper = styled.div`
   position: relative;
@@ -197,13 +191,16 @@ function MyPageTopandTaps() {
               <ul>
                 <ProfileButton onClick={profileTap}>
                   <div />
+                  <div />
                   <div>Member for 3 days</div>
                 </ProfileButton>
                 <ProfileButton>
                   <div />
+                  <div />
                   <div>Last seen this week</div>
                 </ProfileButton>
                 <ProfileButton>
+                  <div />
                   <div />
                   <div>Visited 3 days, 3 consecutive</div>
                 </ProfileButton>
@@ -212,27 +209,36 @@ function MyPageTopandTaps() {
           </DivCom>
           <DivCom className="top-right">
             <EditButton href="http://localhost:3000/mypage/editprofile">
-              <svg width={'14px'} height={'14px'}></svg>Edit profile
+              <svg width="14px" height="14px" />
+              Edit profile
             </EditButton>
           </DivCom>
         </DivCom>
       </MypageTopWrapper>
       <MypageTaps>
         <div className="navigations">
-          <TapButton className="tap profile" onClick={profileTap}>
+          <TapButton
+            className="tap profile"
+            role="presentation"
+            onClick={profileTap}
+          >
             Profile
           </TapButton>
-          <TapButton className="tap activity" onClick={activityTap}>
+          <TapButton
+            className="tap activity"
+            role="presentation"
+            onClick={activityTap}
+          >
             Activity
           </TapButton>
-          <TapButton className="tap" onClick={savesTap}>
+          <TapButton className="tap" role="presentation" onClick={savesTap}>
             Saves
           </TapButton>
-          <TapButton className="tap" onClick={settingsTap}>
+          <TapButton className="tap" role="presentation" onClick={settingsTap}>
             Settings
           </TapButton>
         </div>
-        <DivCom className="auto"></DivCom>
+        <DivCom className="auto" />
       </MypageTaps>
     </TopTapWrapper>
   );

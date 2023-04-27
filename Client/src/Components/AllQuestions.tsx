@@ -145,12 +145,19 @@ function AllQuestions() {
       </div>
       <ul className="SingleQuestions">
         {questions &&
-          questions.map(
-            (item: Question): JSX.Element => (
+          questions.map((item: Question): JSX.Element => {
+            const date = new Date(item.createdAt);
+            const dayday = `${
+              date.toDateString().split('2023')[0]
+            } at ${date.getHours()}:${date.getMinutes()}`;
+            // const day = new Date(item.createdAt)
+            //   .toDateString()
+            //   .split('2023')[0];
+            // const hour = new Date(item.createdAt).getHours();
+            // const minute = new Date(item.createdAt).getMinutes();
+            return (
               <SingleQuestion key={item.questionId}>
-                <div className="CounterAnswer">
-                  {item.answerIds.length} answers
-                </div>
+                <div className="CounterAnswer">1 answers</div>
                 <div className="SingleQuestionContainer">
                   <Link
                     to={{ pathname: `/api/question/${item.questionId}` }}
@@ -163,12 +170,12 @@ function AllQuestions() {
                   <div className="QuestionText">{item.content}</div>
                   <WriterInfo>
                     <span>{item.memberId}</span>
-                    <span>asked {item.createdAt}</span>
+                    <span>{dayday}</span>
                   </WriterInfo>
                 </div>
               </SingleQuestion>
-            ),
-          )}
+            );
+          })}
       </ul>
     </AllQuestionContainer>
   );

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import axios from 'axios';
 
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -199,7 +199,7 @@ function SignUp() {
   //  redux toolkit - pending
   //  state 하나씩 console.log 찍어보면 구조 확인 가능
   //  아까 선언한 RootState로 type 에러를 잡아줌.
-  const isLogin = useSelector((state: RootState) => state.userInfos.login);
+  const isLogin = useSelector((state: RootState) => state.userInfos);
 
   const dispatch = useDispatch();
 
@@ -261,7 +261,7 @@ function SignUp() {
         )
         .then((response) => {
           alert('you successfully signed up!');
-          navigation('/signin');
+          navigation('/api/signin');
         });
     } catch (error) {
       /** 중복인 경우와 다른이유로 실패한 경우 삼항으로 구분 */

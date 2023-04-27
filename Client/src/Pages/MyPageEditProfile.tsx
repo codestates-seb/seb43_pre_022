@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import MyPageTopandTaps from '../Components/MyPageTopandTaps';
 import DivCom from '../Styles/DivCom';
-import MyPageProfile from '../Components/MyPageProfileTap';
+import MyPageEditProfileTap from '../Components/MyPageEditProfileTap';
 import LeftBar from '../Components/LeftBar3';
 
 const MyPageContainer = styled(DivCom)`
@@ -15,7 +15,7 @@ const MyPageContainer = styled(DivCom)`
   }
 `;
 
-function MyPage() {
+function MyPageEditProfile() {
   return (
     <MyPageContainer>
       <div className="barwrapper">
@@ -23,10 +23,10 @@ function MyPage() {
       </div>
       <div className="centerwrapper">
         <MyPageTopandTaps />
-        <MyPageProfile />
+        <MyPageEditProfileTap />
       </div>
     </MyPageContainer>
   );
 }
 
-export default MyPage;
+export default MyPageEditProfile;
