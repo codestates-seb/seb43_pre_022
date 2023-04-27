@@ -157,7 +157,10 @@ function AllQuestions() {
             // const minute = new Date(item.createdAt).getMinutes();
             return (
               <SingleQuestion key={item.questionId}>
-                <div className="CounterAnswer">1 answers</div>
+                <div className="CounterAnswer">
+                  {item.answerIds === undefined ? 0 : item.answerIds.length}{' '}
+                  answers
+                </div>
                 <div className="SingleQuestionContainer">
                   <Link
                     to={{ pathname: `/api/question/${item.questionId}` }}

@@ -4,31 +4,17 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import 'codemirror/lib/codemirror.css';
 import 'prismjs/themes/prism.css';
 
-import {
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import axios from 'axios';
 import Prism from 'prismjs';
-import {
-  Link,
-  useNavigate,
-} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
-import {
-  Editor,
-  Viewer,
-} from '@toast-ui/react-editor';
+import { Editor, Viewer } from '@toast-ui/react-editor';
 
-import {
-  TypeAnswer,
-  TypeComment,
-  TypeQuestion,
-} from '../TypeQuestion';
+import { TypeAnswer, TypeComment, TypeQuestion } from '../TypeQuestion';
 
 export const Main = styled.div`
   box-sizing: border-box;
@@ -268,8 +254,7 @@ interface Iprops {
 
 function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
   const token = localStorage.getItem('accessToken')!;
-  const displayName = localStorage.getItem('displayName');
-  console.log(displayName);
+  const displayName = localStorage.getItem('displayName')!;
 
   const navigate = useNavigate();
   const [question, setQuestion] = useState<TypeQuestion>({
@@ -291,21 +276,28 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
 
   const queId = chooseId;
   useEffect(() => {
-    async function getData() {
+    async function getQData() {
       const questionData: any = await axios.get(
         `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/questions/${queId}`,
       );
+      setQuestion(questionData.data.data);
+    }
+    getQData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    async function getAData() {
       const answerData: any = await axios.get(
         'http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers',
       );
-      setQuestion(questionData.data.data);
       setAnswers(
         answerData.data.data.filter(
           (v: { questionId: any }) => v.questionId.toString() === queId,
         ),
       );
     }
-    getData();
+    getAData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -316,8 +308,6 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
       .then((response) => response.json())
       .then((data) => setComments(data.data));
   }, []);
-
-  console.log(answers, comments);
 
   const handleWriteButton = (event: any, targetId: string) => {
     if (!token) {
@@ -453,7 +443,11 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
     }
   }
 
-  async function commentEditHandler(event: any, commentId: string) {
+  async function commentEditHandler(
+    event: any,
+    answerId: string,
+    commentId: string,
+  ) {
     if (!token) {
       alert('You should Log in');
       navigate('/api/signin');
@@ -486,6 +480,8 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
           await axios.patch(
             `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/comments/${commentId}`,
             {
+              answerId: answerId,
+              commentId: commentId,
               content: e.target.comment.value,
             },
             {
@@ -516,6 +512,7 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
           axios.patch(
             `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers/${answerId}`,
             {
+              answerId: answerId,
               content: content,
               selected: true,
             },
@@ -698,7 +695,11 @@ function Mainbar(this: any, { chooseId }: Iprops): JSX.Element {
                             className="commentEditBtn"
                             type="button"
                             onClick={(e) =>
-                              commentEditHandler(e, comment.commentId!)
+                              commentEditHandler(
+                                e,
+                                answer.answerId,
+                                comment.commentId!,
+                              )
                             }
                           >
                             Edit
