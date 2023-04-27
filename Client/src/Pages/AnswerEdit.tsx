@@ -94,7 +94,6 @@ function AnswerEdit() {
   const navigate = useNavigate();
 
   const { id } = useParams();
-  console.log(id);
 
   const token = localStorage.getItem('accessToken');
 
@@ -106,6 +105,7 @@ function AnswerEdit() {
       await axios.patch(
         `http://ec2-15-164-233-142.ap-northeast-2.compute.amazonaws.com:8080/api/answers/${id}`,
         {
+          answerId: id,
           content: getContentMd,
           selected: false,
         },
@@ -153,7 +153,7 @@ function AnswerEdit() {
             <QuestionSubmitButton type="submit">
               Save edits
             </QuestionSubmitButton>
-            <Link to="/questions">
+            <Link to="/api/questions">
               <SubmitCancleButton>Cancle</SubmitCancleButton>
             </Link>
           </AskButtonContainer>

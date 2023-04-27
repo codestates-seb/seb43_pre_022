@@ -16,20 +16,11 @@ const userInfoSlice = createSlice({
   name: 'changeInfo',
   initialState,
   reducers: {
-    CHANGE: (state: UserInfo, action: PayloadAction<UserInfo>) => {
-      state = action.payload;
+    UPDATE: (state: UserInfo, action: any) => {
+      return action.payload;
     },
   },
 });
 
-console.log(userInfoSlice.actions);
-
-export const { CHANGE } = userInfoSlice.actions;
+export const { UPDATE } = userInfoSlice.actions;
 export default userInfoSlice.reducer;
-
-// login: (state: LoginState) => {
-//   state.login = true;
-// },
-// logout: (state: LoginState) => {
-//   state.login = false;
-// },

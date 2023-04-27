@@ -8,6 +8,7 @@ import AskQuestion from './Pages/AskQuestion';
 import ErrorPage from './Pages/ErrorPage';
 import LogOut from './Pages/LogOut';
 import MyPage from './Pages/MyPage';
+import MyPageEditProfile from './Pages/MyPageEditProfile';
 import QuestionEdit from './Pages/QuestionEdit';
 import QuestionList from './Pages/QuestionList';
 import SignIn from './Pages/SignIn';
@@ -38,7 +39,9 @@ function App() {
         />
         <Route path="api/questions" element={<QuestionList />} />
         <Route path="api/question/:id" element={<SingleQuestion />} />
-        <Route path="/mypage/*" element={<MyPage />} />
+        <Route path="api/mypage" element={<MyPage />} />
+        <Route path="/mypage/profile" element={<MyPage />} />
+        <Route path="/mypage/editprofile" element={<MyPageEditProfile />} />
 
         <Route
           path="api/signin"

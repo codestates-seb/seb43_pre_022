@@ -115,7 +115,7 @@ function AskQuestion() {
   const questions = useSelector((state: RootState) => state.crudquestion);
   const editorRef: any = useRef();
 
-  const token = localStorage.getItem('accessToken')!;
+  const token = localStorage.getItem('accessToken');
 
   const onChange = () => {
     const data = editorRef.current.getInstance().getHTML();
@@ -131,14 +131,6 @@ function AskQuestion() {
           questionId: (questions.length + 1).toString(),
           title: titleValue,
           content: inputValue,
-          createdAt: `${
-            date.toDateString().split('2023')[0]
-          } at ${date.getHours()}:${date.getMinutes()}`,
-          modifiedAt: `${
-            date.toDateString().split('2023')[0]
-          } at ${date.getHours()}:${date.getMinutes()}`,
-          memberId: 'raccoon0814',
-          answerIds: [],
         },
         {
           headers: {
@@ -150,9 +142,9 @@ function AskQuestion() {
       .then((response) => {
         const { data } = response;
         dispatch(CREATE(data));
-        navigate(-1);
       })
-      .catch((error) => console.error(error));
+      .catch(() => navigate('/error'));
+    navigate('/api/questions');
   };
 
   return (
