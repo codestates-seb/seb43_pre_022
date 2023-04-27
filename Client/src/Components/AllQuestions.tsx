@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Question, READ } from '../Reducers/questionReducer';
@@ -115,6 +115,7 @@ const WriterInfo = styled.div`
 function AllQuestions() {
   const dispatch = useDispatch();
   const questions = useSelector((state: RootState) => state.crudquestion);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
@@ -125,7 +126,7 @@ function AllQuestions() {
           const { data } = response.data;
           dispatch(READ(data));
         })
-        .catch((error) => console.log(error));
+        .catch(() => navigate('/error'));
     }, 1000);
   }, [dispatch]);
 

@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -35,7 +36,7 @@ const ProfileContainer = styled(DivCom)`
 function MyPageProfile() {
   const dispatch = useDispatch();
   const userinfo = useSelector((state: RootState) => state.userInfos);
-
+  const navigate = useNavigate();
   const id = localStorage.getItem('memberId')?.slice(1, -1);
 
   useEffect(() => {
@@ -47,9 +48,11 @@ function MyPageProfile() {
           const { data } = response.data;
           dispatch(UPDATE(data));
         })
-        .catch((error) => console.log(error));
+        .catch(() => {
+          navigate('/error');
+        });
     }, 500);
-  }, [dispatch, id]);
+  }, [dispatch, id, navigate]);
 
   return (
     <ProfileContainer>

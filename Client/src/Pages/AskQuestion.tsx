@@ -144,7 +144,7 @@ function AskQuestion() {
         const { data } = response;
         dispatch(CREATE(data));
       })
-      .catch((error) => console.error(error));
+      .catch(() => navigate('/error'));
     navigate('/api/questions');
   };
 

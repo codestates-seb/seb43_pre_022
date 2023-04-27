@@ -153,7 +153,7 @@ function AnswerEdit() {
             <QuestionSubmitButton type="submit">
               Save edits
             </QuestionSubmitButton>
-            <Link to="/questions">
+            <Link to="/api/questions">
               <SubmitCancleButton>Cancle</SubmitCancleButton>
             </Link>
           </AskButtonContainer>
