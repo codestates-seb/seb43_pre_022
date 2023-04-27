@@ -55,9 +55,9 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
     private void setAuthenticationToContext(Map<String,Object>claims){
         Map<String,Object>essentialClaims = new HashMap<>();
-        String username = (String)claims.get("username");
+        String displayName = String.valueOf(claims.get("displayName"));
         Long memberId = Long.valueOf(String.valueOf(claims.get("memberId")));
-        essentialClaims.put("username",username);
+        essentialClaims.put("displayName",displayName);
         essentialClaims.put("memberId",memberId);
 
         // DB에 저장된 Role을 기반으로 권한 정보 생성

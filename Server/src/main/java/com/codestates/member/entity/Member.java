@@ -29,4 +29,9 @@ public class Member {
     private String title;
 
     private String aboutMe;
+    public Member(String email,String displayName)
+    {
+        this.email = email;
+        this.displayName=displayName;
+    }
 }

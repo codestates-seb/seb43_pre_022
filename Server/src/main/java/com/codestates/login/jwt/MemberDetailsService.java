@@ -38,6 +38,7 @@ public class MemberDetailsService implements UserDetailsService { //유저정보
             setEmail(member.getEmail());
             setPassword(member.getPassword());
             setRoles(member.getRoles());
+            setDisplayName(member.getDisplayName());
         }
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -19,7 +19,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class
+JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
 
@@ -55,7 +56,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.setHeader("Authorization","Bearer "+accessToken);
         response.setHeader("memberId", String.valueOf(member.getMemberId()));
-        response.setHeader("displayName",member.getDisplayName());
+        response.setHeader("displayName",String.valueOf(member.getDisplayName()));
         // response header(Authorization)에 Access Token을 추가합니다.
         // Access Token은 클라이언트 측에서 백엔드 애플리케이션 측에 요청을 보낼 때마다 request header에 추가해서 클라이언트 측의 자격을 증명하는 데 사용됩니다.
         response.setHeader("Refresh",refreshToken);
@@ -66,7 +67,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private String delegateAccessToken(Member member){
         //Todo:
         Map<String,Object> claims = new HashMap<>();
-        claims.put("username",member.getEmail());
+        claims.put("displayName",member.getDisplayName());
         claims.put("roles",member.getRoles());
         claims.put("memberId",member.getMemberId());
 
