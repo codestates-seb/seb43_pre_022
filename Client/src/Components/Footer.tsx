@@ -132,7 +132,9 @@ function Footer() {
       </FooterInfoContainer>
       <FooterInfoContainer>
         <FooterName
-          onClick={() => window.open('https://github.com/Seohabin', '_blank')}
+          onClick={() =>
+            window.open('https://github.com/Seohabin6078', '_blank')
+          }
         >
           BE_서하빈
         </FooterName>

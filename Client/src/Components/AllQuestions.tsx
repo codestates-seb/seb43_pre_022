@@ -128,7 +128,7 @@ function AllQuestions() {
         })
         .catch(() => navigate('/error'));
     }, 1000);
-  }, [dispatch]);
+  }, [dispatch, navigate]);
 
   return (
     <AllQuestionContainer>

@@ -106,9 +106,6 @@ const SubmitCansleButton = styled(ButtonCom)`
 `;
 
 function AskQuestion() {
-  const token = localStorage.getItem('accessToken')!;
-  console.log(token);
-
   const [titleValue, setTitleValue] = useState('');
   const [inputValue, setInputValue] = useState('');
 
@@ -117,6 +114,8 @@ function AskQuestion() {
 
   const questions = useSelector((state: RootState) => state.crudquestion);
   const editorRef: any = useRef();
+
+  const token = localStorage.getItem('accessToken');
 
   const onChange = () => {
     const data = editorRef.current.getInstance().getHTML();
