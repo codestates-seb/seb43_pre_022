@@ -143,6 +143,10 @@ function MyPageTopandTaps() {
   /** useNavigate */
   const navigation = useNavigate();
 
+  const goedit = () => {
+    navigation('/api/mypage/editprofile');
+  };
+
   /** store에서 상태가져울준비 */
   const userinfo = useSelector((state: RootState) => state.userInfos);
   console.log(userinfo);
@@ -208,7 +212,7 @@ function MyPageTopandTaps() {
             </DivCom>
           </DivCom>
           <DivCom className="top-right">
-            <EditButton href="http://localhost:3000/mypage/editprofile">
+            <EditButton onClick={goedit}>
               <svg width="14px" height="14px" />
               Edit profile
             </EditButton>
