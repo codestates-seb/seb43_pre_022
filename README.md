@@ -133,4 +133,4 @@ devBE : 서하빈(팀장), 박기훈, 이인건
 |  [rename]  | 파일 혹은 폴더명 변경 및 이동                           |
 |  [remove]  | 파일을 삭제하는 작업만 수행                             |
 |  [test]    | test 관련한 코드의 추가, 수정                          |
-
+|  [release] | main배포 전 release 커밋                               |
