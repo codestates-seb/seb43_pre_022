@@ -59,7 +59,6 @@ const questionSlice: any = createSlice({
       return action.payload;
     },
     CREATE: (state: Question[], action: PayloadAction<Question>) => {
-      console.log(action.payload);
       const newQuestion = action.payload;
       return [...state, newQuestion];
     },

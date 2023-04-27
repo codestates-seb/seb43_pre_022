@@ -193,8 +193,8 @@ function QuestionEdit() {
             <QuestionSubmitButton type="submit">
               Save edits
             </QuestionSubmitButton>
-            <Link to="/api/questions">
-              <SubmitCancleButton>Cancle</SubmitCancleButton>
+            <Link to={`/api/question/${id}`}>
+              <SubmitCancleButton>Cancel</SubmitCancleButton>
             </Link>
           </AskButtonContainer>
         </form>
