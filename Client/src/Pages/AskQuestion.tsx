@@ -4,20 +4,11 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '../Global.css';
 
-import {
-  useRef,
-  useState,
-} from 'react';
+import { useRef, useState } from 'react';
 
 import axios from 'axios';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
-import {
-  Link,
-  useNavigate,
-} from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
@@ -127,8 +118,6 @@ function AskQuestion() {
   const questions = useSelector((state: RootState) => state.crudquestion);
   const editorRef: any = useRef();
 
-  const token = localStorage.getItem('accessToken')!;
-
   const onChange = () => {
     const data = editorRef.current.getInstance().getHTML();
     setInputValue(data);
@@ -143,14 +132,6 @@ function AskQuestion() {
           questionId: (questions.length + 1).toString(),
           title: titleValue,
           content: inputValue,
-          createdAt: `${
-            date.toDateString().split('2023')[0]
-          } at ${date.getHours()}:${date.getMinutes()}`,
-          modifiedAt: `${
-            date.toDateString().split('2023')[0]
-          } at ${date.getHours()}:${date.getMinutes()}`,
-          memberId: 'raccoon0814',
-          answerIds: [],
         },
         {
           headers: {
@@ -162,9 +143,9 @@ function AskQuestion() {
       .then((response) => {
         const { data } = response;
         dispatch(CREATE(data));
-        navigate('/api/questions');
       })
       .catch((error) => console.error(error));
+    navigate('/api/questions');
   };
 
   return (

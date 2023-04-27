@@ -3,17 +3,11 @@ import '../Global.css';
 import { useEffect } from 'react';
 
 import axios from 'axios';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import {
-  Question,
-  READ,
-} from '../Reducers/questionReducer';
+import { Question, READ } from '../Reducers/questionReducer';
 import { RootState } from '../store/store';
 import ButtonCom from '../Styles/ButtonCom';
 
@@ -163,7 +157,10 @@ function AllQuestions() {
             // const minute = new Date(item.createdAt).getMinutes();
             return (
               <SingleQuestion key={item.questionId}>
-                <div className="CounterAnswer">1 answers</div>
+                <div className="CounterAnswer">
+                  {item.answerIds === undefined ? 0 : item.answerIds.length}{' '}
+                  answers
+                </div>
                 <div className="SingleQuestionContainer">
                   <Link
                     to={{ pathname: `/api/question/${item.questionId}` }}
