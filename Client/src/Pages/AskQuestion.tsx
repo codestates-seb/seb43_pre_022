@@ -132,14 +132,6 @@ function AskQuestion() {
           questionId: (questions.length + 1).toString(),
           title: titleValue,
           content: inputValue,
-          createdAt: `${
-            date.toDateString().split('2023')[0]
-          } at ${date.getHours()}:${date.getMinutes()}`,
-          modifiedAt: `${
-            date.toDateString().split('2023')[0]
-          } at ${date.getHours()}:${date.getMinutes()}`,
-          memberId: 'raccoon0814',
-          answerIds: [],
         },
         {
           headers: {
@@ -151,9 +143,9 @@ function AskQuestion() {
       .then((response) => {
         const { data } = response;
         dispatch(CREATE(data));
-        navigate('/api/questions');
       })
       .catch((error) => console.error(error));
+    navigate('/api/questions');
   };
 
   return (
