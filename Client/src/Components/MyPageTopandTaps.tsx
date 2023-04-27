@@ -144,7 +144,7 @@ function MyPageTopandTaps() {
   const navigation = useNavigate();
 
   const goedit = () => {
-    navigation('api/mypage/editprofile');
+    navigation('/api/mypage/editprofile');
   };
 
   /** store에서 상태가져울준비 */
