@@ -62,6 +62,7 @@ public class MemberService {
     }
     public Member updateProfile(Member member){
         Member findMember = findVerifiedMember(member.getMemberId());
+        findMember.setDisplayName(member.getDisplayName());
         findMember.setLocation(member.getLocation());
         findMember.setAboutMe(member.getAboutMe());
         findMember.setTitle(member.getTitle());

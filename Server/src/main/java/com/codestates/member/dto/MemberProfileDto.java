@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MemberProfileDto {
     private long memberId;
+    private String displayName;
     private String location;
     private String title;
     private String aboutMe;
