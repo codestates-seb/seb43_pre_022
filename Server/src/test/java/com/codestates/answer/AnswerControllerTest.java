@@ -2,11 +2,14 @@
 //
 //import com.codestates.answer.dto.AnswerPatchDto;
 //import com.codestates.answer.dto.AnswerPostDto;
+//import com.codestates.answer.dto.AnswerResponseDto;
 //import com.codestates.answer.entity.Answer;
 //import com.codestates.answer.mapper.AnswerMapper;
 //import com.codestates.answer.service.AnswerService;
+//import com.codestates.member.entity.Member;
+//import com.codestates.question.entity.Question;
+//import com.codestates.utils.UriCreator;
 //import com.google.gson.Gson;
-//import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //import org.mockito.Mockito;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +21,22 @@
 //import org.springframework.test.web.servlet.ResultActions;
 //import org.springframework.transaction.annotation.Transactional;
 //
+//import java.net.URI;
 //import java.time.LocalDateTime;
+//import java.util.ArrayList;
+//import java.util.List;
 //
 //import static org.hamcrest.Matchers.is;
-//import static org.hamcrest.Matchers.startsWith;
 //import static org.mockito.BDDMockito.*;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 //import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 //
-//@Transactional
 //@SpringBootTest
 //@AutoConfigureMockMvc
+//@Transactional
 //public class AnswerControllerTest {
+//
+//
 //    @Autowired
 //    private MockMvc mockMvc;
 //
@@ -39,114 +46,171 @@
 //    @MockBean
 //    private AnswerService answerService;
 //
+//    @MockBean
 //    @Autowired
 //    private AnswerMapper answerMapper;
 //
-//    //answer 테스트 전에 미리 앤서 만들어놓기
-//    private AnswerPostDto beforeAnswerPost;
-//    private String beforeAnswerContent;
-//    private Answer answer;
-//
-//    @BeforeEach
-//    public void init() {
-//        beforeAnswerPost = new AnswerPostDto(1L,"나는 손흥민이라고 생각하는데"); //questionId, content
-//        answer = answerMapper.answerPostDtoToAnswer(beforeAnswerPost);
-//        answer.setAnswerId(1L); //answerId : 1
-//        answer.getMember().setMemberId(1L); //memberId : 1
-//        answer.setCreatedAt(LocalDateTime.now());
-//        answer.setModifiedAt(LocalDateTime.now());
-//        answer.setSelected(false);
-//        beforeAnswerContent = gson.toJson(beforeAnswerPost);
-//    }
 //
 //    @Test
-//    void postAnswerTest() throws Exception{
+//    void postAnswerTest() throws Exception {
 //        //given
+//
+//        Answer answer = new Answer();
+//        answer.setAnswerId(1L);
+//        answer.setContent("메롱");
+//
+//        AnswerPostDto post = new AnswerPostDto(answer.getAnswerId(), answer.getContent());
+//        String postContent = gson.toJson(post);
+//
+//        when(answerMapper.answerPostDtoToAnswer(any(AnswerPostDto.class)))
+//                .thenReturn(new Answer());
+//
 //        given(answerService.createAnswer(Mockito.any(Answer.class)))
 //                .willReturn(answer);
+//
+//
+//
 //
 //        //when
-//        ResultActions actions =
-//                mockMvc.perform(
-//                        post("/api/answers")
-//                                .accept(MediaType.APPLICATION_JSON)
-//                                .contentType(MediaType.APPLICATION_JSON)
-//                                .content(beforeAnswerContent)
-//                );
-//
-//        //then answerPost시 상태는 create고, url의 위치는 다음과 같을것
-//        actions
-//                .andExpect(status().isCreated())
-//                .andExpect(header().string("location", is(startsWith("/api/answers/"))));
-//    }
-//
-//    @Test
-//    void patchAnswerTest() throws Exception{
-//        //given (답변 등록하기, 등록된 답변의 내용 변경)
-//
-//        given(answerService.createAnswer(Mockito.any(Answer.class)))
-//                .willReturn(answer);
-//
-//        ResultActions beforePostActions =
-//                mockMvc.perform(
-//                        post("/api/answers")
-//                                .accept(MediaType.APPLICATION_JSON)
-//                                .contentType(MediaType.APPLICATION_JSON)
-//                                .content(beforeAnswerContent)
-//                );
-//        //여기까지 postAnswer
-//
-//
-//        long answerId;
-//        String location = beforePostActions.andReturn().getResponse().getHeader("location"); // "/api/answers/1"
-//        answerId = Long.parseLong(location.substring(location.lastIndexOf("/") + 1)); // /api/answers/1 에서 1만 떼옴
-//        //가져온 answerId로 patch객체 생성
-//        AnswerPatchDto patch = new AnswerPatchDto(answerId, "내용 바꿨다!");
-//        String patchContent = gson.toJson(patch);
-//
-//        answer.setContent(patch.getContent());
-//        given(answerService.updateAnswer(Mockito.any(Answer.class)))
-//                .willReturn(answer);
-//
-//
-//        //when (변경된 해당 patchContent로 patchAnswer() 매서드 실행)
-//        ResultActions patchAction = mockMvc.perform(
-//                patch(location)
+//        ResultActions postAction = mockMvc.perform(
+//                post("/api/answers")
 //                        .accept(MediaType.APPLICATION_JSON)
 //                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(patchContent)
+//                        .content(postContent)
 //        );
 //
+//        //then
+//        postAction
+//                .andExpect(status().isCreated());
+//                //.andExpect(header().string("location", is(startsWith("/api/answers"))))
+//    }
 //
 //
-//        //then 답변의 수정한 내용은 바뀌었을것.
+//    @Test
+//    void patchAnswerTest() throws Exception {
 //
+//        //given
+//        AnswerPatchDto patch = new AnswerPatchDto(1L, "메롱", false);
+//        AnswerResponseDto response =
+//                new AnswerResponseDto(1L, 1L, 1L,
+//                        "메롱", LocalDateTime.now(), LocalDateTime.now(), false, new ArrayList<>());
+//
+//        given(answerMapper.answerPatchDtoToAnswer(Mockito.any(AnswerPatchDto.class)))
+//                .willReturn(new Answer());
+//
+//        given(answerService.updateAnswer(Mockito.any(Answer.class)))
+//                .willReturn(new Answer());
+//
+//        given(answerMapper.answerToAnswerResponseDto(Mockito.any(Answer.class)))
+//                .willReturn(response);
+//
+//        String responseContent = gson.toJson(patch);
+//
+//        URI uri = UriCreator.createUri("/api/answers/", 1L);
+//
+//        //when
+//        ResultActions patchAction = mockMvc.perform(
+//                patch(uri)
+//                        .accept(MediaType.APPLICATION_JSON)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(responseContent)
+//        );
+//
+//        //then
 //        patchAction
 //                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.data.content").value(patch.getContent()));
+//                .andExpect((jsonPath("$.data.content").value(response.getContent())))
+//                .andExpect(jsonPath("$.data.selected").value(response.isSelected()));
 //    }
 //
 //    @Test
 //    void getAnswerTest() throws Exception {
-//        //given 먼저 답변 post
-//        given(answerService.createAnswer(Mockito.any(Answer.class)))
-//                .willReturn(answer);
 //
-//        ResultActions beforePostAction =
-//                mockMvc.perform(
-//                        post("/api/answers")
-//                                .accept(MediaType.APPLICATION_JSON)
-//                                .contentType(MediaType.APPLICATION_JSON)
-//                                .content(beforeAnswerContent)
-//                );
+//        //given
+//        Answer answer = new Answer(1L, "메롱", LocalDateTime.now(), LocalDateTime.now(),
+//                false, new Member(), new Question(), new ArrayList<>());
+//        answer.getMember().setMemberId(1L);
+//        answer.getQuestion().setQuestionId(1L);
 //
-//        String location = beforePostAction.andReturn().getResponse().getHeader("location");// "api/answers/1"
+//        AnswerResponseDto response =
+//                new AnswerResponseDto(1L, 1L, 1L,
+//                        "메롱", LocalDateTime.now(), LocalDateTime.now(), false, new ArrayList<>());
 //
+//        given(answerService.findAnswer(Mockito.anyLong()))
+//                .willReturn(new Answer());
 //
-//        //when then 등록한거 꺼내와서 맞는지
-//        given(answerService.findAnswer(1L))
-//                .willReturn(answer);
+//        given(answerMapper.answerToAnswerResponseDto(Mockito.any(Answer.class)))
+//                .willReturn(response);
+//        //when
+//        String responseContent = gson.toJson(response);
+//        ResultActions getAction = mockMvc.perform(
+//                get("/api/answers/" + response.getAnswerId())
+//                        .accept(MediaType.APPLICATION_JSON)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(responseContent)
+//        );
+//
+//        //then
+//        getAction.andExpect(status().isOk())
+//                .andExpect((jsonPath("$.data.memberId").value(answer.getMember().getMemberId())))
+//                .andExpect((jsonPath("$.data.questionId").value(answer.getQuestion().getQuestionId())))
+//                .andExpect((jsonPath("$.data.answerId").value(answer.getAnswerId())))
+//                .andExpect((jsonPath("$.data.content").value(answer.getContent())))
+//                .andExpect((jsonPath("$.data.selected").value(answer.isSelected())));
+//
 //    }
 //
+//    @Test
+//    void getAnswersTest() throws Exception {
+//        //given
+//        Answer answer1 = new Answer(1L, "메롱1", LocalDateTime.now(), LocalDateTime.now(),
+//                false, new Member(), new Question(), new ArrayList<>());
+//        answer1.getMember().setMemberId(1L);
+//        answer1.getQuestion().setQuestionId(1L);
+//
+//        Answer answer2 = new Answer(2L, "메롱2", LocalDateTime.now(), LocalDateTime.now(),
+//                false, new Member(), new Question(), new ArrayList<>());
+//        answer2.getMember().setMemberId(2L);
+//        answer2.getQuestion().setQuestionId(1L);
+//
+//        List<AnswerResponseDto> responses = List.of(new AnswerResponseDto(1L, 1L, 1L,
+//                        "메롱1", LocalDateTime.now(), LocalDateTime.now(), false, new ArrayList<>()),
+//                new AnswerResponseDto(2L, 1L, 1L,
+//                        "메롱2", LocalDateTime.now(), LocalDateTime.now(), false, new ArrayList<>()));
+//
+//        given(answerService.findAnswers(Mockito.anyLong())).willReturn(new ArrayList<Answer>());
+//        given(answerMapper.answersToAnswerResponseDtos(Mockito.any(List.class))).willReturn(responses);
+//
+//        //when
+//        ResultActions getsAction = mockMvc.perform(
+//                get("/api/answers")
+//                        .accept(MediaType.APPLICATION_JSON)
+//        );
+//
+//
+//        //then
+//        getsAction
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.data").isArray())
+//                .andReturn();
+//
+//    }
+//
+//    @Test
+//    void deleteAnswerTest() throws Exception {
+//
+//        //given
+//        long answerId = 1L;
+//        doNothing().when(answerService).deleteAnswer(Mockito.anyLong());
+//
+//        //when
+//        ResultActions deleteAction = mockMvc.perform(
+//                delete("/api/answers/" + answerId)
+//                        .accept(MediaType.APPLICATION_JSON)
+//        );
+//
+//        //then
+//        deleteAction.andExpect(status().isNoContent());
+//    }
 //
 //}
